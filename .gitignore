@@ -1,0 +1,6 @@
+# Nada sensível neste projeto, mas evita lixo do sistema no repositório
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.vscode/
