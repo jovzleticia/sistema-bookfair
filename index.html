@@ -694,12 +694,12 @@ a{color:inherit;text-decoration:none}
 
   <!-- TABS INPUT -->
   <div class="tabs-input">
-    <button class="tab-input-btn active" onclick="mudarAbaInput('manual')">✏️ Digitar códigos</button>
+    <button class="tab-input-btn active" onclick="mudarAbaInput('todos')">🏫 Todas as lojas</button>
+    <button class="tab-input-btn" onclick="mudarAbaInput('manual')">✏️ Digitar códigos</button>
     <button class="tab-input-btn" onclick="mudarAbaInput('planilha')">📄 Importar planilha</button>
-    <button class="tab-input-btn" onclick="mudarAbaInput('todos')">🏫 Todas as lojas</button>
   </div>
   <div class="tab-content-wrap">
-    <div id="aba-manual" class="tab-pane active">
+    <div id="aba-manual" class="tab-pane">
       <div class="form-row">
         <div class="form-group">
           <label>🏷️ Códigos das lojas</label>
@@ -729,7 +729,7 @@ a{color:inherit;text-decoration:none}
         <span id="planilhaStatus" style="font-size:13px;color:var(--text-muted)"></span>
       </div>
     </div>
-    <div id="aba-todos" class="tab-pane">
+    <div id="aba-todos" class="tab-pane active">
       <div class="todos-box">
         <div class="todos-desc">Busca automaticamente <b>todos os canais</b> da comunidade Book Fair.</div>
         <div class="aviso-amarelo">⚠️ Pode demorar alguns minutos. Não feche a página.</div>
@@ -2079,7 +2079,7 @@ window.addEventListener('DOMContentLoaded', function(){
   });
 });
 
-const VERSAO_APP = '20/10/2026 · backoffice';
+const VERSAO_APP = '20/10/2026 · abas';
 
 const ANO_CICLO = 2027;
 const CICLO_ID  = ANO_CICLO % 100;
@@ -7135,7 +7135,7 @@ function toggleTheme(){
 
 // ===== ABAS INPUT =====
 function mudarAbaInput(id){
-  document.querySelectorAll('.tab-input-btn').forEach((b,i)=>{b.classList.toggle('active',['manual','planilha','todos'][i]===id);});
+  document.querySelectorAll('.tab-input-btn').forEach((b,i)=>{b.classList.toggle('active',['todos','manual','planilha'][i]===id);});
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.getElementById('aba-'+id).classList.add('active');
 }
