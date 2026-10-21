@@ -4,3 +4,6 @@ Thumbs.db
 *.log
 node_modules/
 .vscode/
+
+# Nunca versionar variáveis de ambiente
+.env

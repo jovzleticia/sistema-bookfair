@@ -1366,6 +1366,7 @@ a{color:inherit;text-decoration:none}
             <option value="ANALISTA">ANALISTA — só os colégios dela</option>
             <option value="GESTOR">GESTOR — vê todos, não edita</option>
             <option value="ECOMMERCE">E-COMMERCE — operação do e-commerce</option>
+            <option value="BACKOFFICE">BACKOFFICE — operação e APIs de configuração</option>
             <option value="FINANCEIRO">FINANCEIRO — módulos do financeiro</option>
             <option value="ADMIN">ADMIN — vê e edita todos</option>
             <option value="DEV">DEV — acesso total</option>
@@ -2078,7 +2079,7 @@ window.addEventListener('DOMContentLoaded', function(){
   });
 });
 
-const VERSAO_APP = '20/10/2026 · kits';
+const VERSAO_APP = '20/10/2026 · backoffice';
 
 const ANO_CICLO = 2027;
 const CICLO_ID  = ANO_CICLO % 100;
@@ -2381,7 +2382,7 @@ const PORTAL_MENU = {
       { icone:'📦', cor:'#a51e38', titulo:'Inserir ou Retirar Itens nos Kits', funcao:'abrirKits',
         desc:'Inclui ou remove itens dos kits das lojas, a partir de uma planilha. Altera os dados na Layers.',
         /* quem usa / quem pode pedir / o resto vê acesso restrito */
-        perfis:['DEV','ADMIN','ECOMMERCE'], podePedir:['GESTOR'] }
+        perfis:['DEV','ADMIN','ECOMMERCE','BACKOFFICE'], podePedir:['GESTOR'] }
     ]
   },
   't-comunicados': {
@@ -3213,7 +3214,7 @@ async function impDesfazer(id){
 let _usrCache = [];
 
 const PERFIL_COR = { DEV:'#a51e38', ADMIN:'#ff711a', GESTOR:'#459dd8', ANALISTA:'#1cbc7c',
-  ECOMMERCE:'#003d60', FINANCEIRO:'#7a5cc4', COLEGIO:'#2a9d8f', ALUNO:'#2a9d8f' };
+  ECOMMERCE:'#003d60', BACKOFFICE:'#1f7a8c', FINANCEIRO:'#7a5cc4', COLEGIO:'#2a9d8f', ALUNO:'#2a9d8f' };
 
 async function abrirUsuarios(){
   ir('t-usuarios');
