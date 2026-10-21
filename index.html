@@ -296,6 +296,267 @@ a{color:inherit;text-decoration:none}
 
     /* PRINT STYLES (em massa e individual) movidos para seção de cards acima */
   
+
+/* ===== Itens nos Kits (estilo proprio, restrito a #t-kits) ===== */
+#t-kits /* ===== RESET E BASE ===== */
+*{ 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}#t-kits{ 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+  background: #f5f5f5; 
+  padding: 20px; 
+}#t-kits /* ===== CONTAINER PRINCIPAL ===== */
+.container{ 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  background: #fff; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 10px rgba(0,0,0,.1); 
+  padding: 30px; 
+}#t-kits h1{ 
+  color: #333; 
+  margin-bottom: 30px; 
+  font-size: 24px; 
+  font-weight: 600; 
+}#t-kits /* ===== BANNER INFORMATIVO ===== */
+.info-banner{ 
+  background: #e3f2fd; 
+  border: 1px solid #90caf9; 
+  border-radius: 6px; 
+  padding: 15px; 
+  margin-bottom: 20px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+}#t-kits .info-text{ 
+  color: #1976d2; 
+  flex: 1; 
+}#t-kits .download-btn{ 
+  background: #2196f3; 
+  color: #fff; 
+  border: none; 
+  padding: 8px 16px; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  font-size: 14px; 
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+  transition: background .2s;
+}#t-kits .download-btn:hover{ 
+  background: #1976d2; 
+}#t-kits /* ===== FORMULÁRIO ===== */
+.form-section{ 
+  margin-bottom: 30px; 
+}#t-kits .form-row{ 
+  display: flex; 
+  gap: 20px; 
+  align-items: end; 
+  margin-bottom: 20px; 
+  flex-wrap: wrap; 
+}#t-kits .form-group{ 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+  min-width: 200px; 
+}#t-kits label{ 
+  color: #555; 
+  font-weight: 500; 
+  font-size: 14px; 
+}#t-kits input, #t-kits select{ 
+  padding: 10px 12px; 
+  border: 1px solid #ddd; 
+  border-radius: 4px; 
+  font-size: 14px; 
+  transition: border-color .2s; 
+}#t-kits input:focus, #t-kits select:focus{ 
+  outline: none; 
+  border-color: #2196f3; 
+}#t-kits /* ===== UPLOAD DE ARQUIVO ===== */
+.file-input-container{ 
+  position: relative; 
+  display: inline-block; 
+}#t-kits .file-input{ 
+  display: none; 
+}#t-kits .file-input-label{ 
+  display: inline-block; 
+  padding: 10px 16px; 
+  background: #f8f9fa; 
+  border: 1px solid #ddd; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  color: #666; 
+  font-size: 14px; 
+  transition: background .2s; 
+}#t-kits .file-input-label:hover{ 
+  background: #e9ecef; 
+}#t-kits .file-info{ 
+  margin-top: 8px; 
+  padding: 8px 12px; 
+  background: #e8f5e8; 
+  border: 1px solid #4caf50; 
+  border-radius: 4px; 
+  font-size: 13px; 
+  color: #2e7d32; 
+  display: none; 
+  align-items: center; 
+  justify-content: space-between; 
+}#t-kits .remove-file{ 
+  background: #f44336; 
+  color: #fff; 
+  border: none; 
+  border-radius: 50%; 
+  width: 20px; 
+  height: 20px; 
+  cursor: pointer; 
+  font-size: 12px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  transition: background .2s;
+}#t-kits .remove-file:hover{
+  background: #d32f2f;
+}#t-kits /* ===== TABELA ===== */
+.table-container{ 
+  margin-top: 30px; 
+  border: 1px solid #e0e0e0; 
+  border-radius: 6px; 
+  overflow: hidden; 
+}#t-kits table{ 
+  width: 100%; 
+  border-collapse: collapse; 
+}#t-kits th{ 
+  background: #f8f9fa; 
+  color: #555; 
+  padding: 15px 12px; 
+  text-align: left; 
+  font-weight: 600; 
+  border-bottom: 1px solid #e0e0e0; 
+}#t-kits td{ 
+  padding: 12px; 
+  border-bottom: 1px solid #f0f0f0; 
+  color: #666; 
+}#t-kits .empty-state{ 
+  text-align: center; 
+  padding: 40px; 
+  color: #999; 
+}#t-kits /* ===== STATUS BADGES ===== */
+.status-badge{ 
+  padding: 4px 8px; 
+  border-radius: 12px; 
+  font-size: 12px; 
+  font-weight: 500; 
+  text-align: center; 
+  min-width: 80px; 
+  display: inline-block; 
+}#t-kits .status-pendente{ 
+  background: #fff3e0; 
+  color: #f57c00; 
+}#t-kits .status-sincronizando{ 
+  background: #e3f2fd; 
+  color: #1976d2; 
+}#t-kits .status-sucesso{ 
+  background: #e8f5e8; 
+  color: #388e3c; 
+}#t-kits .status-falha{ 
+  background: #ffebee; 
+  color: #d32f2f; 
+}#t-kits /* ===== BOTÃO DE SINCRONIZAÇÃO ===== */
+.sync-button-container{ 
+  display: flex; 
+  justify-content: flex-end; 
+  margin-top: 30px; 
+}#t-kits .sync-button{ 
+  background: #4caf50; 
+  color: #fff; 
+  border: none; 
+  padding: 12px 24px; 
+  border-radius: 6px; 
+  font-size: 14px; 
+  font-weight: 500; 
+  cursor: pointer; 
+  transition: background .2s; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}#t-kits .sync-button:disabled{ 
+  background: #e0e0e0; 
+  color: #999; 
+  cursor: not-allowed; 
+}#t-kits .sync-button:not(:disabled):hover{ 
+  background: #45a049; 
+}#t-kits /* ===== MODAL DE CONFIRMAÇÃO ===== */
+.modal{ 
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0; 
+  top: 0; 
+  width: 100%; 
+  height: 100%; 
+  background: rgba(0,0,0,.5); 
+}#t-kits .modal-content{ 
+  background: #fff; 
+  margin: 15% auto; 
+  padding: 30px; 
+  border-radius: 8px; 
+  width: 80%; 
+  max-width: 500px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,.3); 
+}#t-kits .modal-header{ 
+  margin-bottom: 20px; 
+}#t-kits .modal-title{ 
+  color: #333; 
+  font-size: 18px; 
+  font-weight: 600; 
+  margin-bottom: 10px; 
+}#t-kits .modal-body{ 
+  color: #666; 
+  line-height: 1.5; 
+  margin-bottom: 25px; 
+}#t-kits .modal-buttons{ 
+  display: flex; 
+  gap: 12px; 
+  justify-content: flex-end; 
+}#t-kits .modal-btn{ 
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 4px; 
+  font-size: 14px; 
+  font-weight: 500; 
+  cursor: pointer; 
+  transition: background .2s; 
+}#t-kits .modal-btn-cancel{ 
+  background: #f44336; 
+  color: #fff; 
+}#t-kits .modal-btn-cancel:hover{ 
+  background: #d32f2f; 
+}#t-kits .modal-btn-confirm{ 
+  background: #4caf50; 
+  color: #fff; 
+}#t-kits .modal-btn-confirm:hover{ 
+  background: #45a049; 
+}#t-kits /* ===== ANIMAÇÃO DE LOADING ===== */
+.loading{ 
+  display: inline-block; 
+  width: 16px; 
+  height: 16px; 
+  border: 2px solid #f3f3f3; 
+  border-top: 2px solid #4caf50; 
+  border-radius: 50%; 
+  animation: spin 1s linear infinite; 
+}
+
+@keyframes spin { 
+  0% { transform: rotate(0deg); } 
+  100% { transform: rotate(360deg); } 
+}
+
+
+.oc-tag-pedir{background:#459dd8;color:#fff}
+.oc-tag-restrito{background:#8b94a0;color:#fff}
 </style>
 </head>
 <body>
@@ -542,6 +803,123 @@ a{color:inherit;text-decoration:none}
 </div>
 
 
+
+  </div>
+</div>
+
+<!-- ══════════════ TELA: APIs DE CONFIGURAÇÃO ══════════════ -->
+<div id="t-apis" class="screen">
+  <div class="page-sm">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="page-title">APIs Configuração de E-Commerce</div>
+    <div class="page-sub">Ações aplicadas em massa nas lojas da Layers.</div>
+    <div class="option-grid" id="menu-t-apis"></div>
+  </div>
+</div>
+
+<!-- ══════════════ TELA: ITENS NOS KITS ══════════════ -->
+<div id="t-kits" class="screen">
+  <div style="padding:0 10px">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="page-title" style="margin-bottom:2px">📦 Inserir ou Retirar Itens nos Kits</div>
+    <div class="page-sub">Alterações feitas direto nas lojas da Layers.</div>
+
+    <div id="kitsAviso" style="display:none;margin:14px 0;padding:14px;border-radius:10px;
+         background:rgba(255,176,25,.14);border:1px solid #ffb019;font-size:13px;line-height:1.6"></div>
+
+<div class="container">
+    <!-- ===== CABEÇALHO ===== -->
+    
+
+    <!-- ===== BANNER INFORMATIVO COM BOTÃO DE DOWNLOAD ===== -->
+    <div class="info-banner">
+      <div class="info-text">
+        <b>Modelo para Download, com os cabeçalhos esperados:</b> COD ITEM, SÉRIE NO SITE, SÉRIE PADRÃO, COD DO KIT.
+      </div>
+      <button class="download-btn" onclick="downloadTemplate()">📥 Download</button>
+    </div>
+
+    <!-- ===== FORMULÁRIO DE CONFIGURAÇÃO ===== -->
+    <div class="form-section">
+      <div class="form-row">
+        <!-- Campo código do colégio -->
+        <div class="form-group">
+          <label for="codigoColegio">🏫 Código do colégio</label>
+          <input type="text" id="codigoColegio" placeholder="" />
+        </div>
+
+        <!-- Seleção da ação a realizar -->
+        <div class="form-group">
+          <label for="realizarAcao">⚙️ Realizar</label>
+          <select id="realizarAcao">
+            <option value="">Selecione a ação...</option>
+            <option value="INSERIR NO KIT">INSERIR NO KIT</option>
+            <option value="RETIRAR DO KIT">RETIRAR DO KIT</option>
+          </select>
+        </div>
+
+        <!-- Upload de arquivo -->
+        <div class="form-group">
+          <label>📎 Escolher Arquivo Excel/CSV</label>
+          <div class="file-input-container">
+            <input type="file" id="arquivoUpload" class="file-input" accept=".csv,.xlsx,.xls" />
+            <label for="arquivoUpload" class="file-input-label">Escolher Arquivo</label>
+            <div class="file-info" id="fileInfo">
+              <span id="fileName"></span>
+              <button type="button" class="remove-file" onclick="removeFile()">×</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TABELA DE ITENS ===== -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>COD ITEM</th>
+            <th>SÉRIE NO SITE</th>
+            <th>SÉRIE PADRÃO</th>
+            <th>COD DO KIT</th>
+            <th>STATUS</th>
+            <th>MOTIVO</th>
+          </tr>
+        </thead>
+        <tbody id="itemsTableBody">
+          <tr>
+            <td colspan="6" class="empty-state">
+              Nenhum arquivo selecionado. Faça upload de um arquivo para visualizar os itens.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== BOTÃO DE SINCRONIZAÇÃO ===== -->
+    <div class="sync-button-container">
+      <button class="sync-button" id="syncButton" disabled onclick="showConfirmationModal()">
+        Sincronizar
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== MODAL DE CONFIRMAÇÃO ===== -->
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Mensagem de Confirmação</div>
+      </div>
+      <div class="modal-body" id="confirmationMessage"></div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="modal-btn modal-btn-confirm" onclick="confirmSynchronization()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS externo -->
+  
 
   </div>
 </div>
@@ -1700,7 +2078,7 @@ window.addEventListener('DOMContentLoaded', function(){
   });
 });
 
-const VERSAO_APP = '13/10/2026 · online';
+const VERSAO_APP = '20/10/2026 · kits';
 
 const ANO_CICLO = 2027;
 const CICLO_ID  = ANO_CICLO % 100;
@@ -1984,7 +2362,7 @@ const PORTAL_MENU = {
         desc:'Visões consolidadas dos colégios, das lojas e das configurações de e-commerce.' },
       { icone:'📄', cor:'#003d60', titulo:'Comunicados', destino:'t-comunicados',
         desc:'Gerar o comunicado de um colégio pelo código ou consultar os modelos disponíveis.' },
-      { icone:'⚙️', cor:'#a51e38', titulo:'APIs Configuração de E-Commerce', breve:true,
+      { icone:'⚙️', cor:'#a51e38', titulo:'APIs Configuração de E-Commerce', destino:'t-apis',
         desc:'Ações e configurações aplicadas em massa nas lojas da Layers.' }
     ]
   },
@@ -1996,6 +2374,14 @@ const PORTAL_MENU = {
         desc:'Pagamentos, fretes e descontos configurados em cada loja na Layers. Consulta ao vivo, com exportação para Excel.' },
       { icone:'📋', cor:'#1cbc7c', titulo:'List Status Colégios!', breve:true,
         desc:'Acompanhamento do status de cada colégio.' }
+    ]
+  },
+  't-apis': {
+    itens: [
+      { icone:'📦', cor:'#a51e38', titulo:'Inserir ou Retirar Itens nos Kits', funcao:'abrirKits',
+        desc:'Inclui ou remove itens dos kits das lojas, a partir de uma planilha. Altera os dados na Layers.',
+        /* quem usa / quem pode pedir / o resto vê acesso restrito */
+        perfis:['DEV','ADMIN','ECOMMERCE'], podePedir:['GESTOR'] }
     ]
   },
   't-comunicados': {
@@ -2018,8 +2404,18 @@ const PERFIS_EXTERNOS = ['COLEGIO','ALUNO'];
 function portalPodeVer(item){
   if (!USUARIO) return false;
   if (PERFIS_EXTERNOS.includes(USUARIO.perfil) && !item.externo) return false;
-  if (!item.perfis) return true;                 // sem restrição para a equipe
-  return item.perfis.includes(USUARIO.perfil);
+  return true;        // o item aparece; o que muda é o que acontece ao clicar
+}
+
+/* Três situações num item restrito:
+     liberado  — abre normalmente
+     pedir     — mostra "Solicitar acesso" (ex.: diretoria)
+     restrito  — avisa que o módulo é de outro time           */
+function portalSituacao(item){
+  if (!item.perfis) return 'liberado';
+  if (item.perfis.includes(USUARIO.perfil)) return 'liberado';
+  if (item.podePedir && item.podePedir.includes(USUARIO.perfil)) return 'pedir';
+  return 'restrito';
 }
 
 /* Monta um menu a partir da lista acima */
@@ -2036,19 +2432,31 @@ function portalMontarMenu(tela){
   }
 
   box.innerHTML = visiveis.map(it => {
+    const sit = portalSituacao(it);
+    const nomeEsc = it.titulo.replace(/'/g,"\\'");
+
     /* url = abre um site externo em outra aba (ex.: Microsoft Lists) */
-    const acao = it.breve   ? "emBreve('" + it.titulo.replace(/'/g,"\\'") + "')"
+    const acao = sit === 'pedir'    ? "solicitarAcesso('" + nomeEsc + "')"
+               : sit === 'restrito' ? "acessoRestrito('" + nomeEsc + "')"
+               : it.breve   ? "emBreve('" + nomeEsc + "')"
                : it.url     ? "window.open('" + it.url + "','_blank')"
                : it.funcao  ? it.funcao + "()"
                : it.destino ? "ir('" + it.destino + "')"
                : '';
     const fundo = 'background:' + it.cor + '26;color:' + it.cor;
-    return '<div class="option-card' + (it.breve ? ' oc-breve' : '') + '" onclick="' + acao + '">' +
+    const etiqueta = it.breve        ? ' <span class="oc-tag">EM DESENVOLVIMENTO</span>'
+                   : sit === 'pedir'  ? ' <span class="oc-tag oc-tag-pedir">ACESSO SOB SOLICITAÇÃO</span>'
+                   : sit === 'restrito' ? ' <span class="oc-tag oc-tag-restrito">ACESSO RESTRITO</span>'
+                   : '';
+    const rodape = sit === 'pedir'    ? '<div class="oc-arrow">🔑 Solicitar acesso →</div>'
+                 : sit === 'restrito' ? '<div class="oc-arrow" style="opacity:.6">🔒 Indisponível para seu perfil</div>'
+                 : it.breve ? '' : '<div class="oc-arrow">Acessar →</div>';
+
+    return '<div class="option-card' + (it.breve || sit !== 'liberado' ? ' oc-breve' : '') + '" onclick="' + acao + '">' +
       '<div class="oc-icon" style="' + fundo + '">' + it.icone + '</div>' +
-      '<div class="oc-title">' + it.titulo +
-        (it.breve ? ' <span class="oc-tag">EM DESENVOLVIMENTO</span>' : '') + '</div>' +
+      '<div class="oc-title">' + it.titulo + etiqueta + '</div>' +
       '<div class="oc-desc">' + it.desc + '</div>' +
-      (it.breve ? '' : '<div class="oc-arrow">Acessar →</div>') +
+      rodape +
     '</div>';
   }).join('');
 }
@@ -7234,6 +7642,317 @@ async function abrirLojas(){
       'poetry run uvicorn main:app --reload</code><br><br>' +
       'Depois volte aqui e abra esta tela de novo.';
   }
+}
+</script>
+<script>
+/* ═══════════ MÓDULO: ITENS NOS KITS ═══════════
+   Interface original da api-items-kits, agora dentro do portal e
+   falando com o backend (que exige login e reserva o kit).      */
+// ===== CONFIGURAÇÕES E VARIÁVEIS GLOBAIS =====
+/* Endereco do modulo no backend do portal. O token do login vai junto
+   em cada chamada, via apiFetch. */
+const KITS_API = (typeof BACKEND_URL !== 'undefined' && BACKEND_URL ? BACKEND_URL : 'http://127.0.0.1:8000') + '/kits';
+
+let uploadedData = []; // Array para armazenar dados do arquivo carregado
+let currentFile = null; // Referência do arquivo atual
+
+// ===== INICIALIZAÇÃO =====
+// Event listener para detectar mudanças no input de arquivo
+/* No portal esta tela so existe depois do login, entao os listeners
+   sao ligados quando ela e aberta, e nao ao carregar o arquivo. */
+function kitsLigarEventos(){
+  const up = document.getElementById("arquivoUpload");
+  if (!up || up.dataset.ligado) return;
+  up.dataset.ligado = "1";
+  up.addEventListener("change", handleFileUpload);
+  document.getElementById("codigoColegio").addEventListener("input", updateSyncButton);
+  document.getElementById("realizarAcao").addEventListener("change", updateSyncButton);
+}
+
+// ===== FUNÇÕES DE DOWNLOAD DE TEMPLATE =====
+function downloadTemplate() {
+  const templateData = [
+    ["COD ITEM", "SÉRIE NO SITE", "SÉRIE PADRÃO", "COD DO KIT"],
+    ["", "", "", ""],
+    ["", "", "", ""]
+  ];
+  
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(templateData);
+  XLSX.utils.book_append_sheet(wb, ws, "Template Itens Kit");
+  XLSX.writeFile(wb, "template_itens_kit.xlsx");
+}
+
+// ===== FUNÇÕES DE PROCESSAMENTO DE CÓDIGO DO KIT =====
+function gerarCodigoKit(codigoBase) {
+  if (!codigoBase) return "";
+
+  const codigoColegio = document.getElementById("codigoColegio").value.trim();
+  if (!codigoColegio) return codigoBase;
+
+  if (codigoBase.endsWith('-')) {
+    return `${codigoBase}${codigoColegio}`;
+  } else {
+    return `${codigoBase}-${codigoColegio}`;
+  }
+}
+
+// ===== FUNÇÕES DE PROCESSAMENTO DE ARQUIVO =====
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  currentFile = file;
+  document.getElementById("fileName").innerText = file.name;
+  document.getElementById("fileInfo").style.display = "flex";
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      let rows;
+
+      if (file.name.toLowerCase().endsWith('.csv')) {
+        const text = e.target.result;
+        const lines = text.split('\n');
+        rows = lines.map(line => {
+          return line.split(',').map(cell => cell.trim().replace(/^"(.*)"$/, '$1'));
+        });
+      } else {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+      }
+
+      if (rows.length > 0) rows.shift();
+
+      uploadedData = rows
+        .filter(row => row && row[0] && row[0].toString().trim() !== '')
+        .map(row => {
+          const codigoBase = (row[3] || "").toString().trim();
+          return {
+            codItem: (row[0] || "").toString().trim(),
+            serieNoSite: (row[1] || "").toString().trim(),
+            seriePadrao: (row[2] || "").toString().trim(),
+            codigoBase: codigoBase,
+            codDoKit: gerarCodigoKit(codigoBase),
+            status: "Pendente",
+            motivo: ""
+          };
+        });
+
+      console.log('Dados carregados:', uploadedData);
+      updateTable();
+      updateSyncButton();
+
+    } catch (error) {
+      console.error('Erro ao processar arquivo:', error);
+      alert('Erro ao processar arquivo. Verifique se o formato está correto.');
+      removeFile();
+    }
+  };
+
+  if (file.name.toLowerCase().endsWith('.csv')) {
+    reader.readAsText(file, 'UTF-8');
+  } else {
+    reader.readAsArrayBuffer(file);
+  }
+}
+
+function removeFile() {
+  currentFile = null;
+  document.getElementById("arquivoUpload").value = "";
+  document.getElementById("fileInfo").style.display = "none";
+  uploadedData = [];
+  updateTable();
+  updateSyncButton();
+}
+
+// ===== FUNÇÕES DE INTERFACE =====
+function updateTable() {
+  const tbody = document.getElementById("itemsTableBody");
+  tbody.innerHTML = "";
+
+  if (uploadedData.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">
+      Nenhum arquivo selecionado. Faça upload de um arquivo para visualizar os itens.
+    </td></tr>`;
+    return;
+  }
+
+  uploadedData.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${row.codItem}</td>
+      <td>${row.serieNoSite}</td>
+      <td>${row.seriePadrao}</td>
+      <td>${row.codDoKit}</td>
+      <td><span class="status-badge status-${row.status.toLowerCase()}">${row.status}</span></td>
+      <td>${row.motivo || ""}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function updateSyncButton() {
+  const syncButton = document.getElementById("syncButton");
+  const colegio = document.getElementById("codigoColegio").value.trim();
+  const acao = document.getElementById("realizarAcao").value;
+
+  syncButton.disabled = !colegio || !acao || uploadedData.length === 0;
+
+  if (uploadedData.length > 0) {
+    uploadedData = uploadedData.map(item => ({
+      ...item,
+      codDoKit: gerarCodigoKit(item.codigoBase)
+    }));
+    updateTable();
+  }
+}
+
+// ===== FUNÇÕES DO MODAL DE CONFIRMAÇÃO =====
+function showConfirmationModal() {
+  const colegio = document.getElementById("codigoColegio").value.trim();
+  const acao = document.getElementById("realizarAcao").value;
+
+  if (!colegio || !acao || uploadedData.length === 0) {
+    alert("Preencha todos os campos e faça upload de um arquivo.");
+    return;
+  }
+
+  document.getElementById("confirmationMessage").innerText =
+    `Confirmar ${acao.toLowerCase()} de ${uploadedData.length} item(ns) para o colégio ${colegio}?`;
+  document.getElementById("confirmationModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("confirmationModal").style.display = "none";
+}
+
+// ===== FUNÇÃO DE SINCRONIZAÇÃO COM API =====
+async function confirmSynchronization() {
+  closeModal();
+
+  const syncButton = document.getElementById("syncButton");
+  syncButton.innerHTML = '<span class="loading"></span> Enviando...';
+  syncButton.disabled = true;
+
+  uploadedData = uploadedData.map(x => ({ ...x, status: "Sincronizando", motivo: "" }));
+  updateTable();
+
+  try {
+    const payload = {
+      codigo_colegio: document.getElementById("codigoColegio").value.trim(),
+      acao: document.getElementById("realizarAcao").value,
+      itens: uploadedData.map(x => ({
+        cod_item: x.codItem,
+        serie_no_site: x.serieNoSite,
+        serie_padrao: x.seriePadrao,
+        cod_do_kit: x.codDoKit
+      }))
+    };
+
+    console.log('Enviando payload:', payload);
+
+    const response = await apiFetch(`${KITS_API}/sync`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log('Resposta da API:', data);
+
+    if (data && Array.isArray(data.resultados)) {
+      uploadedData = uploadedData.map(x => {
+        const resultado = data.resultados.find(r => r.item === x.codItem);
+        if (resultado) {
+          return { 
+            ...x, 
+            status: resultado.status || "Falha", 
+            motivo: resultado.motivo || "" 
+          };
+        }
+        return { ...x, status: "Falha", motivo: "Não encontrado na resposta" };
+      });
+    } else {
+      uploadedData = uploadedData.map(x => ({ 
+        ...x, 
+        status: "Falha", 
+        motivo: "Resposta inesperada da API" 
+      }));
+    }
+
+    updateTable();
+
+  } catch (err) {
+    console.error('Erro na sincronização:', err);
+    uploadedData = uploadedData.map(x => ({ 
+      ...x, 
+      status: "Falha", 
+      motivo: err.message 
+    }));
+    updateTable();
+    alert(`Erro na sincronização: ${err.message}`);
+
+  } finally {
+    syncButton.innerHTML = "Sincronizar";
+    updateSyncButton();
+  }
+}
+
+
+/* Abre a tela, liga os eventos e avisa se algum kit está em uso */
+async function abrirKits(){
+  ir('t-kits');
+  kitsLigarEventos();
+  const aviso = document.getElementById('kitsAviso');
+  aviso.style.display = 'block';
+  aviso.innerHTML = '<b>Verificando o backend…</b><br>Se ele estiver hibernando, isso pode levar até 1 minuto.';
+  try{
+    const r = await fetch(API_RAIZ + '/health', { signal: AbortSignal.timeout(75000) });
+    if (!r.ok) throw new Error('resposta ' + r.status);
+
+    const re = await apiFetch(KITS_API + '/kits-em-uso');
+    const d  = await re.json();
+    const emUso = (d && d.em_uso) || [];
+    if (emUso.length){
+      aviso.innerHTML = '<b>Atenção: kits sendo alterados agora por outra pessoa</b><br>' +
+        emUso.map(k => '• <b>' + k.kit_codigo + '</b> — ' + (k.usuario_nome || k.usuario_email)).join('<br>') +
+        '<br><br>Se você tentar alterar um destes, o sistema avisa e não deixa gravar por cima.';
+    } else {
+      aviso.style.display = 'none';
+    }
+  }catch(e){
+    aviso.innerHTML = '<b>Não consegui falar com o backend.</b><br>' +
+      'Verifique sua conexão e tente de novo em instantes.<br>' +
+      '<span style="color:var(--muted);font-size:12px">' + (e.message || e) + '</span>';
+  }
+}
+
+/* Pedido de acesso a um módulo, para quem ainda não tem permissão */
+async function solicitarAcesso(modulo){
+  if (!USUARIO){ alert('Entre no sistema primeiro.'); return; }
+  const msg = prompt('Pedir acesso a "' + modulo + '".\nSe quiser, escreva o motivo (opcional):');
+  if (msg === null) return;
+  try{
+    const { error } = await _sb.from('acessos_solicitacoes').insert({
+      modulo: modulo, usuario_email: USUARIO.email, usuario_nome: USUARIO.nome,
+      perfil_atual: USUARIO.perfil, mensagem: msg || null
+    });
+    if (error) throw error;
+    alert('Pedido enviado. A administradora do sistema vai avaliar e liberar o acesso.');
+  }catch(e){ alert('Não consegui enviar o pedido: ' + (e.message || e)); }
+}
+
+function acessoRestrito(modulo){
+  alert(modulo + '\n\nAcesso restrito. Este módulo é usado pelo time de E-Commerce.\n' +
+        'Se precisar usar, fale com a administradora do sistema.');
 }
 </script>
 </body>
