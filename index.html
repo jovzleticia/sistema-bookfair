@@ -690,6 +690,40 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<!-- ══════════════ PERMISSÕES DE ACESSO (só DEV) ══════════════ -->
+<div id="t-permissoes" class="screen">
+  <div class="page-sm" style="max-width:1100px">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="page-title">🔐 Permissões de acesso</div>
+    <div class="page-sub">Quem vê cada módulo dos menus. Cada caixa grava na hora em portal_permissoes.</div>
+    <div id="permMsg" style="min-height:20px;font-size:13px;margin:6px 0 12px"></div>
+
+    <div style="background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:18px">
+      <div style="font-weight:700;margin-bottom:4px;font-size:14px">Por perfil</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Marcado = o perfil abre o módulo. Desmarcado = vê o cartão com ACESSO RESTRITO.</div>
+      <div id="permTabela" style="overflow-x:auto;font-size:12.5px">Carregando…</div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px">
+      <div style="font-weight:700;margin-bottom:4px;font-size:14px">Exceção por pessoa</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">A exceção vence o perfil. "Segue o perfil" remove a exceção.</div>
+      <select id="permUsuario" onchange="permRenderPessoa()"
+              style="width:100%;max-width:520px;padding:9px;border:1px solid var(--bd);border-radius:7px;background:var(--bg);color:var(--fg);font-size:13px;margin-bottom:12px"></select>
+      <div id="permPessoa" style="overflow-x:auto;font-size:12.5px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORTAL MARKETING ══════════════ -->
+<div id="t-marketing" class="screen">
+  <div class="page-sm">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="page-title">Portal Marketing</div>
+    <div class="page-sub">O que você quer fazer?</div>
+    <div class="option-grid" id="menu-t-marketing"></div>
+  </div>
+</div>
+
 <!-- ══════════════ TELA: RELATÓRIO ATUAL DAS LOJAS ══════════════ -->
 <div id="t-lojas" class="screen">
   <div style="padding:0 10px">
@@ -1227,6 +1261,11 @@ a{color:inherit;text-decoration:none}
       👥 Gerenciar usuários
     </button>
 
+    <button onclick="abrirPermissoes()"
+      style="margin-top:18px;margin-left:8px;background:#003d60;color:#fff;border:none;padding:10px 18px;border-radius:7px;font-weight:700;cursor:pointer;font-size:13px">
+      🔐 Permissões de acesso
+    </button>
+
     <button onclick="abrirImportar()"
       style="margin-top:18px;margin-left:8px;background:#ff711a;color:#fff;border:none;padding:10px 18px;border-radius:7px;font-weight:700;cursor:pointer;font-size:13px">
       📥 Importar planilha
@@ -1390,6 +1429,7 @@ a{color:inherit;text-decoration:none}
             <option value="GESTOR">GESTOR — vê todos, não edita</option>
             <option value="ECOMMERCE">E-COMMERCE — operação do e-commerce</option>
             <option value="BACKOFFICE">BACKOFFICE — operação e APIs de configuração</option>
+            <option value="MARKETING">MARKETING — portal do marketing</option>
             <option value="FINANCEIRO">FINANCEIRO — módulos do financeiro</option>
             <option value="ADMIN">ADMIN — vê e edita todos</option>
             <option value="DEV">DEV — acesso total</option>
@@ -2325,13 +2365,13 @@ async function carregarUsuario(){
     const email = (s.session.user.email || '').toLowerCase();
 
     let { data: u, error: errU } = await _sb.from('usuarios')
-      .select('id,nome,email,perfil,cargo,area,ativo,auth_id').eq('auth_id', uid).maybeSingle();
+      .select('id,nome,email,perfil,cargo,area,ativo,auth_id,tela_inicial').eq('auth_id', uid).maybeSingle();
     if (errU){ console.error('Erro ao carregar usuário:', errU.message); }
 
     // Conta existe no login mas ainda não vinculada: liga pelo e-mail
     if (!u){
       const { data: porEmail } = await _sb.from('usuarios')
-        .select('id,nome,email,perfil,cargo,area,ativo,auth_id').eq('email', email).maybeSingle();
+        .select('id,nome,email,perfil,cargo,area,ativo,auth_id,tela_inicial').eq('email', email).maybeSingle();
       if (porEmail && porEmail.ativo && !porEmail.auth_id){
         await _sb.from('usuarios').update({ auth_id: uid }).eq('id', porEmail.id);
         u = porEmail;
@@ -2339,18 +2379,27 @@ async function carregarUsuario(){
     }
     if (!u || !u.ativo) return false;
 
-    USUARIO = { id:u.id, nome:u.nome, email:u.email, perfil:u.perfil, cargo:u.cargo, area:u.area };
+    USUARIO = { id:u.id, nome:u.nome, email:u.email, perfil:u.perfil, cargo:u.cargo, area:u.area,
+                tela_inicial:u.tela_inicial || null };
     return true;
   }catch(e){ return false; }
 }
 
-function entrarNoSistema(){
+async function entrarNoSistema(){
   aplicarPermissoes();
-  /* A home passa a ser a base da pilha — sem entrada duplicada */
+  /* A home passa a ser a base da pilha — sem entrada duplicada.
+     Com tela_inicial preenchida, a pessoa cai nela, e o voltar
+     leva ao menu raiz. */
   navStack = ['t-sistema'];
-  mostrarTela('t-sistema');
-  _hist(() => history.replaceState({ tela:'t-sistema' }, '', '#t-sistema'));
+  const ini = USUARIO && USUARIO.tela_inicial;
+  const telaIni = ini && ini !== 't-sistema' && document.getElementById(ini) &&
+                  document.getElementById(ini).classList.contains('screen') ? ini : null;
+  if (telaIni) navStack.push(telaIni);
+  const atual = navStack[navStack.length - 1];
+  mostrarTela(atual);
+  _hist(() => history.replaceState({ tela: atual }, '', '#' + atual));
   document.getElementById('lgSenha').value = '';
+  await portalIniciarMenus();
 }
 
 async function sair(){
@@ -2361,105 +2410,118 @@ async function sair(){
 }
 
 /* ══════════════════════════════════════════════════════════════
-   MENU DO PORTAL E-COMMERCE
-   Toda a estrutura de telas iniciais vem desta lista. Para criar
-   um módulo novo, basta acrescentar um item aqui — não é preciso
-   mexer no HTML.
-     destino  : tela para onde vai (ou funcao, para executar algo)
-     perfis   : quem enxerga o item. null = todo mundo que entrou
-     breve    : true = aparece apagado, com etiqueta EM DESENVOLVIMENTO
-     tag      : texto da etiqueta de um item breve, no lugar de
-                EM DESENVOLVIMENTO (ex.: 'AGUARDANDO MIGRAÇÃO')
+   MENUS DO PORTAL
+   Os menus vêm do Supabase, carregados ao entrar no sistema:
+     portal_modulos    — um item de menu por linha. 'portal' é a tela
+                         onde o item aparece; 'status' e 'ordem'
+                         definem etiqueta e posição.
+     portal_permissoes — quem vê cada módulo, por perfil ou por
+                         e-mail. A linha por e-mail é exceção e vence
+                         a do perfil. Sem linha nenhuma = sem acesso.
+   Para criar um módulo novo, basta inserir a linha no banco e dar a
+   permissão em Painel do Desenvolvedor → Permissões de acesso.
 ══════════════════════════════════════════════════════════════ */
-/* Relatórios e Comunicados aparecem nos dois portais (E-Commerce e GA),
-   abrindo as mesmas telas. Ficam definidos uma vez só. */
-const MENU_ITEM_RELATORIOS = { icone:'📊', cor:'#459dd8', titulo:'Relatórios', destino:'t-relatorios',
-  desc:'Visões consolidadas dos colégios, das lojas e das configurações de e-commerce.' };
-const MENU_ITEM_COMUNICADOS = { icone:'📄', cor:'#003d60', titulo:'Comunicados', destino:'t-comunicados',
-  desc:'Gerar o comunicado de um colégio pelo código ou consultar os modelos disponíveis.' };
 
-const PORTAL_MENU = {
-  't-sistema': {
-    itens: [
-      { icone:'🛒', cor:'#003d60', titulo:'Portal E-Commerce', destino:'t-gerar-menu',
-        desc:'Relatórios e comunicados dos colégios: condições, fretes, descontos e configurações das lojas.',
-        perfis:['DEV','ADMIN','ECOMMERCE','BACKOFFICE','GESTOR'] },
-      { icone:'🎧', cor:'#1cbc7c', titulo:'Portal GA (Gestão de Atendimento)', destino:'t-ga',
-        desc:'Ferramentas da Gestão de Atendimento.' },
-      { icone:'📈', cor:'#7a5cc4', titulo:'Portal de Acompanhamento Book Fair', breve:true,
-        desc:'Visão resumida em gráficos para gerentes e líderes.',
-        perfis:['DEV','ADMIN','GESTOR'] },
-      { icone:'📝', cor:'#459dd8', titulo:'List Microsoft', breve:true,
-        desc:'Acesso às listas da empresa no Microsoft Lists.' },
-      { icone:'📮', cor:'#ff711a', titulo:'Status Correio', breve:true,
-        desc:'Acompanhamento das entregas e das postagens.' }
-    ]
-  },
-  't-gerar-menu': {
-    itens: [
-      { icone:'⚙️', cor:'#a51e38', titulo:'APIs Configuração de E-Commerce', destino:'t-apis',
-        desc:'Ações e configurações aplicadas em massa nas lojas da Layers.' },
-      MENU_ITEM_RELATORIOS,
-      MENU_ITEM_COMUNICADOS,
-      { icone:'🎫', cor:'#ff711a', titulo:'Chamados E-Commerce', breve:true,
-        desc:'Chamados recebidos da Gestão de Atendimento.' },
-      { icone:'🗂️', cor:'#1cbc7c', titulo:'Histórico de solicitações e serviços', breve:true,
-        desc:'Andamento, status e conclusão dos chamados atendidos.' }
-    ]
-  },
-  't-relatorios': {
-    itens: [
-      { icone:'🔎', cor:'#003d60', titulo:'Validação de informações relatórios', breve:true,
-        desc:'Conferência cruzada das informações dos relatórios.' },
-      { icone:'📊', cor:'#459dd8', titulo:'Relatório dos Comunicados', funcao:'abrirRelatorio',
-        desc:'Todos os colégios em formato de planilha, com condições, fretes, campanhas, descontos e editoras. Filtre, busque e baixe em CSV.' },
-      { icone:'🏬', cor:'#ff711a', titulo:'Relatório atual das lojas', funcao:'abrirLojas',
-        desc:'Pagamentos, fretes e descontos configurados em cada loja na Layers. Consulta ao vivo, com exportação para Excel.' },
-      { icone:'📋', cor:'#1cbc7c', titulo:'List Status Colégios!', breve:true,
-        desc:'Acompanhamento do status de cada colégio.' },
-      { icone:'🌐', cor:'#459dd8', titulo:'Relatório de acessos nos sites', breve:true },
-      { icone:'🗓️', cor:'#a51e38', titulo:'Relatório de lojas do ciclo',    breve:true }
-    ]
-  },
-  't-apis': {
-    itens: [
-      { icone:'⏩', cor:'#003d60', titulo:'Execução sequencial de serviços', breve:true },
-      { icone:'🔎', cor:'#459dd8', titulo:'Validação de relatórios',         breve:true },
-      { icone:'📦', cor:'#a51e38', titulo:'Inserir ou Retirar Itens nos Kits', funcao:'abrirKits',
-        desc:'Inclui ou remove itens dos kits das lojas, a partir de uma planilha. Altera os dados na Layers.',
-        /* quem usa / quem pode pedir / o resto vê acesso restrito */
-        perfis:['DEV','ADMIN','ECOMMERCE','BACKOFFICE'], podePedir:['GESTOR'] },
-      { icone:'💳', cor:'#459dd8', titulo:'Configuração de parcelamento', breve:true, tag:'AGUARDANDO MIGRAÇÃO' },
-      { icone:'🎟️', cor:'#ff711a', titulo:'Cupons',                       breve:true, tag:'AGUARDANDO MIGRAÇÃO' },
-      { icone:'🚚', cor:'#003d60', titulo:'Frete',                        breve:true, tag:'EM CRIAÇÃO' },
-      { icone:'📜', cor:'#7a5cc4', titulo:'Termo',                        breve:true, tag:'EM CRIAÇÃO' },
-      { icone:'🧩', cor:'#a51e38', titulo:'Criar Kits',                   breve:true, tag:'EM CRIAÇÃO' },
-      { icone:'✍️', cor:'#1cbc7c', titulo:'Inserir descrição',            breve:true, tag:'EM CRIAÇÃO' },
-      { icone:'🖼️', cor:'#ff711a', titulo:'Atualização de Banner',        breve:true, tag:'EM CRIAÇÃO' }
-    ]
-  },
-  't-ga': {
-    itens: [
-      MENU_ITEM_RELATORIOS,
-      MENU_ITEM_COMUNICADOS,
-      { icone:'📗', cor:'#1cbc7c', titulo:'Planilha Padrão',                             breve:true },
-      { icone:'📝', cor:'#459dd8', titulo:'Simulados',                                   breve:true },
-      { icone:'🏫', cor:'#003d60', titulo:'Status por colégio',                          breve:true },
-      { icone:'📅', cor:'#ff711a', titulo:'Acompanhamento Calendário de atualizações',   breve:true },
-      { icone:'🎫', cor:'#a51e38', titulo:'Chamado E-Commerce',                          breve:true },
-      { icone:'✅', cor:'#1cbc7c', titulo:'Validação de Site',                           breve:true },
-      { icone:'🧾', cor:'#7a5cc4', titulo:'Pedido de Venda',                             breve:true }
-    ]
-  },
-  't-comunicados': {
-    itens: [
-      { icone:'🔍', cor:'#003d60', titulo:'Consultar / Gerar por código', destino:'t-cod-input',
-        desc:'Informe o código do colégio. O sistema verifica se já existe um comunicado padronizado e gera automaticamente.' },
-      { icone:'📋', cor:'#1cbc7c', titulo:'Consultar Modelos', destino:'t-modelos',
-        desc:'Veja os modelos de comunicado disponíveis, os estados e colégios atendidos por cada um.' }
-    ]
-  }
+/* Telas que têm menu (cada uma com <div id="menu-<tela>">) */
+const MENU_TELAS = {
+  't-sistema':     'Menu raiz',
+  't-gerar-menu':  'Portal E-Commerce',
+  't-apis':        'APIs Configuração de E-Commerce',
+  't-relatorios':  'Relatórios',
+  't-comunicados': 'Comunicados',
+  't-ga':          'Portal GA (Gestão de Atendimento)',
+  't-marketing':   'Portal Marketing'
 };
+
+/* Etiqueta e posição de cada status. Só ATIVO abre ao clique. */
+const MENU_STATUS = {
+  ATIVO:                 { etiqueta:'',                      ordem:0 },
+  AGUARDANDO_MIGRACAO:   { etiqueta:'AGUARDANDO MIGRAÇÃO',   ordem:1 },
+  EM_DESENVOLVIMENTO:    { etiqueta:'EM DESENVOLVIMENTO',    ordem:2 },
+  EM_ANALISE:            { etiqueta:'EM ANÁLISE',            ordem:3 },
+  AGUARDANDO_INTEGRACAO: { etiqueta:'AGUARDANDO INTEGRAÇÃO', ordem:4 }
+};
+
+let PORTAL_MENU     = {};   // { tela: { itens:[...] } }, montado a partir do banco
+let _menuModulos    = [];   // linhas de portal_modulos
+let _menuPermissoes = [];   // linhas de portal_permissoes
+
+function portalEsc(v){
+  return String(v == null ? '' : v).replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
+}
+
+/* A pessoa pode usar o módulo? Exceção por e-mail > perfil > não.
+   Se houver linhas repetidas para o mesmo alvo, um "não" vence. */
+function portalPermitido(chave, usuario, permissoes){
+  const email = (usuario.email || '').toLowerCase();
+  const doModulo = permissoes.filter(p => p.modulo_chave === chave);
+  const porEmail = doModulo.filter(p => p.usuario_email && p.usuario_email.toLowerCase() === email);
+  if (porEmail.length) return porEmail.every(p => p.permitido);
+  const porPerfil = doModulo.filter(p => p.perfil && p.perfil === usuario.perfil);
+  return porPerfil.length > 0 && porPerfil.every(p => p.permitido);
+}
+
+/* Converte as linhas do banco no formato que portalMontarMenu usa */
+function portalMenuDeLinhas(modulos, permissoes, usuario){
+  const menu = {};
+  Object.keys(MENU_TELAS).forEach(t => { menu[t] = { itens: [] }; });
+  modulos.forEach(m => {
+    const st = MENU_STATUS[m.status] || MENU_STATUS.EM_DESENVOLVIMENTO;
+    (menu[m.portal] = menu[m.portal] || { itens: [] }).itens.push({
+      chave: m.chave, titulo: m.titulo, desc: m.descricao || '',
+      icone: m.icone || '•', cor: m.cor || '#5b6b7a',
+      destino: m.destino, funcao: m.funcao, url: m.url,
+      status: m.status, breve: m.status !== 'ATIVO', tag: st.etiqueta,
+      ordemStatus: st.ordem, ordem: m.ordem == null ? 100 : m.ordem,
+      permitido: portalPermitido(m.chave, usuario, permissoes)
+    });
+  });
+  /* Primeiro pelo status (ativos, aguardando migração, em desenvolvimento,
+     em análise...), depois pela ordem cadastrada */
+  Object.values(menu).forEach(c => c.itens.sort((a, b) =>
+    a.ordemStatus - b.ordemStatus || a.ordem - b.ordem || a.titulo.localeCompare(b.titulo)));
+  return menu;
+}
+
+async function portalCarregarMenus(){
+  const [m, p] = await Promise.all([
+    _sb.from('portal_modulos').select('chave,titulo,portal,icone,cor,descricao,destino,funcao,url,status,ordem'),
+    _sb.from('portal_permissoes').select('id,modulo_chave,perfil,usuario_email,permitido')
+  ]);
+  if (m.error) throw m.error;
+  if (p.error) throw p.error;
+  _menuModulos    = m.data || [];
+  _menuPermissoes = p.data || [];
+  portalRemontar();
+}
+
+/* Remonta os menus com o que já está carregado (ex.: depois de mudar uma permissão) */
+function portalRemontar(){
+  if (!USUARIO) return;
+  PORTAL_MENU = portalMenuDeLinhas(_menuModulos, _menuPermissoes, USUARIO);
+  portalMontarMenus();
+}
+
+function portalMenusAviso(html){
+  Object.keys(MENU_TELAS).forEach(t => {
+    const box = document.getElementById('menu-' + t);
+    if (box) box.innerHTML = '<div style="padding:20px;color:var(--muted);font-size:13px">' + html + '</div>';
+  });
+}
+
+/* Chamado ao entrar: mostra "carregando", busca e monta. Se falhar, oferece tentar de novo. */
+async function portalIniciarMenus(){
+  portalMenusAviso('Carregando o menu…');
+  try{
+    await portalCarregarMenus();
+  }catch(e){
+    console.error('Erro ao carregar os menus:', e);
+    portalMenusAviso('Não consegui carregar o menu: ' + portalEsc(e.message || e) +
+      '<br><button onclick="portalIniciarMenus()" style="margin-top:10px;background:#459dd8;color:#fff;border:none;' +
+      'padding:8px 14px;border-radius:7px;font-weight:700;cursor:pointer;font-size:12px">Tentar de novo</button>');
+  }
+}
 
 /* Perfis de fora da Book Fair. Hoje não há nenhum em uso: ficam
    preparados para quando colégios (ou alunos) tiverem login. */
@@ -2474,18 +2536,42 @@ function portalPodeVer(item){
   return true;        // o item aparece; o que muda é o que acontece ao clicar
 }
 
-/* Três situações num item restrito:
-     liberado  — abre normalmente
-     pedir     — mostra "Solicitar acesso" (ex.: diretoria)
-     restrito  — avisa que o módulo é de outro time           */
+/* liberado — abre normalmente · restrito — cartão com ACESSO RESTRITO */
 function portalSituacao(item){
-  if (!item.perfis) return 'liberado';
-  if (item.perfis.includes(USUARIO.perfil)) return 'liberado';
-  if (item.podePedir && item.podePedir.includes(USUARIO.perfil)) return 'pedir';
-  return 'restrito';
+  return item.permitido ? 'liberado' : 'restrito';
 }
 
-/* Monta um menu a partir da lista acima */
+function portalItem(chave){
+  for (const tela in PORTAL_MENU){
+    const it = PORTAL_MENU[tela].itens.find(x => x.chave === chave);
+    if (it) return it;
+  }
+  return null;
+}
+
+/* Clique num cartão */
+function portalAbrir(chave){
+  const it = portalItem(chave);
+  if (!it) return;
+  if (portalSituacao(it) === 'restrito') return acessoRestrito(it.titulo);
+  if (it.breve) return emBreve(it.titulo, it.tag);
+  /* url = abre um site externo em outra aba (ex.: Microsoft Lists) */
+  if (it.url){
+    if (/^https?:\/\//i.test(it.url)) window.open(it.url, '_blank', 'noopener');
+    return;
+  }
+  if (it.funcao){
+    const f = window[it.funcao];
+    if (typeof f === 'function') return f();
+    return alert('A função "' + it.funcao + '" deste módulo não existe no sistema.');
+  }
+  if (it.destino){
+    if (document.getElementById(it.destino)) return ir(it.destino);
+    return alert('A tela "' + it.destino + '" deste módulo não existe no sistema.');
+  }
+}
+
+/* Monta um menu a partir de PORTAL_MENU */
 function portalMontarMenu(tela){
   const box = document.getElementById('menu-' + tela);
   const cfg = PORTAL_MENU[tela];
@@ -2500,30 +2586,19 @@ function portalMontarMenu(tela){
 
   box.innerHTML = visiveis.map(it => {
     const sit = portalSituacao(it);
-    const nomeEsc = it.titulo.replace(/'/g,"\\'");
-
-    /* url = abre um site externo em outra aba (ex.: Microsoft Lists) */
-    const acao = sit === 'pedir'    ? "solicitarAcesso('" + nomeEsc + "')"
-               : sit === 'restrito' ? "acessoRestrito('" + nomeEsc + "')"
-               : it.breve   ? "emBreve('" + nomeEsc + "','" + (it.tag || '').replace(/'/g,"\\'") + "')"
-               : it.url     ? "window.open('" + it.url + "','_blank')"
-               : it.funcao  ? it.funcao + "()"
-               : it.destino ? "ir('" + it.destino + "')"
-               : '';
-    const fundo = 'background:' + it.cor + '26;color:' + it.cor;
-    /* Mesma ordem do clique: primeiro o perfil, depois o "em desenvolvimento" */
-    const etiqueta = sit === 'pedir'    ? ' <span class="oc-tag oc-tag-pedir">ACESSO SOB SOLICITAÇÃO</span>'
-                   : sit === 'restrito' ? ' <span class="oc-tag oc-tag-restrito">ACESSO RESTRITO</span>'
-                   : it.breve           ? ' <span class="oc-tag">' + (it.tag || 'EM DESENVOLVIMENTO') + '</span>'
+    const acao = "portalAbrir('" + portalEsc(it.chave) + "')";
+    const fundo = 'background:' + portalEsc(it.cor) + '26;color:' + portalEsc(it.cor);
+    /* Mesma ordem do clique: primeiro o perfil, depois o status */
+    const etiqueta = sit === 'restrito' ? ' <span class="oc-tag oc-tag-restrito">ACESSO RESTRITO</span>'
+                   : it.breve           ? ' <span class="oc-tag">' + portalEsc(it.tag) + '</span>'
                    : '';
-    const rodape = sit === 'pedir'    ? '<div class="oc-arrow">🔑 Solicitar acesso →</div>'
-                 : sit === 'restrito' ? '<div class="oc-arrow" style="opacity:.6">🔒 Indisponível para seu perfil</div>'
+    const rodape = sit === 'restrito' ? '<div class="oc-arrow" style="opacity:.6">🔒 Indisponível para seu perfil</div>'
                  : it.breve ? '' : '<div class="oc-arrow">Acessar →</div>';
 
     return '<div class="option-card' + (it.breve || sit !== 'liberado' ? ' oc-breve' : '') + '" onclick="' + acao + '">' +
-      '<div class="oc-icon" style="' + fundo + '">' + it.icone + '</div>' +
-      '<div class="oc-title">' + it.titulo + etiqueta + '</div>' +
-      (it.desc ? '<div class="oc-desc">' + it.desc + '</div>' : '') +
+      '<div class="oc-icon" style="' + fundo + '">' + portalEsc(it.icone) + '</div>' +
+      '<div class="oc-title">' + portalEsc(it.titulo) + etiqueta + '</div>' +
+      (it.desc ? '<div class="oc-desc">' + portalEsc(it.desc) + '</div>' : '') +
       rodape +
     '</div>';
   }).join('');
@@ -2533,11 +2608,197 @@ function portalMontarMenus(){
   Object.keys(PORTAL_MENU).forEach(portalMontarMenu);
 }
 
-/* Itens do menu que ainda serão construídos */
+/* Itens do menu que ainda não estão disponíveis */
 function emBreve(nome, tag){
   alert(nome + '\n\n' + (tag
     ? 'Este módulo ainda não está disponível (' + tag.toLowerCase() + ').'
     : 'Este módulo ainda está em desenvolvimento e não está disponível.'));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PERMISSÕES DE ACESSO (Painel do Desenvolvedor, só DEV)
+   Grava em portal_permissoes. A tabela não tem chave única por
+   (módulo, perfil) nem por (módulo, e-mail): por isso cada gravação
+   atualiza as linhas existentes e só insere quando não há nenhuma.
+══════════════════════════════════════════════════════════════ */
+const PERM_PERFIS = ['DEV','ADMIN','GESTOR','ECOMMERCE','BACKOFFICE','ANALISTA','MARKETING','FINANCEIRO'];
+let _permUsuarios = [];
+
+async function abrirPermissoes(){
+  if (!ehDev()){ alert('Só o perfil DEV acessa as permissões.'); return; }
+  ir('t-permissoes');
+  permMsg('Carregando…', 'var(--muted)');
+  try{
+    await portalCarregarMenus();               // dados frescos do banco
+    const { data, error } = await _sb.from('usuarios')
+      .select('nome,email,perfil,ativo').order('nome');
+    if (error) throw error;
+    _permUsuarios = (data || []).filter(u => u.email);
+    permMsg('');
+    permRenderPerfis();
+    permRenderSelectPessoa();
+    permRenderPessoa();
+  }catch(e){
+    permMsg('Erro ao carregar: ' + (e.message || e), '#a51e38');
+  }
+}
+
+function permMsg(txt, cor){
+  const el = document.getElementById('permMsg');
+  el.textContent = txt || '';
+  el.style.color = cor || 'var(--fg)';
+}
+
+/* Perfis das colunas: os conhecidos + qualquer outro que já esteja no banco */
+function permPerfis(){
+  const extra = _menuPermissoes.map(p => p.perfil).filter(p => p && !PERM_PERFIS.includes(p));
+  return PERM_PERFIS.concat([...new Set(extra)]);
+}
+
+/* Módulos agrupados por portal, na ordem das telas e do próprio menu */
+function permGrupos(){
+  const menu = portalMenuDeLinhas(_menuModulos, [], { perfil:'', email:'' });
+  return Object.keys(menu).filter(t => menu[t].itens.length)
+    .map(t => ({ tela: t, nome: MENU_TELAS[t] || t, itens: menu[t].itens }));
+}
+
+function permLinhas(chave, alvo){
+  return _menuPermissoes.filter(p => p.modulo_chave === chave &&
+    (alvo.perfil ? p.perfil === alvo.perfil
+                 : (p.usuario_email || '').toLowerCase() === alvo.usuario_email));
+}
+
+function permDoPerfil(chave, perfil){
+  const r = permLinhas(chave, { perfil });
+  return r.length > 0 && r.every(p => p.permitido);
+}
+
+/* Liga ou desliga um módulo para um perfil ou uma pessoa */
+async function permGravar(chave, alvo, permitido){
+  const campo = alvo.perfil ? 'perfil' : 'usuario_email';
+  const valor = alvo[campo];
+  const cols = 'id,modulo_chave,perfil,usuario_email,permitido';
+  let { data, error } = await _sb.from('portal_permissoes')
+    .update({ permitido }).eq('modulo_chave', chave).eq(campo, valor).select(cols);
+  if (error) throw error;
+  if (!data || !data.length){
+    const linha = { modulo_chave: chave, permitido, perfil: null, usuario_email: null };
+    linha[campo] = valor;
+    ({ data, error } = await _sb.from('portal_permissoes').insert(linha).select(cols));
+    if (error) throw error;
+  }
+  _menuPermissoes = _menuPermissoes.filter(p => !permLinhas(chave, alvo).includes(p)).concat(data || []);
+  portalRemontar();
+}
+
+async function permRemoverExcecao(chave, email){
+  const { error } = await _sb.from('portal_permissoes')
+    .delete().eq('modulo_chave', chave).eq('usuario_email', email);
+  if (error) throw error;
+  const remover = permLinhas(chave, { usuario_email: email });
+  _menuPermissoes = _menuPermissoes.filter(p => !remover.includes(p));
+  portalRemontar();
+}
+
+function permTagStatus(it){
+  return it.breve ? ' <span class="oc-tag" style="font-size:8px">' + portalEsc(it.tag) + '</span>' : '';
+}
+
+function permRenderPerfis(){
+  const perfis = permPerfis();
+  const th = 'padding:7px 6px;text-align:center;border-bottom:2px solid var(--bd);font-size:11px;white-space:nowrap';
+  document.getElementById('permTabela').innerHTML = permGrupos().map(g =>
+    '<div style="font-weight:700;color:#003d60;margin:14px 0 6px">' + portalEsc(g.nome) +
+      ' <span style="font-weight:400;color:var(--muted);font-size:11px">(' + g.tela + ')</span></div>' +
+    '<table style="border-collapse:collapse;width:100%;min-width:760px"><thead><tr>' +
+      '<th style="' + th + ';text-align:left">Módulo</th>' +
+      perfis.map(p => '<th style="' + th + '">' + p + '</th>').join('') +
+    '</tr></thead><tbody>' +
+    g.itens.map(it =>
+      '<tr style="border-bottom:1px solid var(--bd)">' +
+        '<td style="padding:6px">' + portalEsc(it.icone) + ' ' + portalEsc(it.titulo) + permTagStatus(it) +
+          '<div style="font-size:10px;color:var(--muted)">' + portalEsc(it.chave) + '</div></td>' +
+        perfis.map(p =>
+          '<td style="text-align:center"><input type="checkbox" style="width:16px;height:16px;cursor:pointer"' +
+            ' data-chave="' + portalEsc(it.chave) + '" data-perfil="' + portalEsc(p) + '"' +
+            (permDoPerfil(it.chave, p) ? ' checked' : '') +
+            ' onchange="permMudarPerfil(this)" title="' + portalEsc(p + ' · ' + it.titulo) + '"></td>').join('') +
+      '</tr>').join('') +
+    '</tbody></table>').join('') || 'Nenhum módulo cadastrado em portal_modulos.';
+}
+
+async function permMudarPerfil(cb){
+  const chave = cb.dataset.chave, perfil = cb.dataset.perfil, valor = cb.checked;
+  cb.disabled = true;
+  try{
+    await permGravar(chave, { perfil }, valor);
+    permMsg('✓ ' + perfil + (valor ? ' liberado em ' : ' sem acesso a ') + chave, '#1cbc7c');
+    permRenderPessoa();                        // a coluna "pelo perfil" pode ter mudado
+  }catch(e){
+    cb.checked = !valor;
+    permMsg('Não consegui gravar: ' + (e.message || e), '#a51e38');
+  }finally{ cb.disabled = false; }
+}
+
+function permRenderSelectPessoa(){
+  const sel = document.getElementById('permUsuario');
+  const atual = sel.value;
+  const qtd = email => _menuPermissoes.filter(p => (p.usuario_email || '').toLowerCase() === email).length;
+  sel.innerHTML = '<option value="">Escolha uma pessoa…</option>' + _permUsuarios.map(u => {
+    const email = u.email.toLowerCase(), n = qtd(email);
+    return '<option value="' + portalEsc(email) + '">' + portalEsc((u.nome || email) + ' — ' + email + ' · ' + u.perfil +
+      (u.ativo ? '' : ' (inativo)') + (n ? ' · ' + n + ' exceção(ões)' : '')) + '</option>';
+  }).join('');
+  sel.value = atual;
+}
+
+function permRenderPessoa(){
+  const box = document.getElementById('permPessoa');
+  const email = document.getElementById('permUsuario').value;
+  const u = _permUsuarios.find(x => x.email.toLowerCase() === email);
+  if (!u){ box.innerHTML = ''; return; }
+  const th = 'padding:7px 6px;border-bottom:2px solid var(--bd);font-size:11px;text-align:left';
+  const sim = '<span style="color:#1cbc7c;font-weight:700">✓ abre</span>';
+  const nao = '<span style="color:#a51e38;font-weight:700">✗ restrito</span>';
+  box.innerHTML = permGrupos().map(g =>
+    '<div style="font-weight:700;color:#003d60;margin:14px 0 6px">' + portalEsc(g.nome) + '</div>' +
+    '<table style="border-collapse:collapse;width:100%;min-width:620px"><thead><tr>' +
+      '<th style="' + th + '">Módulo</th><th style="' + th + '">Pelo perfil ' + portalEsc(u.perfil) + '</th>' +
+      '<th style="' + th + '">Para esta pessoa</th><th style="' + th + '">Resultado</th>' +
+    '</tr></thead><tbody>' +
+    g.itens.map(it => {
+      const exc = permLinhas(it.chave, { usuario_email: email });
+      const modo = !exc.length ? 'perfil' : exc.every(p => p.permitido) ? 'sim' : 'nao';
+      const final = portalPermitido(it.chave, u, _menuPermissoes);
+      const op = (v, t) => '<option value="' + v + '"' + (modo === v ? ' selected' : '') + '>' + t + '</option>';
+      return '<tr style="border-bottom:1px solid var(--bd)' + (modo !== 'perfil' ? ';background:rgba(255,176,25,.10)' : '') + '">' +
+        '<td style="padding:6px">' + portalEsc(it.icone) + ' ' + portalEsc(it.titulo) + permTagStatus(it) + '</td>' +
+        '<td>' + (permDoPerfil(it.chave, u.perfil) ? sim : nao) + '</td>' +
+        '<td><select data-chave="' + portalEsc(it.chave) + '" onchange="permMudarPessoa(this)"' +
+          ' style="padding:5px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--fg);font-size:12px">' +
+          op('perfil', 'Segue o perfil') + op('sim', 'Liberado só para ela') + op('nao', 'Bloqueado só para ela') +
+        '</select></td>' +
+        '<td>' + (final ? sim : nao) + '</td>' +
+      '</tr>';
+    }).join('') +
+    '</tbody></table>').join('');
+}
+
+async function permMudarPessoa(sel){
+  const chave = sel.dataset.chave;
+  const email = document.getElementById('permUsuario').value;
+  sel.disabled = true;
+  try{
+    if (sel.value === 'perfil') await permRemoverExcecao(chave, email);
+    else await permGravar(chave, { usuario_email: email }, sel.value === 'sim');
+    permMsg('✓ Exceção de ' + email + ' em ' + chave + ': ' +
+      ({ perfil:'segue o perfil', sim:'liberado', nao:'bloqueado' })[sel.value], '#1cbc7c');
+  }catch(e){
+    permMsg('Não consegui gravar: ' + (e.message || e), '#a51e38');
+  }finally{
+    permRenderSelectPessoa();
+    permRenderPessoa();                        // redesenha com o que ficou de fato no banco
+  }
 }
 
 /* Troca a senha de quem está logado, sem depender de e-mail.
@@ -3283,7 +3544,7 @@ async function impDesfazer(id){
 let _usrCache = [];
 
 const PERFIL_COR = { DEV:'#a51e38', ADMIN:'#ff711a', GESTOR:'#459dd8', ANALISTA:'#1cbc7c',
-  ECOMMERCE:'#003d60', BACKOFFICE:'#1f7a8c', FINANCEIRO:'#7a5cc4', COLEGIO:'#2a9d8f', ALUNO:'#2a9d8f' };
+  ECOMMERCE:'#003d60', BACKOFFICE:'#1f7a8c', MARKETING:'#e85d75', FINANCEIRO:'#7a5cc4', COLEGIO:'#2a9d8f', ALUNO:'#2a9d8f' };
 
 async function abrirUsuarios(){
   ir('t-usuarios');
@@ -3508,14 +3769,14 @@ function ir(tela){
 function voltar(){
   /* Usa só a pilha interna: previsível inclusive em file:// e dentro de iframe */
   if (navStack.length > 1) navStack.pop();
-  const destino = navStack[navStack.length - 1] || 't-gerar-menu';
+  const destino = navStack[navStack.length - 1] || 't-sistema';
   mostrarTela(destino);
   _hist(() => history.replaceState({ tela: destino }, '', '#' + destino));
 }
 
 /* Setas do navegador (← →) e botão voltar do celular */
 window.addEventListener('popstate', e => {
-  const tela = (e.state && e.state.tela) || (location.hash ? location.hash.slice(1) : 't-gerar-menu');
+  const tela = (e.state && e.state.tela) || (location.hash ? location.hash.slice(1) : 't-sistema');
   if (!document.getElementById(tela)) return;
   /* sincroniza a pilha interna com o destino real */
   const i = navStack.lastIndexOf(tela);
@@ -8077,7 +8338,7 @@ async function solicitarAcesso(modulo){
 }
 
 function acessoRestrito(modulo){
-  alert(modulo + '\n\nAcesso restrito. Este módulo é usado pelo time de E-Commerce.\n' +
+  alert(modulo + '\n\nAcesso restrito. Seu perfil não tem acesso a este módulo.\n' +
         'Se precisar usar, fale com a administradora do sistema.');
 }
 </script>
