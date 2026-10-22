@@ -731,7 +731,7 @@ a{color:inherit;text-decoration:none}
     </div>
     <div id="aba-todos" class="tab-pane active">
       <div class="todos-box">
-        <div class="todos-desc">Busca automaticamente <b>todos os canais</b> da comunidade Book Fair.</div>
+        <div class="todos-desc">Busca na Layers todas as lojas existentes e traz a configuração atual de cada uma.</div>
         <div class="aviso-amarelo">⚠️ Pode demorar alguns minutos. Não feche a página.</div>
         <button class="btn-primary" id="btnTodos" onclick="gerarTodos()">🏫 Carregar todas as lojas</button>
       </div>
@@ -7190,8 +7190,13 @@ async function gerarTodos(){
   document.getElementById('resultadosVazio').style.display='block';
   try{
     const r=await apiFetch(`${API_BASE}/channels/all`);
-    if(!r.ok)throw new Error(`Erro ${r.status}`);
+    if(!r.ok){
+      let msg=`Erro ${r.status}`;
+      try{const e=await r.json();if(e&&e.detail)msg=typeof e.detail==='string'?e.detail:JSON.stringify(e.detail);}catch(e){}
+      throw new Error(msg);
+    }
     const data=await r.json();
+    console.log(`Lojas da Layers: origem=${data.origem||'—'} total=${data.total??(data.lojas||[]).length}`);
     if(!data.lojas?.length){document.getElementById('resultadosVazio').innerHTML='<div class="empty-state">Nenhuma loja encontrada.</div>';return;}
     await executarRelatorio(data.lojas,'btnTodos');
   }catch(err){document.getElementById('resultadosVazio').innerHTML=`<div class="empty-state" style="color:#a51e38">Erro: ${err.message}</div>`;}
@@ -7871,7 +7876,11 @@ async function confirmSynchronization() {
 
     if (data && Array.isArray(data.resultados)) {
       uploadedData = uploadedData.map(x => {
-        const resultado = data.resultados.find(r => r.item === x.codItem);
+        // Casa pelo par kit + item: o mesmo item pode estar em dois kits.
+        // Sem o campo 'kit' (backend antigo), casa só pelo item.
+        const kit = String(x.codDoKit || "").trim();
+        const resultado = data.resultados.find(r => r.item === x.codItem && String(r.kit || "").trim() === kit)
+                       || data.resultados.find(r => r.item === x.codItem && r.kit == null);
         if (resultado) {
           return { 
             ...x, 
