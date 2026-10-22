@@ -680,6 +680,16 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<!-- ══════════════ PORTAL GA (GESTÃO DE ATENDIMENTO) ══════════════ -->
+<div id="t-ga" class="screen">
+  <div class="page-sm">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="page-title">Portal GA (Gestão de Atendimento)</div>
+    <div class="page-sub">O que você quer fazer?</div>
+    <div class="option-grid" id="menu-t-ga"></div>
+  </div>
+</div>
+
 <!-- ══════════════ TELA: RELATÓRIO ATUAL DAS LOJAS ══════════════ -->
 <div id="t-lojas" class="screen">
   <div style="padding:0 10px">
@@ -2358,12 +2368,16 @@ async function sair(){
      destino  : tela para onde vai (ou funcao, para executar algo)
      perfis   : quem enxerga o item. null = todo mundo que entrou
      breve    : true = aparece apagado, com etiqueta EM DESENVOLVIMENTO
+     tag      : texto da etiqueta de um item breve, no lugar de
+                EM DESENVOLVIMENTO (ex.: 'AGUARDANDO MIGRAÇÃO')
 ══════════════════════════════════════════════════════════════ */
 const PORTAL_MENU = {
   't-sistema': {
     itens: [
       { icone:'🛒', cor:'#003d60', titulo:'Portal E-Commerce', destino:'t-gerar-menu',
         desc:'Relatórios e comunicados dos colégios: condições, fretes, descontos e configurações das lojas.' },
+      { icone:'🎧', cor:'#1cbc7c', titulo:'Portal GA (Gestão de Atendimento)', destino:'t-ga',
+        desc:'Ferramentas da Gestão de Atendimento.' },
       { icone:'📝', cor:'#459dd8', titulo:'List Microsoft', breve:true,
         desc:'Acesso às listas da empresa no Microsoft Lists.' },
       { icone:'📮', cor:'#ff711a', titulo:'Status Correio', breve:true,
@@ -2382,6 +2396,8 @@ const PORTAL_MENU = {
   },
   't-relatorios': {
     itens: [
+      { icone:'🔎', cor:'#003d60', titulo:'Validação de informações relatórios', breve:true,
+        desc:'Conferência cruzada das informações dos relatórios.' },
       { icone:'📊', cor:'#459dd8', titulo:'Relatório dos Comunicados', funcao:'abrirRelatorio',
         desc:'Todos os colégios em formato de planilha, com condições, fretes, campanhas, descontos e editoras. Filtre, busque e baixe em CSV.' },
       { icone:'🏬', cor:'#ff711a', titulo:'Relatório atual das lojas', funcao:'abrirLojas',
@@ -2395,7 +2411,25 @@ const PORTAL_MENU = {
       { icone:'📦', cor:'#a51e38', titulo:'Inserir ou Retirar Itens nos Kits', funcao:'abrirKits',
         desc:'Inclui ou remove itens dos kits das lojas, a partir de uma planilha. Altera os dados na Layers.',
         /* quem usa / quem pode pedir / o resto vê acesso restrito */
-        perfis:['DEV','ADMIN','ECOMMERCE','BACKOFFICE'], podePedir:['GESTOR'] }
+        perfis:['DEV','ADMIN','ECOMMERCE','BACKOFFICE'], podePedir:['GESTOR'] },
+      { icone:'💳', cor:'#459dd8', titulo:'Configuração de parcelamento', breve:true, tag:'AGUARDANDO MIGRAÇÃO' },
+      { icone:'🎟️', cor:'#ff711a', titulo:'Cupons',                       breve:true, tag:'AGUARDANDO MIGRAÇÃO' },
+      { icone:'🚚', cor:'#003d60', titulo:'Frete',                        breve:true, tag:'EM CRIAÇÃO' },
+      { icone:'📜', cor:'#7a5cc4', titulo:'Termo',                        breve:true, tag:'EM CRIAÇÃO' },
+      { icone:'🧩', cor:'#a51e38', titulo:'Criar Kits',                   breve:true, tag:'EM CRIAÇÃO' },
+      { icone:'✍️', cor:'#1cbc7c', titulo:'Inserir descrição',            breve:true, tag:'EM CRIAÇÃO' },
+      { icone:'🖼️', cor:'#ff711a', titulo:'Atualização de Banner',        breve:true, tag:'EM CRIAÇÃO' }
+    ]
+  },
+  't-ga': {
+    itens: [
+      { icone:'📗', cor:'#1cbc7c', titulo:'Planilha Padrão',                             breve:true },
+      { icone:'📝', cor:'#459dd8', titulo:'Simulados',                                   breve:true },
+      { icone:'🏫', cor:'#003d60', titulo:'Status por colégio',                          breve:true },
+      { icone:'📅', cor:'#ff711a', titulo:'Acompanhamento Calendário de atualizações',   breve:true },
+      { icone:'🎫', cor:'#a51e38', titulo:'Chamado E-Commerce',                          breve:true },
+      { icone:'✅', cor:'#1cbc7c', titulo:'Validação de Site',                           breve:true },
+      { icone:'🧾', cor:'#7a5cc4', titulo:'Pedido de Venda',                             breve:true }
     ]
   },
   't-comunicados': {
@@ -2452,13 +2486,13 @@ function portalMontarMenu(tela){
     /* url = abre um site externo em outra aba (ex.: Microsoft Lists) */
     const acao = sit === 'pedir'    ? "solicitarAcesso('" + nomeEsc + "')"
                : sit === 'restrito' ? "acessoRestrito('" + nomeEsc + "')"
-               : it.breve   ? "emBreve('" + nomeEsc + "')"
+               : it.breve   ? "emBreve('" + nomeEsc + "','" + (it.tag || '').replace(/'/g,"\\'") + "')"
                : it.url     ? "window.open('" + it.url + "','_blank')"
                : it.funcao  ? it.funcao + "()"
                : it.destino ? "ir('" + it.destino + "')"
                : '';
     const fundo = 'background:' + it.cor + '26;color:' + it.cor;
-    const etiqueta = it.breve        ? ' <span class="oc-tag">EM DESENVOLVIMENTO</span>'
+    const etiqueta = it.breve        ? ' <span class="oc-tag">' + (it.tag || 'EM DESENVOLVIMENTO') + '</span>'
                    : sit === 'pedir'  ? ' <span class="oc-tag oc-tag-pedir">ACESSO SOB SOLICITAÇÃO</span>'
                    : sit === 'restrito' ? ' <span class="oc-tag oc-tag-restrito">ACESSO RESTRITO</span>'
                    : '';
@@ -2469,7 +2503,7 @@ function portalMontarMenu(tela){
     return '<div class="option-card' + (it.breve || sit !== 'liberado' ? ' oc-breve' : '') + '" onclick="' + acao + '">' +
       '<div class="oc-icon" style="' + fundo + '">' + it.icone + '</div>' +
       '<div class="oc-title">' + it.titulo + etiqueta + '</div>' +
-      '<div class="oc-desc">' + it.desc + '</div>' +
+      (it.desc ? '<div class="oc-desc">' + it.desc + '</div>' : '') +
       rodape +
     '</div>';
   }).join('');
@@ -2480,8 +2514,10 @@ function portalMontarMenus(){
 }
 
 /* Itens do menu que ainda serão construídos */
-function emBreve(nome){
-  alert(nome + '\n\nEste relatório ainda está em desenvolvimento e não está disponível.');
+function emBreve(nome, tag){
+  alert(nome + '\n\n' + (tag
+    ? 'Este módulo ainda não está disponível (' + tag.toLowerCase() + ').'
+    : 'Este módulo ainda está em desenvolvimento e não está disponível.'));
 }
 
 /* Troca a senha de quem está logado, sem depender de e-mail.
