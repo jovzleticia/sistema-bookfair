@@ -873,6 +873,19 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
 
+    <!-- ===== PROGRESSO (um kit por vez) ===== -->
+    <div id="kitsProgresso" style="display:none;margin:0 0 20px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#003d60;margin-bottom:6px">
+        <span id="kitsProgressoTexto">0 de 0 kits</span>
+        <span id="kitsProgressoPct">0%</span>
+      </div>
+      <div id="kitsProgressoBarra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+           style="height:10px;background:#e9ecef;border-radius:6px;overflow:hidden">
+        <div id="kitsProgressoFill" style="height:100%;width:0;background:#1cbc7c;transition:width .3s"></div>
+      </div>
+      <div id="kitsResumo" style="display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.6"></div>
+    </div>
+
     <!-- ===== TABELA DE ITENS ===== -->
     <div class="table-container">
       <table>
@@ -7836,6 +7849,50 @@ function closeModal() {
 }
 
 // ===== FUNÇÃO DE SINCRONIZAÇÃO COM API =====
+/* Envia um kit por vez para /kits/sync-kit, atualizando a tabela e a
+   barra de progresso a cada resposta. Se um kit falhar, registra o erro
+   e segue para o próximo; no fim mostra um resumo.                    */
+const KITS_STATUS = { ok: "Sucesso", erro: "Falha" };
+
+function kitsProgresso(feitos, total) {
+  const pct = total ? Math.round((feitos / total) * 100) : 0;
+  document.getElementById("kitsProgresso").style.display = "block";
+  document.getElementById("kitsProgressoTexto").textContent = `${feitos} de ${total} kits`;
+  document.getElementById("kitsProgressoPct").textContent = `${pct}%`;
+  document.getElementById("kitsProgressoFill").style.width = `${pct}%`;
+  document.getElementById("kitsProgressoBarra").setAttribute("aria-valuenow", pct);
+}
+
+function kitsResumo(total, falhas, linhasSemCodigo) {
+  const box = document.getElementById("kitsResumo");
+  const itensOk = uploadedData.filter(x => x.status === "Sucesso").length;
+  const itensFalha = uploadedData.length - itensOk;
+  box.style.display = "block";
+  box.style.background = falhas.length || linhasSemCodigo ? "#ffebee" : "#e8f5e8";
+  box.style.color = falhas.length || linhasSemCodigo ? "#a51e38" : "#2e7d32";
+  box.innerHTML = "";
+  const titulo = document.createElement("div");
+  titulo.style.fontWeight = "700";
+  titulo.textContent = falhas.length
+    ? `Concluído com falhas: ${total - falhas.length} de ${total} kits sem erro.`
+    : `Concluído: ${total} de ${total} kits sem erro.`;
+  box.appendChild(titulo);
+  const itens = document.createElement("div");
+  itens.textContent = `Itens: ${itensOk} com sucesso, ${itensFalha} com falha` +
+    (linhasSemCodigo ? ` (${linhasSemCodigo} linha(s) sem código do item ou do kit).` : ".");
+  box.appendChild(itens);
+  if (falhas.length) {
+    const ul = document.createElement("ul");
+    ul.style.margin = "6px 0 0 18px";
+    falhas.forEach(f => {
+      const li = document.createElement("li");
+      li.textContent = `${f.kit}: ${f.motivo}`;
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+  }
+}
+
 async function confirmSynchronization() {
   closeModal();
 
@@ -7843,72 +7900,75 @@ async function confirmSynchronization() {
   syncButton.innerHTML = '<span class="loading"></span> Enviando...';
   syncButton.disabled = true;
 
-  uploadedData = uploadedData.map(x => ({ ...x, status: "Sincronizando", motivo: "" }));
+  const colegio = document.getElementById("codigoColegio").value.trim();
+  const acao = document.getElementById("realizarAcao").value;
+
+  // Agrupa as linhas pelo código do kit, na ordem da planilha
+  const grupos = new Map();          // codDoKit -> índices em uploadedData
+  let linhasSemCodigo = 0;
+  uploadedData = uploadedData.map((x, i) => {
+    const kit = String(x.codDoKit || "").trim();
+    const item = String(x.codItem || "").trim();
+    if (!kit || !item) {
+      linhasSemCodigo++;
+      return { ...x, status: "Falha", motivo: "Linha sem código do item ou do kit" };
+    }
+    if (!grupos.has(kit)) grupos.set(kit, []);
+    grupos.get(kit).push(i);
+    return { ...x, status: "Pendente", motivo: "" };
+  });
+
+  const kits = [...grupos.keys()];
+  const falhas = [];
+  document.getElementById("kitsResumo").style.display = "none";
+  kitsProgresso(0, kits.length);
   updateTable();
 
   try {
-    const payload = {
-      codigo_colegio: document.getElementById("codigoColegio").value.trim(),
-      acao: document.getElementById("realizarAcao").value,
-      itens: uploadedData.map(x => ({
-        cod_item: x.codItem,
-        serie_no_site: x.serieNoSite,
-        serie_padrao: x.seriePadrao,
-        cod_do_kit: x.codDoKit
-      }))
-    };
+    for (let k = 0; k < kits.length; k++) {
+      const kit = kits[k];
+      const linhas = grupos.get(kit);
+      linhas.forEach(i => { uploadedData[i] = { ...uploadedData[i], status: "Sincronizando", motivo: "" }; });
+      updateTable();
 
-    console.log('Enviando payload:', payload);
-
-    const response = await apiFetch(`${KITS_API}/sync`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Erro ${response.status}: ${errorText}`);
-    }
-
-    const data = await response.json();
-    console.log('Resposta da API:', data);
-
-    if (data && Array.isArray(data.resultados)) {
-      uploadedData = uploadedData.map(x => {
-        // Casa pelo par kit + item: o mesmo item pode estar em dois kits.
-        // Sem o campo 'kit' (backend antigo), casa só pelo item.
-        const kit = String(x.codDoKit || "").trim();
-        const resultado = data.resultados.find(r => r.item === x.codItem && String(r.kit || "").trim() === kit)
-                       || data.resultados.find(r => r.item === x.codItem && r.kit == null);
-        if (resultado) {
-          return { 
-            ...x, 
-            status: resultado.status || "Falha", 
-            motivo: resultado.motivo || "" 
-          };
+      try {
+        const r = await apiFetch(`${KITS_API}/sync-kit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            codigo_colegio: colegio,
+            acao: acao,
+            cod_do_kit: kit,
+            itens: [...new Set(linhas.map(i => String(uploadedData[i].codItem).trim()))],
+          }),
+        });
+        if (!r.ok) {
+          let msg = `Erro ${r.status}`;
+          try { const e = await r.json(); if (e && e.detail) msg = typeof e.detail === "string" ? e.detail : JSON.stringify(e.detail); } catch (e) {}
+          throw new Error(msg);
         }
-        return { ...x, status: "Falha", motivo: "Não encontrado na resposta" };
-      });
-    } else {
-      uploadedData = uploadedData.map(x => ({ 
-        ...x, 
-        status: "Falha", 
-        motivo: "Resposta inesperada da API" 
-      }));
+        const data = await r.json();
+        const resultados = Array.isArray(data && data.resultados) ? data.resultados : [];
+        let comFalha = 0;
+        linhas.forEach(i => {
+          const x = uploadedData[i];
+          const res = resultados.find(r => r.item === String(x.codItem).trim());
+          const status = res ? (KITS_STATUS[res.status] || "Falha") : "Falha";
+          if (status === "Falha") comFalha++;
+          uploadedData[i] = { ...x, status, motivo: res ? (res.motivo || "") : "Não encontrado na resposta" };
+        });
+        if (comFalha) falhas.push({ kit, motivo: `${comFalha} item(ns) com falha` });
+      } catch (err) {
+        console.error(`Erro no kit ${kit}:`, err);
+        linhas.forEach(i => { uploadedData[i] = { ...uploadedData[i], status: "Falha", motivo: err.message }; });
+        falhas.push({ kit, motivo: err.message });
+      }
+
+      updateTable();
+      kitsProgresso(k + 1, kits.length);
     }
 
-    updateTable();
-
-  } catch (err) {
-    console.error('Erro na sincronização:', err);
-    uploadedData = uploadedData.map(x => ({ 
-      ...x, 
-      status: "Falha", 
-      motivo: err.message 
-    }));
-    updateTable();
-    alert(`Erro na sincronização: ${err.message}`);
+    kitsResumo(kits.length, falhas, linhasSemCodigo);
 
   } finally {
     syncButton.innerHTML = "Sincronizar";
