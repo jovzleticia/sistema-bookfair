@@ -2371,13 +2371,24 @@ async function sair(){
      tag      : texto da etiqueta de um item breve, no lugar de
                 EM DESENVOLVIMENTO (ex.: 'AGUARDANDO MIGRAÇÃO')
 ══════════════════════════════════════════════════════════════ */
+/* Relatórios e Comunicados aparecem nos dois portais (E-Commerce e GA),
+   abrindo as mesmas telas. Ficam definidos uma vez só. */
+const MENU_ITEM_RELATORIOS = { icone:'📊', cor:'#459dd8', titulo:'Relatórios', destino:'t-relatorios',
+  desc:'Visões consolidadas dos colégios, das lojas e das configurações de e-commerce.' };
+const MENU_ITEM_COMUNICADOS = { icone:'📄', cor:'#003d60', titulo:'Comunicados', destino:'t-comunicados',
+  desc:'Gerar o comunicado de um colégio pelo código ou consultar os modelos disponíveis.' };
+
 const PORTAL_MENU = {
   't-sistema': {
     itens: [
       { icone:'🛒', cor:'#003d60', titulo:'Portal E-Commerce', destino:'t-gerar-menu',
-        desc:'Relatórios e comunicados dos colégios: condições, fretes, descontos e configurações das lojas.' },
+        desc:'Relatórios e comunicados dos colégios: condições, fretes, descontos e configurações das lojas.',
+        perfis:['DEV','ADMIN','ECOMMERCE','BACKOFFICE','GESTOR'] },
       { icone:'🎧', cor:'#1cbc7c', titulo:'Portal GA (Gestão de Atendimento)', destino:'t-ga',
         desc:'Ferramentas da Gestão de Atendimento.' },
+      { icone:'📈', cor:'#7a5cc4', titulo:'Portal de Acompanhamento Book Fair', breve:true,
+        desc:'Visão resumida em gráficos para gerentes e líderes.',
+        perfis:['DEV','ADMIN','GESTOR'] },
       { icone:'📝', cor:'#459dd8', titulo:'List Microsoft', breve:true,
         desc:'Acesso às listas da empresa no Microsoft Lists.' },
       { icone:'📮', cor:'#ff711a', titulo:'Status Correio', breve:true,
@@ -2386,12 +2397,14 @@ const PORTAL_MENU = {
   },
   't-gerar-menu': {
     itens: [
-      { icone:'📊', cor:'#459dd8', titulo:'Relatórios', destino:'t-relatorios',
-        desc:'Visões consolidadas dos colégios, das lojas e das configurações de e-commerce.' },
-      { icone:'📄', cor:'#003d60', titulo:'Comunicados', destino:'t-comunicados',
-        desc:'Gerar o comunicado de um colégio pelo código ou consultar os modelos disponíveis.' },
       { icone:'⚙️', cor:'#a51e38', titulo:'APIs Configuração de E-Commerce', destino:'t-apis',
-        desc:'Ações e configurações aplicadas em massa nas lojas da Layers.' }
+        desc:'Ações e configurações aplicadas em massa nas lojas da Layers.' },
+      MENU_ITEM_RELATORIOS,
+      MENU_ITEM_COMUNICADOS,
+      { icone:'🎫', cor:'#ff711a', titulo:'Chamados E-Commerce', breve:true,
+        desc:'Chamados recebidos da Gestão de Atendimento.' },
+      { icone:'🗂️', cor:'#1cbc7c', titulo:'Histórico de solicitações e serviços', breve:true,
+        desc:'Andamento, status e conclusão dos chamados atendidos.' }
     ]
   },
   't-relatorios': {
@@ -2403,11 +2416,15 @@ const PORTAL_MENU = {
       { icone:'🏬', cor:'#ff711a', titulo:'Relatório atual das lojas', funcao:'abrirLojas',
         desc:'Pagamentos, fretes e descontos configurados em cada loja na Layers. Consulta ao vivo, com exportação para Excel.' },
       { icone:'📋', cor:'#1cbc7c', titulo:'List Status Colégios!', breve:true,
-        desc:'Acompanhamento do status de cada colégio.' }
+        desc:'Acompanhamento do status de cada colégio.' },
+      { icone:'🌐', cor:'#459dd8', titulo:'Relatório de acessos nos sites', breve:true },
+      { icone:'🗓️', cor:'#a51e38', titulo:'Relatório de lojas do ciclo',    breve:true }
     ]
   },
   't-apis': {
     itens: [
+      { icone:'⏩', cor:'#003d60', titulo:'Execução sequencial de serviços', breve:true },
+      { icone:'🔎', cor:'#459dd8', titulo:'Validação de relatórios',         breve:true },
       { icone:'📦', cor:'#a51e38', titulo:'Inserir ou Retirar Itens nos Kits', funcao:'abrirKits',
         desc:'Inclui ou remove itens dos kits das lojas, a partir de uma planilha. Altera os dados na Layers.',
         /* quem usa / quem pode pedir / o resto vê acesso restrito */
@@ -2423,6 +2440,8 @@ const PORTAL_MENU = {
   },
   't-ga': {
     itens: [
+      MENU_ITEM_RELATORIOS,
+      MENU_ITEM_COMUNICADOS,
       { icone:'📗', cor:'#1cbc7c', titulo:'Planilha Padrão',                             breve:true },
       { icone:'📝', cor:'#459dd8', titulo:'Simulados',                                   breve:true },
       { icone:'🏫', cor:'#003d60', titulo:'Status por colégio',                          breve:true },
@@ -2492,9 +2511,10 @@ function portalMontarMenu(tela){
                : it.destino ? "ir('" + it.destino + "')"
                : '';
     const fundo = 'background:' + it.cor + '26;color:' + it.cor;
-    const etiqueta = it.breve        ? ' <span class="oc-tag">' + (it.tag || 'EM DESENVOLVIMENTO') + '</span>'
-                   : sit === 'pedir'  ? ' <span class="oc-tag oc-tag-pedir">ACESSO SOB SOLICITAÇÃO</span>'
+    /* Mesma ordem do clique: primeiro o perfil, depois o "em desenvolvimento" */
+    const etiqueta = sit === 'pedir'    ? ' <span class="oc-tag oc-tag-pedir">ACESSO SOB SOLICITAÇÃO</span>'
                    : sit === 'restrito' ? ' <span class="oc-tag oc-tag-restrito">ACESSO RESTRITO</span>'
+                   : it.breve           ? ' <span class="oc-tag">' + (it.tag || 'EM DESENVOLVIMENTO') + '</span>'
                    : '';
     const rodape = sit === 'pedir'    ? '<div class="oc-arrow">🔑 Solicitar acesso →</div>'
                  : sit === 'restrito' ? '<div class="oc-arrow" style="opacity:.6">🔒 Indisponível para seu perfil</div>'
