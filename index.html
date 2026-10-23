@@ -577,6 +577,62 @@ a{color:inherit;text-decoration:none}
 
 .oc-tag-pedir{background:#459dd8;color:#fff}
 .oc-tag-restrito{background:#8b94a0;color:#fff}
+
+/* ══ PORTAL DE ACOMPANHAMENTO ════════════════════════════ */
+#t-acompanhamento{
+  --ac-gratis:#459dd8; --ac-cobrado:#ff711a; --ac-serie:#459dd8; --ac-neutro:#a3b1bd;
+}
+[data-theme="dark"] #t-acompanhamento{
+  --ac-gratis:#459dd8; --ac-cobrado:#e45e0c; --ac-serie:#459dd8; --ac-neutro:#4f6f87;
+}
+.ac-page{max-width:1240px;margin:0 auto;padding:28px 16px 56px}
+.ac-topo{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.ac-hora{font-size:12.5px;color:var(--muted);text-align:right}
+.ac-hora b{color:var(--text)}
+.ac-sec{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin:26px 0 12px}
+.ac-cartoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
+.ac-cartao{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.ac-cartao .v{font-size:28px;font-weight:800;color:var(--text);line-height:1.1;font-variant-numeric:tabular-nums}
+.ac-cartao .r{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
+.ac-cartao .d{font-size:12px;color:var(--muted);margin-top:6px}
+.ac-cartao details{margin-top:6px;font-size:12px;color:var(--muted)}
+.ac-cartao details summary{cursor:pointer;color:var(--azul-claro);font-weight:600}
+.ac-cartao details div{max-height:160px;overflow:auto;margin-top:6px;line-height:1.6;word-break:break-word}
+.ac-graficos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px}
+.ac-graf{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);min-width:0}
+.ac-graf h3{font-size:14px;font-weight:800;color:var(--text);margin:0}
+.ac-graf .sub{font-size:12px;color:var(--muted);margin:3px 0 10px;line-height:1.45}
+.ac-graf .tot{font-size:12px;color:var(--muted);margin-top:8px}
+.ac-graf .tot b{color:var(--text)}
+.ac-legenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--text);margin-bottom:6px}
+.ac-legenda i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.ac-canvas{position:relative;width:100%}
+.ac-graf details{margin-top:8px;font-size:12px}
+.ac-graf details summary{cursor:pointer;color:var(--azul-claro);font-weight:600}
+.ac-tab{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+.ac-tab th,.ac-tab td{padding:5px 8px;border-bottom:1px solid var(--border);text-align:left;color:var(--text)}
+.ac-tab th{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700}
+.ac-tab td.n{text-align:right;font-variant-numeric:tabular-nums}
+.ac-busca{display:flex;gap:8px;flex-wrap:wrap}
+.ac-busca input{flex:1;min-width:0;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-input);color:var(--text);font-size:14px}
+.ac-loja{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-top:12px;box-shadow:var(--shadow)}
+.ac-loja h4{margin:0 0 2px;font-size:15px;color:var(--text)}
+.ac-loja .meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+.ac-loja .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+.ac-loja h5{margin:0 0 4px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.ac-loja .scroll{overflow-x:auto}
+.ac-vazio{font-size:12.5px;color:var(--muted);font-style:italic;padding:4px 0}
+.ac-andamento{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}
+.ac-bloco{background:var(--bg-card);border:1.5px dashed var(--border);border-radius:var(--r);padding:16px}
+.ac-bloco.ligado{border-style:solid;box-shadow:var(--shadow)}
+.ac-bloco h3{font-size:14px;font-weight:800;color:var(--text);margin:8px 0 4px}
+.ac-bloco p{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 10px}
+.ac-selo{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;padding:3px 8px;border-radius:20px;
+  background:rgba(255,176,25,.16);color:#8a5a00;border:1px solid rgba(255,176,25,.5)}
+[data-theme="dark"] .ac-selo{color:#ffcf70}
+.ac-reserva{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.ac-reserva div{border:1px dashed var(--border);border-radius:8px;padding:10px;font-size:11px;color:var(--muted);min-height:48px}
+.ac-erro{color:var(--vermelho);font-size:13px;padding:10px 0}
 </style>
 </head>
 <body>
@@ -808,7 +864,7 @@ a{color:inherit;text-decoration:none}
     <div id="aba-todos" class="tab-pane active">
       <div class="todos-box">
         <div class="todos-desc">Busca na Layers todas as lojas existentes e traz a configuração atual de cada uma.</div>
-        <div class="aviso-amarelo">⚠️ Pode demorar alguns minutos. Não feche a página.</div>
+        <div class="aviso-amarelo">⚡ Abre com o último relatório guardado e atualiza em segundo plano. A atualização completa pode levar alguns minutos.</div>
 
         <!-- Progresso da carga em blocos -->
         <div id="todosProgresso" style="display:none;width:100%;max-width:560px">
@@ -822,9 +878,10 @@ a{color:inherit;text-decoration:none}
           </div>
           <div id="todosStatus" style="margin-top:8px;font-size:12.5px;color:var(--text-muted);text-align:center"></div>
         </div>
+        <div id="todosUltima" style="display:none;font-size:13px;font-weight:700;color:var(--text-label)"></div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-          <button class="btn-primary" id="btnTodos" onclick="gerarTodos()">🔄 Recarregar</button>
+          <button class="btn-primary" id="btnTodos" onclick="gerarTodos()">🔄 Atualizar agora</button>
           <button class="btn-secondary" id="btnTodosParar" onclick="pararTodos()" style="display:none">⏹ Interromper</button>
         </div>
       </div>
@@ -1186,6 +1243,44 @@ a{color:inherit;text-decoration:none}
         🛠️ Abrir Editor Manual (M1)
       </button>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════ TELA: PORTAL DE ACOMPANHAMENTO ══════════════ -->
+<div id="t-acompanhamento" class="screen">
+  <div class="ac-page">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="ac-topo">
+      <div>
+        <div class="page-title">📈 Portal de Acompanhamento Book Fair</div>
+        <div class="page-sub" style="margin-bottom:0">Lojas na Layers (relatório guardado) e colégios do ciclo, num lugar só.</div>
+      </div>
+      <div class="ac-hora">
+        <div id="acHoraLojas">Lojas: —</div>
+        <div id="acHoraColegios">Colégios: —</div>
+        <button class="btn" onclick="acompCarregar(true)" id="acBtnRecarregar"
+          style="margin-top:6px;background:var(--bg-input);color:var(--text);border:1.5px solid var(--border);padding:6px 12px;font-size:12px">🔄 Recarregar</button>
+      </div>
+    </div>
+    <div id="acAviso"></div>
+
+    <div class="ac-sec">Visão geral</div>
+    <div class="ac-cartoes" id="acCartoes"></div>
+
+    <div class="ac-sec">Lojas</div>
+    <div class="ac-graficos" id="acGraficosLojas"></div>
+
+    <div class="ac-sec">Colégios</div>
+    <div class="ac-graficos" id="acGraficosColegios"></div>
+
+    <div class="ac-sec">Consulta por loja</div>
+    <div class="ac-busca">
+      <input type="search" id="acBusca" placeholder="🔍 Código ou nome da loja…" oninput="acompBuscar()" aria-label="Buscar loja por código ou nome"/>
+    </div>
+    <div id="acResultadoBusca"></div>
+
+    <div class="ac-sec">Em andamento</div>
+    <div class="ac-andamento" id="acAndamento"></div>
   </div>
 </div>
 
@@ -3853,6 +3948,7 @@ function mostrarTela(id){
   document.getElementById(id).classList.add('ativo');
   window.scrollTo({top:0,behavior:'smooth'});
   if (id === 't-lojas' && typeof lojasAoEntrar === 'function') lojasAoEntrar();
+  if (id === 't-acompanhamento' && typeof acompAoEntrar === 'function') acompAoEntrar();
 }
 /* ══ NAVEGAÇÃO INTEGRADA AO HISTÓRICO DO NAVEGADOR ═══════════════
    Cada tela vira uma entrada no histórico (History API) e vai para
@@ -4452,7 +4548,8 @@ function _rPct(v){
   const p = n <= 1 ? n * 100 : n;                       // 0.02 → 2%
   return (Math.round(p * 100) / 100).toString().replace('.', ',') + '%';
 }
-function _rDescCond(c){ if(!c) return ''; return c.desconto_personalizado || _rPct(c.desconto_percentual); }
+/* Desconto da condição: a visão traz o texto personalizado ou o percentual ("0.05") */
+function _rDesc(v){ if (v == null || v === '') return ''; return isNaN(Number(v)) ? String(v) : _rPct(v); }
 
 /* ══════════════════════════════════════════════════════════════
    AS 44 COLUNAS — mesma ordem da planilha modelo.
@@ -4467,20 +4564,20 @@ const REL_COLUNAS = [
   { t:'ESTADO',                  v:d=>d.uf_nome },
   { t:'SENHA SITE',              v:d=>d.senha },
   { t:'TEMPLATE',                v:d=>d.template },
-  { t:'C1 ATÉ',                  v:d=>_rData(d.c1?.data_fim),     g:'c1' },
-  { t:'C1 CARTÃO DE CRÉDITO',    v:d=>d.c1?.cartao_parcelas||'',  g:'c1' },
-  { t:'C1 FRETE',                v:d=>d.c1?.frete||'',            g:'c1' },
-  { t:'C1 DESCONTO',             v:d=>_rDescCond(d.c1),           g:'c1' },
-  { t:'C2 DE',                   v:d=>_rData(d.c2?.data_inicio),  g:'c2' },
-  { t:'C2 ATÉ',                  v:d=>_rData(d.c2?.data_fim),     g:'c2' },
-  { t:'C2 CARTÃO DE CRÉDITO',    v:d=>d.c2?.cartao_parcelas||'',  g:'c2' },
-  { t:'C2 FRETE',                v:d=>d.c2?.frete||'',            g:'c2' },
-  { t:'C2 DESCONTO',             v:d=>_rDescCond(d.c2),           g:'c2' },
-  { t:'C3 PARTIR DE',            v:d=>_rData(d.c3?.data_inicio),  g:'c3' },
-  { t:'C3 ATÉ',                  v:d=>_rData(d.c3?.data_fim),     g:'c3' },
-  { t:'C3 CARTÃO DE CRÉDITO',    v:d=>d.c3?.cartao_parcelas||'',  g:'c3' },
-  { t:'C3 FRETE',                v:d=>d.c3?.frete||'',            g:'c3' },
-  { t:'C3 DESCONTO',             v:d=>_rDescCond(d.c3),           g:'c3' },
+  { t:'C1 ATÉ',                  v:d=>_rData(d.c1_ate),          g:'c1' },
+  { t:'C1 CARTÃO DE CRÉDITO',    v:d=>d.c1_cartao||'',          g:'c1' },
+  { t:'C1 FRETE',                v:d=>d.c1_frete||'',           g:'c1' },
+  { t:'C1 DESCONTO',             v:d=>_rDesc(d.c1_desconto),     g:'c1' },
+  { t:'C2 DE',                   v:d=>_rData(d.c2_de),           g:'c2' },
+  { t:'C2 ATÉ',                  v:d=>_rData(d.c2_ate),          g:'c2' },
+  { t:'C2 CARTÃO DE CRÉDITO',    v:d=>d.c2_cartao||'',          g:'c2' },
+  { t:'C2 FRETE',                v:d=>d.c2_frete||'',           g:'c2' },
+  { t:'C2 DESCONTO',             v:d=>_rDesc(d.c2_desconto),     g:'c2' },
+  { t:'C3 PARTIR DE',            v:d=>_rData(d.c3_de),           g:'c3' },
+  { t:'C3 ATÉ',                  v:d=>_rData(d.c3_ate),          g:'c3' },
+  { t:'C3 CARTÃO DE CRÉDITO',    v:d=>d.c3_cartao||'',          g:'c3' },
+  { t:'C3 FRETE',                v:d=>d.c3_frete||'',           g:'c3' },
+  { t:'C3 DESCONTO',             v:d=>_rDesc(d.c3_desconto),     g:'c3' },
   { t:'PIX A VISTA',             v:d=>_rSimNao(d.pix_ativo) },
   { t:'PIX A VISTA DESCONTO',    v:d=>_rPct(d.pix_desconto) },
   { t:'BOLETO A VISTA',          v:d=>_rSimNao(d.boleto_ativo) },
@@ -4490,15 +4587,15 @@ const REL_COLUNAS = [
   { t:'REDE',                    v:d=>_rSimNao(d.rede) },
   { t:'TIPO DE LOGÍSTICA',       v:d=>d.tipo_logistica },
   { t:'MODELO DE ENTREGA',       v:d=>d.modelo_entrega },
-  { t:'EDITORA PRINCIPAL',       v:d=>d.ed_principal },
-  { t:'EDITORA C 1',             v:d=>d.ed_c[0]||'' },
-  { t:'EDITORA C 2',             v:d=>d.ed_c[1]||'' },
-  { t:'EDITORA C 3',             v:d=>d.ed_c[2]||'' },
-  { t:'EDITORA C 4',             v:d=>d.ed_c[3]||'' },
-  { t:'EDITORA C 5',             v:d=>d.ed_c[4]||'' },
-  { t:'EDITORA C 6',             v:d=>d.ed_c[5]||'' },
-  { t:'EDITORA C 7',             v:d=>d.ed_c[6]||'' },
-  { t:'EDITORA C 8',             v:d=>d.ed_c[7]||'' },
+  { t:'EDITORA PRINCIPAL',       v:d=>d.editora_principal },
+  { t:'EDITORA C 1',             v:d=>d.complementares[0]||'' },
+  { t:'EDITORA C 2',             v:d=>d.complementares[1]||'' },
+  { t:'EDITORA C 3',             v:d=>d.complementares[2]||'' },
+  { t:'EDITORA C 4',             v:d=>d.complementares[3]||'' },
+  { t:'EDITORA C 5',             v:d=>d.complementares[4]||'' },
+  { t:'EDITORA C 6',             v:d=>d.complementares[5]||'' },
+  { t:'EDITORA C 7',             v:d=>d.complementares[6]||'' },
+  { t:'EDITORA C 8',             v:d=>d.complementares[7]||'' },
   { t:'ANALISTA COLÉGIO',        v:d=>d.analista_colegio||'',      g:'pes' },
   { t:'ANALISTA USUÁRIO',        v:d=>d.analista_usuario||'',      g:'pes' },
   { t:'RESPONSÁVEL COMERCIAL',   v:d=>d.responsavel_comercial||'', g:'pes' },
@@ -4517,46 +4614,27 @@ async function abrirRelatorio() {
   load.innerHTML = 'Carregando dados do banco…';
   document.getElementById('rel-lista').innerHTML = '';
   try {
-    /* Uma consulta só, trazendo o colégio e tudo que está ligado a ele.
-       O erro é SEMPRE verificado: antes ele era ignorado, e uma falha
-       de permissão aparecia como "nenhum colégio".                   */
-    const { data: ccs, error } = await _sb.from('colegio_ciclos')
-      .select(`id, senha, tipo_logistica, modelo_entrega, campanha, curva_abc, rede,
-               pix_ativo, pix_desconto, boleto_ativo, boleto_desconto,
-               colegios(codigo, nome, estado, uf),
-               templates(codigo),
-               condicoes_comunicado(ordem, data_inicio, data_fim, cartao_parcelas, frete,
-                                    desconto_percentual, desconto_personalizado),
-               colegio_ciclo_editoras(tipo, ordem, ativo, editoras(nome))`)
-      .eq('ciclo_id', CICLO_ID);
+    /* A visão vw_relatorio_comunicados já devolve uma linha por colégio,
+       com as condições e as editoras prontas. O erro é SEMPRE verificado:
+       antes ele era ignorado, e uma falha de permissão aparecia como
+       "nenhum colégio".                                               */
+    const { data: linhas, error } = await _sb.from('vw_relatorio_comunicados')
+      .select('*').eq('ciclo_id', CICLO_ID);
     if (error) throw error;
 
-    REL_DADOS = (ccs||[]).map(cc => {
-      const col = cc.colegios || {};
-      const cs = {};
-      (cc.condicoes_comunicado||[]).forEach(c => { cs[c.ordem] = c; });
-
-      const eds = (cc.colegio_ciclo_editoras||[]).filter(e => e.ativo !== false);
-      const principal = eds.filter(e => (e.tipo||'').toUpperCase() === 'PRINCIPAL')
-                           .sort((a,b)=>(a.ordem||0)-(b.ordem||0))[0];
-      const compl = eds.filter(e => (e.tipo||'').toUpperCase() !== 'PRINCIPAL')
-                       .sort((a,b)=>(a.ordem||0)-(b.ordem||0))
-                       .map(e => e.editoras?.nome || '');
-
-      return {
-        codigo: String(col.codigo||''), nome: col.nome||'',
-        estado: col.estado||'', uf_nome: col.uf||'',
-        senha: cc.senha||'', template: cc.templates?.codigo||'',
-        campanha: cc.campanha||'', curva_abc: cc.curva_abc||'', rede: cc.rede,
-        tipo_logistica: cc.tipo_logistica||'', modelo_entrega: cc.modelo_entrega||'',
-        pix_ativo: cc.pix_ativo, pix_desconto: cc.pix_desconto,
-        boleto_ativo: cc.boleto_ativo, boleto_desconto: cc.boleto_desconto,
-        c1: cs[1]||null, c2: cs[2]||null, c3: cs[3]||null,
-        tem_cond: Object.keys(cs).length > 0,
-        ed_principal: principal?.editoras?.nome || '',
-        ed_c: compl.slice(0, 8)
-      };
-    });
+    /* Na visão, `uf` é a sigla e `estado` o nome por extenso; aqui a tela
+       usa `estado` para a sigla (coluna UF e filtro) e `uf_nome` para o nome */
+    REL_DADOS = (linhas||[]).map(r => ({
+      ...r,
+      codigo: String(r.codigo||''), nome: r.nome||'',
+      estado: r.uf||'', uf_nome: r.estado||'',
+      senha: r.senha||'', template: r.template||'',
+      campanha: r.campanha||'', curva_abc: r.curva_abc||'',
+      tipo_logistica: r.tipo_logistica||'', modelo_entrega: r.modelo_entrega||'',
+      editora_principal: r.editora_principal||'',
+      complementares: (r.complementares||[]).filter(Boolean).slice(0, 8),
+      tem_cond: !!r.tem_condicoes
+    }));
 
     // Ordena por código numérico, como na planilha
     REL_DADOS.sort((a,b) => (parseInt(a.codigo,10)||0) - (parseInt(b.codigo,10)||0));
@@ -7615,14 +7693,65 @@ function limparPlanilha(){lojasDaPlanilha=[];document.getElementById('fileInput'
 function parseAliases(t){return t.split(/[\n,; ]+/).map(s=>s.trim()).filter(s=>s.length>0);}
 async function gerarManual(){const a=parseAliases(document.getElementById('aliasesInput').value);if(!a.length){alert('Informe pelo menos um código.');return;}await executarRelatorio(a.map(x=>({alias:x,nome:null})),'btnManual');}
 async function gerarPlanilha(){if(!lojasDaPlanilha.length){alert('Importe uma planilha.');return;}await executarRelatorio(lojasDaPlanilha,'btnPlanilha');}
-/* ===== TODAS AS LOJAS — carga em blocos =====
-   Busca a lista de lojas e consulta /report em blocos de TODOS_BLOCO,
-   preenchendo a tabela a cada resposta. O resultado fica em memória:
-   sair da tela e voltar reaproveita o que já veio, sem nova carga.    */
+/* ===== TODAS AS LOJAS — relatório guardado + atualização em blocos =====
+   Ao entrar, a tela mostra na hora o último resultado guardado no
+   Supabase (lojas_snapshot) e então consulta a Layers em blocos de
+   TODOS_BLOCO, trocando cada loja pelo dado novo conforme chega. O
+   backend grava cada bloco consultado, então a próxima abertura já
+   começa do resultado mais recente. Sair da tela e voltar reaproveita
+   o que está em memória, sem nova carga.                              */
 const TODOS_BLOCO = 10;
 const TODOS_TIMEOUT_BLOCO = 180000;
-const todos = { estado:'vazio', resultados:[], total:0, hora:null, erro:'', ctrl:null };
+const todos = { estado:'vazio', exibidos:[], resultados:[], total:0, hora:null, horaGuardado:null, erro:'', ctrl:null };
 let abaInputAtual = 'todos';
+
+function _fmtDataHora(d){            /* 21/10/2026 às 10:30 */
+  return d ? d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' }) : '';
+}
+
+/* Último resultado guardado de cada loja. Lê direto do Supabase (abre
+   mesmo com o backend hibernando); se não der, pede ao backend.       */
+async function lerLojasGuardadas(){
+  try{
+    const linhas = [], PAG = 1000;
+    for(;;){
+      const { data, error } = await _sb.from('lojas_snapshot')
+        .select('alias,nome,dados,atualizado_em').order('alias').range(linhas.length, linhas.length + PAG - 1);
+      if (error) throw error;
+      linhas.push(...(data || []));
+      if (!data || data.length < PAG) break;
+    }
+    const lojas = linhas.map(l => ({ ...(l.dados || {}), alias: l.alias,
+      nome: (l.dados && l.dados.nome) || l.nome || null, atualizado_em: l.atualizado_em }));
+    const datas = linhas.map(l => l.atualizado_em).filter(Boolean).sort();
+    return { lojas, hora: datas.length ? new Date(datas[datas.length - 1]) : null };
+  }catch(e){
+    console.warn('Relatório guardado: leitura direta falhou, tentando o backend', e);
+    const r = await apiFetch(`${API_BASE}/snapshot`, { signal: AbortSignal.timeout(75000) });
+    if (!r.ok) throw new Error(`Erro ${r.status}`);
+    const d = await r.json();
+    return { lojas: d.lojas || [], hora: d.atualizado_em ? new Date(d.atualizado_em) : null };
+  }
+}
+
+/* Troca o conteúdo de `lista` por `nova` SEM trocar o vetor, e leva as
+   marcações do Detalhamento junto com cada loja (elas guardam o índice). */
+function todosSubstituir(lista, nova){
+  const sel = selecaoDe(lista);
+  const marcadas = new Set([...sel].map(i => lista[i] && lista[i].alias));
+  lista.splice(0, lista.length, ...nova);
+  sel.clear();
+  lista.forEach((l, i) => { if (marcadas.has(l.alias)) sel.add(i); });
+}
+
+/* Põe as lojas recém-consultadas no lugar da versão guardada (ou no fim) */
+function todosMesclar(novas){
+  const pos = new Map(todos.exibidos.map((l, i) => [l.alias, i]));
+  novas.forEach(l => {
+    if (pos.has(l.alias)) todos.exibidos[pos.get(l.alias)] = l;
+    else { pos.set(l.alias, todos.exibidos.length); todos.exibidos.push(l); }
+  });
+}
 
 function todosProgresso(feitos, total){
   const pct = total ? Math.round((feitos / total) * 100) : 0;
@@ -7637,25 +7766,32 @@ function todosAtualizarControles(){
   const carregando = todos.estado === 'carregando';
   const btn = document.getElementById('btnTodos');
   btn.disabled = carregando;
-  btn.innerHTML = carregando ? '<span class="loading"></span> Carregando...' : '🔄 Recarregar';
+  btn.innerHTML = carregando ? '<span class="loading"></span> Atualizando...' : '🔄 Atualizar agora';
   document.getElementById('btnTodosParar').style.display = carregando ? '' : 'none';
 
-  const hora = todos.hora ? todos.hora.toLocaleTimeString('pt-BR') : '';
+  /* hora da última atualização: a da carga completa desta sessão ou, antes dela, a do relatório guardado */
+  const ult = document.getElementById('todosUltima');
+  const hora = todos.hora || todos.horaGuardado;
+  ult.textContent = hora ? `Última atualização: ${_fmtDataHora(hora)}${todos.hora ? '' : ' (relatório guardado)'}` : '';
+  ult.style.display = hora ? '' : 'none';
+
   const st = document.getElementById('todosStatus');
   st.style.color = '';
-  if (carregando) st.textContent = todos.total ? `Consultando a Layers, ${TODOS_BLOCO} lojas por vez…` : 'Buscando a lista de lojas…';
-  else if (todos.estado === 'concluido') st.textContent = `Última atualização: ${hora}`;
-  else if (todos.estado === 'interrompido') st.textContent = `Interrompido · ${todos.resultados.length} de ${todos.total} lojas carregadas · última atualização: ${hora}`;
-  else if (todos.estado === 'erro'){ st.textContent = todos.erro; st.style.color = '#a51e38'; }
+  const temGuardado = todos.exibidos.length > todos.resultados.length;
+  if (carregando) st.textContent = !todos.total ? 'Buscando a lista de lojas…'
+    : `Atualizando em segundo plano, ${TODOS_BLOCO} lojas por vez${temGuardado ? '. As que ainda não chegaram aparecem como no relatório guardado' : ''}…`;
+  else if (todos.estado === 'concluido') st.textContent = 'Todas as lojas atualizadas.';
+  else if (todos.estado === 'interrompido') st.textContent = `Interrompido · ${todos.resultados.length} de ${todos.total} lojas atualizadas${temGuardado ? '; as demais aparecem como no relatório guardado' : ''}.`;
+  else if (todos.estado === 'erro'){ st.textContent = todos.erro + (todos.exibidos.length ? ' · a tabela mostra o relatório guardado.' : ''); st.style.color = '#a51e38'; }
   else st.textContent = '';
 }
 
-/* Mostra na área de resultados o que já veio da carga de todas as lojas */
+/* Mostra na área de resultados o que está em `todos.exibidos` */
 function todosMostrarResultados(){
   if (abaInputAtual !== 'todos') return;
-  if (todos.resultados.length){
-    ultimoRelatorio = todos.resultados;
-    renderTudo(todos.resultados);
+  if (todos.exibidos.length){
+    ultimoRelatorio = todos.exibidos;
+    renderTudo(todos.exibidos);
     return;
   }
   const vazio = document.getElementById('resultadosVazio');
@@ -7667,12 +7803,12 @@ function todosMostrarResultados(){
     : todos.estado === 'carregando'
       ? '<div class="empty-state">Carregando as lojas… a tabela aparece com os primeiros resultados.</div>'
       : todos.estado === 'interrompido'
-        ? '<div class="empty-state">Carga interrompida antes do primeiro resultado. Clique em Recarregar.</div>'
+        ? '<div class="empty-state">Carga interrompida antes do primeiro resultado. Clique em "Atualizar agora".</div>'
         : todos.estado === 'verificando'
-          ? '<div class="empty-state">Conectando ao backend…</div>'
+          ? '<div class="empty-state">Buscando o relatório guardado…</div>'
           : todos.estado === 'concluido'
             ? '<div class="empty-state">Nenhuma loja encontrada.</div>'
-            : '<div class="empty-state">Selecione uma opção acima e clique em "Gerar Relatório".</div>';
+            : '<div class="empty-state">Clique em "Atualizar agora" para consultar a Layers.</div>';
 }
 
 function pararTodos(){
@@ -7682,7 +7818,7 @@ function pararTodos(){
 async function gerarTodos(){
   if (todos.estado === 'carregando') return;
   const ctrl = new AbortController();
-  Object.assign(todos, { estado:'carregando', resultados:[], total:0, hora:null, erro:'', ctrl });
+  Object.assign(todos, { estado:'carregando', resultados:[], total:0, erro:'', ctrl });
   document.getElementById('todosProgresso').style.display = 'none';
   todosAtualizarControles();
   todosMostrarResultados();
@@ -7708,40 +7844,50 @@ async function gerarTodos(){
       const parar = () => bc.abort();
       ctrl.signal.addEventListener('abort', parar);
       const timer = setTimeout(parar, TODOS_TIMEOUT_BLOCO);
+      let novas;
       try{
         const rr = await apiFetch(`${API_BASE}/report`, {
           method:'POST', headers:{'Content-Type':'application/json'},
           body:JSON.stringify({ lojas: bloco }), signal: bc.signal,
         });
         if(!rr.ok) throw new Error(`Erro ${rr.status}`);
-        todos.resultados.push(...((await rr.json()).lojas || []));
+        novas = (await rr.json()).lojas || [];
       }catch(err){
         if (ctrl.signal.aborted) break;
         /* bloco com falha: registra cada loja como erro e segue para o próximo */
         const motivo = err.name === 'AbortError' ? 'Tempo esgotado na consulta' : (err.message || String(err));
-        todos.resultados.push(...bloco.map(l => ({ ...l, encontrada:false, erro:motivo })));
+        novas = bloco.map(l => ({ ...l, encontrada:false, erro:motivo }));
       }finally{
         clearTimeout(timer);
         ctrl.signal.removeEventListener('abort', parar);
       }
-      todos.hora = new Date();
+      todos.resultados.push(...novas);
+      todosMesclar(novas);
       todosProgresso(todos.resultados.length, todos.total);
+      todosAtualizarControles();
       todosMostrarResultados();
     }
-    todos.estado = ctrl.signal.aborted ? 'interrompido' : 'concluido';
+    if (ctrl.signal.aborted) todos.estado = 'interrompido';
+    else {
+      /* completa: a tabela passa a ser exatamente a lista atual da Layers
+         (sai quem deixou de existir), na ordem em que a Layers devolveu */
+      todosSubstituir(todos.exibidos, todos.resultados);
+      todos.estado = 'concluido';
+      todos.hora = new Date();
+    }
   }catch(err){
     if (ctrl.signal.aborted) todos.estado = 'interrompido';
     else { todos.estado = 'erro'; todos.erro = err.message || String(err); }
   }finally{
     todos.ctrl = null;
-    todos.hora = todos.hora || new Date();
     todosAtualizarControles();
     todosMostrarResultados();
   }
 }
 
 /* Chamado sempre que a tela t-lojas aparece. Só a primeira entrada da
-   sessão dispara a carga; nas seguintes mostra o que já está em memória. */
+   sessão busca o relatório guardado e dispara a atualização; nas
+   seguintes mostra o que já está em memória.                         */
 async function lojasAoEntrar(){
   if (abaInputAtual !== 'todos') return;
   if (todos.estado !== 'vazio'){
@@ -7751,23 +7897,36 @@ async function lojasAoEntrar(){
   }
   todos.estado = 'verificando';
   todosMostrarResultados();
+
+  /* 1) o que está guardado, na hora */
+  try{
+    const g = await lerLojasGuardadas();
+    if (!todos.exibidos.length) todosSubstituir(todos.exibidos, g.lojas);
+    todos.horaGuardado = g.hora;
+  }catch(e){
+    console.warn('Sem relatório guardado das lojas:', e);
+  }
+  todosAtualizarControles();
+  todosMostrarResultados();
+
+  /* 2) atualiza em segundo plano */
   const aviso = document.getElementById('lojasApiAviso');
   aviso.style.display = 'block';
   try{
-    aviso.innerHTML = '<b>Conectando ao backend…</b><br>' +
-      'Se ele estiver hibernando, a primeira chamada do dia pode levar até 1 minuto.';
+    aviso.innerHTML = '<b>Conectando ao backend para atualizar…</b><br>' +
+      'Se ele estiver hibernando, a primeira chamada do dia pode levar até 1 minuto.' +
+      (todos.exibidos.length ? ' Enquanto isso, a tabela mostra o relatório guardado.' : '');
     const r = await fetch(API_RAIZ + '/health', { signal: AbortSignal.timeout(75000) });
     if (!r.ok) throw new Error('resposta ' + r.status);
     aviso.style.display = 'none';
   }catch(e){
     todos.estado = 'vazio';
     aviso.innerHTML =
-      '<b>A API de relatório das lojas não está respondendo.</b><br>' +
-      'Este módulo busca os dados ao vivo na Layers através da API que roda na sua máquina.<br><br>' +
-      'Abra o terminal na pasta <code>api-relatorio-lojas</code> e rode:<br>' +
-      '<code style="display:inline-block;margin-top:4px;background:rgba(0,0,0,.08);padding:4px 8px;border-radius:5px">' +
-      'poetry run uvicorn main:app --reload</code><br><br>' +
-      'Depois volte aqui e abra esta tela de novo.';
+      '<b>O backend do relatório das lojas não está respondendo.</b><br>' +
+      (todos.exibidos.length ? 'A tabela abaixo é o relatório guardado; ela não foi atualizada agora.<br>' : '') +
+      'Tente "Atualizar agora" em alguns instantes. Se continuar, confira o serviço no Render.';
+    todosAtualizarControles();
+    todosMostrarResultados();
     return;
   }
   todos.estado = 'vazio';
@@ -8637,6 +8796,376 @@ async function solicitarAcesso(modulo){
 function acessoRestrito(modulo){
   alert(modulo + '\n\nAcesso restrito. Seu perfil não tem acesso a este módulo.\n' +
         'Se precisar usar, fale com a administradora do sistema.');
+}
+</script>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   PORTAL DE ACOMPANHAMENTO BOOK FAIR — tela t-acompanhamento
+   Fontes: lojas_snapshot (último relatório guardado de cada loja)
+   e vw_relatorio_comunicados (uma linha por colégio do ciclo).
+   Os blocos "Em andamento" ficam em ACOMP_EM_ANDAMENTO: para ligar
+   uma fonte, basta preencher a função `carregar` do bloco.
+══════════════════════════════════════════════════════════════ */
+const ACOMP_CHARTJS = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+const acomp = { estado:'vazio', lojas:[], colegios:[], horaLojas:null, horaColegios:null, graficos:[] };
+
+/* ── Regras de contagem (funções puras: uma loja ou um colégio entra) ── */
+const _acNorm = s => String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g, '').trim().toLowerCase();
+const _acCod  = s => _acNorm(s).replace(/^0+(?=\d)/, '');          // "0835" e "835" são o mesmo colégio
+const _acTemDados = l => !!l && l.encontrada === true;
+const _acReais = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+
+/* "R$ 12,50" → 12.5 · "Grátis" → 0 · sem número → null */
+function acompValorFrete(txt){
+  if (txt == null || txt === '') return null;
+  const s = String(txt);
+  if (/gr[aá]t|free/i.test(s)) return 0;
+  const m = s.replace(/\s/g, '').match(/-?\d{1,3}(?:\.\d{3})*(?:,\d+)?|-?\d+(?:[.,]\d+)?/);
+  if (!m) return null;
+  let n = m[0];
+  n = n.includes(',') ? n.replace(/\./g, '').replace(',', '.') : n;
+  const v = Number(n);
+  return isNaN(v) ? null : v;
+}
+
+/* Cada loja entra em UMA faixa de frete: o menor valor por pedido entre
+   os fretes ativos (o mais barato que o cliente encontra na loja).      */
+function acompFreteDaLoja(l){
+  if (!_acTemDados(l)) return { rotulo:'Sem dados', grupo:'neutro', ordem:3 };
+  const ativos = (l.fretes || []).filter(f => f && f.ativo);
+  if (!ativos.length) return { rotulo:'Sem frete ativo', grupo:'neutro', ordem:2 };
+  const valores = ativos.map(f => acompValorFrete(f.valor_por_pedido ?? f.valor_por_item ?? f.valor_por_kilo)).filter(v => v != null);
+  if (!valores.length) return { rotulo:'Valor não informado', grupo:'neutro', ordem:2.5 };
+  const v = Math.min(...valores);
+  return v <= 0 ? { rotulo:'Grátis', grupo:'gratis', ordem:0 }
+                : { rotulo:_acReais(v), grupo:'cobrado', ordem:1 + v / 1e6 };
+}
+
+/* Cada loja entra em UMA faixa de parcelas: o maior parcelamento oferecido */
+function acompParcelasDaLoja(l){
+  if (!_acTemDados(l)) return { rotulo:'Sem dados', ordem:1e3 + 1 };
+  const ns = (l.pagamentos || []).map(p => Number(p && p.installments)).filter(n => n > 0);
+  if (!ns.length) return { rotulo:'Sem parcelamento', ordem:1e3 };
+  const n = Math.max(...ns);
+  return { rotulo:`${n}x`, ordem:n };
+}
+
+/* Formas de pagamento: uma loja pode aparecer em mais de uma */
+function acompFormasDaLoja(l){
+  if (!_acTemDados(l)) return ['Sem dados'];
+  const formas = [...new Set((l.pagamentos || []).map(p => p && (p.label || p.gateway)).filter(Boolean))];
+  return formas.length ? formas : ['Nenhuma forma'];
+}
+
+/* Conta itens por rótulo. `fn` devolve um rótulo, um {rotulo,...} ou uma lista deles. */
+function acompContar(itens, fn){
+  const mapa = new Map();
+  itens.forEach(it => {
+    let r = fn(it);
+    (Array.isArray(r) ? r : [r]).forEach(x => {
+      const o = typeof x === 'object' ? x : { rotulo:x };
+      const atual = mapa.get(o.rotulo) || { ...o, n:0 };
+      atual.n++;
+      mapa.set(o.rotulo, atual);
+    });
+  });
+  return [...mapa.values()];
+}
+
+const _acNeutros = ['Sem dados','Sem campanha','Sem curva','Nenhuma forma'];
+function _acOrdenarPorN(linhas){
+  return linhas.sort((a, b) => (_acNeutros.includes(a.rotulo) - _acNeutros.includes(b.rotulo)) || b.n - a.n || a.rotulo.localeCompare(b.rotulo));
+}
+
+/* Todos os números da tela, a partir das duas fontes */
+function acompCalcular(lojas, colegios){
+  const codigos = new Set(colegios.map(c => _acCod(c.codigo)));
+  const semColegio = lojas.filter(l => !codigos.has(_acCod(l.alias)));
+  return {
+    cartoes: {
+      lojas: lojas.length,
+      lojasSemDados: lojas.filter(l => !_acTemDados(l)).length,
+      colegios: colegios.length,
+      comCondicoes: colegios.filter(c => c.tem_condicoes).length,
+      semColegio,
+    },
+    frete: acompContar(lojas, acompFreteDaLoja).sort((a, b) => a.ordem - b.ordem || a.rotulo.localeCompare(b.rotulo)),
+    parcelas: acompContar(lojas, acompParcelasDaLoja).sort((a, b) => a.ordem - b.ordem),
+    formas: _acOrdenarPorN(acompContar(lojas, acompFormasDaLoja)),
+    campanha: _acOrdenarPorN(acompContar(colegios, c => c.campanha || 'Sem campanha')),
+    curva: acompContar(colegios, c => c.curva_abc || 'Sem curva')
+      .sort((a, b) => (a.rotulo === 'Sem curva') - (b.rotulo === 'Sem curva') || a.rotulo.localeCompare(b.rotulo)),
+  };
+}
+
+/* ── Fontes ─────────────────────────────────────────────────── */
+async function acompLerColegios(){
+  const { data, error } = await _sb.from('vw_relatorio_comunicados')
+    .select('codigo,nome,uf,campanha,curva_abc,tem_condicoes').eq('ciclo_id', CICLO_ID);
+  if (error) throw error;
+  return data || [];
+}
+
+/* Chart.js só é baixado quando a tela abre */
+let _acChartPromessa = null;
+function acompCarregarChartJs(){
+  if (window.Chart) return Promise.resolve(window.Chart);
+  if (!_acChartPromessa){
+    _acChartPromessa = new Promise((ok, falha) => {
+      const s = document.createElement('script');
+      s.src = ACOMP_CHARTJS;
+      s.onload = () => window.Chart ? ok(window.Chart) : falha(new Error('Chart.js não iniciou'));
+      s.onerror = () => { _acChartPromessa = null; s.remove(); falha(new Error('Não consegui baixar o Chart.js (cdnjs.cloudflare.com)')); };
+      document.head.appendChild(s);
+    });
+  }
+  return _acChartPromessa;
+}
+
+/* ── Entrada na tela ────────────────────────────────────────── */
+function acompAoEntrar(){
+  if (acomp.estado === 'vazio') acompCarregar(false);
+  else acompDesenhar();
+}
+
+async function acompCarregar(forcar){
+  if (acomp.estado === 'carregando') return;
+  acomp.estado = 'carregando';
+  const btn = document.getElementById('acBtnRecarregar');
+  btn.disabled = true;
+  document.getElementById('acAviso').innerHTML = '';
+  document.getElementById('acCartoes').innerHTML = '<div class="ac-vazio">Carregando…</div>';
+
+  const [rl, rc] = await Promise.allSettled([lerLojasGuardadas(), acompLerColegios()]);
+  const avisos = [];
+  if (rl.status === 'fulfilled'){ acomp.lojas = rl.value.lojas || []; acomp.horaLojas = rl.value.hora; }
+  else avisos.push('Não consegui ler as lojas guardadas: ' + portalEsc(rl.reason && rl.reason.message || rl.reason));
+  if (rc.status === 'fulfilled'){ acomp.colegios = rc.value; acomp.horaColegios = new Date(); }
+  else avisos.push('Não consegui ler os colégios: ' + portalEsc(rc.reason && rc.reason.message || rc.reason));
+  if (avisos.length) document.getElementById('acAviso').innerHTML = avisos.map(a => `<div class="ac-erro">⚠️ ${a}</div>`).join('');
+
+  acomp.estado = 'pronto';
+  btn.disabled = false;
+  acompDesenhar();
+  acompMontarEmAndamento();
+}
+
+function acompDesenhar(){
+  const d = acompCalcular(acomp.lojas, acomp.colegios);
+  document.getElementById('acHoraLojas').innerHTML = acomp.horaLojas
+    ? `Lojas: última atualização <b>${_fmtDataHora(acomp.horaLojas)}</b>`
+    : 'Lojas: <b>nenhum relatório guardado ainda</b> (abra “Relatório atual das lojas” para gerar)';
+  document.getElementById('acHoraColegios').innerHTML = acomp.horaColegios
+    ? `Colégios: lidos do banco às <b>${acomp.horaColegios.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' })}</b>` : 'Colégios: —';
+  acompCartoes(d.cartoes);
+  acompGraficos(d);
+  acompBuscar();
+}
+
+function acompCartoes(c){
+  const pct = (n, t) => t ? ` (${Math.round(n / t * 100)}%)` : '';
+  const sem = c.semColegio;
+  document.getElementById('acCartoes').innerHTML = `
+    <div class="ac-cartao"><div class="v" id="acNumLojas">${c.lojas}</div><div class="r">Lojas na Layers</div>
+      <div class="d">${c.lojasSemDados ? `${c.lojasSemDados} sem dados na última consulta` : 'todas com dados'}</div></div>
+    <div class="ac-cartao"><div class="v" id="acNumColegios">${c.colegios}</div><div class="r">Colégios cadastrados</div>
+      <div class="d">ciclo ${ANO_CICLO}</div></div>
+    <div class="ac-cartao"><div class="v" id="acNumCondicoes">${c.comCondicoes}</div><div class="r">Colégios com condições</div>
+      <div class="d">${c.comCondicoes} de ${c.colegios}${pct(c.comCondicoes, c.colegios)}</div></div>
+    <div class="ac-cartao"><div class="v" id="acNumSemColegio">${sem.length}</div><div class="r">Lojas sem colégio correspondente</div>
+      <div class="d">código da loja que não é código de colégio do ciclo</div>
+      ${sem.length ? `<details><summary>Ver lojas</summary><div>${sem.map(l => portalEsc(l.alias) + (l.nome ? ' · ' + portalEsc(l.nome) : '')).join('<br>')}</div></details>` : ''}</div>`;
+}
+
+/* ── Gráficos ───────────────────────────────────────────────── */
+function _acCor(nome){ return getComputedStyle(document.getElementById('t-acompanhamento')).getPropertyValue(nome).trim(); }
+
+/* Desenha o valor na ponta de cada barra (os rótulos não dependem só da cor) */
+const _acRotulosPlugin = {
+  id:'acRotulos',
+  afterDatasetsDraw(chart){
+    const { ctx } = chart;
+    ctx.save();
+    ctx.fillStyle = _acCor('--text');
+    ctx.font = '600 11px system-ui, sans-serif';
+    ctx.textBaseline = 'middle';
+    chart.getDatasetMeta(0).data.forEach((bar, i) => {
+      const v = chart.data.datasets[0].data[i];
+      ctx.fillText(String(v), bar.x + 6, bar.y);
+    });
+    ctx.restore();
+  }
+};
+
+/* Um cartão de gráfico de barras horizontais, sempre com a tabela ao lado (acessível e à prova de CDN fora) */
+function acompCartaoGrafico(alvo, id, titulo, sub, linhas, opc){
+  const total = linhas.reduce((s, l) => s + l.n, 0);
+  const legenda = opc.legenda ? `<div class="ac-legenda">${opc.legenda.map(([cor, txt]) => `<span><i style="background:var(${cor})"></i>${txt}</span>`).join('')}</div>` : '';
+  const div = document.createElement('div');
+  div.className = 'ac-graf';
+  div.dataset.grafico = id;
+  div.innerHTML = `
+    <h3>${titulo}</h3><div class="sub">${sub}</div>${legenda}
+    ${linhas.length ? `<div class="ac-canvas" style="height:${Math.max(90, linhas.length * 30 + 30)}px"><canvas id="acG-${id}" role="img" aria-label="${portalEsc(titulo)}"></canvas></div>`
+                    : '<div class="ac-vazio">Sem dados para este gráfico.</div>'}
+    <div class="tot">${opc.totalTexto(total)}</div>
+    <details${linhas.length && opc.semGrafico ? ' open' : ''}><summary>Ver em tabela</summary>
+      <table class="ac-tab"><thead><tr><th>${opc.coluna}</th><th style="text-align:right">${opc.unidade}</th></tr></thead>
+      <tbody>${linhas.map(l => `<tr><td>${portalEsc(l.rotulo)}</td><td class="n">${l.n}</td></tr>`).join('')}</tbody></table></details>`;
+  alvo.appendChild(div);
+  if (!linhas.length || opc.semGrafico) return;
+
+  const cores = linhas.map(l => _acCor(opc.cor ? opc.cor(l) : '--ac-serie'));
+  acomp.graficos.push(new Chart(document.getElementById('acG-' + id), {
+    type:'bar',
+    data:{ labels: linhas.map(l => l.rotulo), datasets:[{ data: linhas.map(l => l.n), backgroundColor: cores,
+      borderRadius:4, borderSkipped:'start', barThickness:18, maxBarThickness:18 }] },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false, animation:false,
+      layout:{ padding:{ right:34 } },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ callbacks:{ label: c => `${c.parsed.x} ${opc.unidade.toLowerCase()}` } }
+      },
+      scales:{
+        x:{ beginAtZero:true, ticks:{ precision:0, color:_acCor('--muted') }, grid:{ color:_acCor('--border') }, border:{ display:false } },
+        y:{ ticks:{ color:_acCor('--text') }, grid:{ display:false }, border:{ color:_acCor('--border') } }
+      }
+    },
+    plugins:[_acRotulosPlugin]
+  }));
+}
+
+async function acompGraficos(d){
+  acomp.graficos.forEach(g => g.destroy());
+  acomp.graficos = [];
+  const gl = document.getElementById('acGraficosLojas');
+  const gc = document.getElementById('acGraficosColegios');
+  gl.innerHTML = gc.innerHTML = '<div class="ac-vazio">Montando os gráficos…</div>';
+
+  let semGrafico = false;
+  try { await acompCarregarChartJs(); }
+  catch(e){
+    semGrafico = true;
+    document.getElementById('acAviso').insertAdjacentHTML('beforeend',
+      `<div class="ac-erro">⚠️ ${portalEsc(e.message)}. Os números aparecem em tabela.</div>`);
+  }
+  gl.innerHTML = gc.innerHTML = '';
+  const lojas = n => `Total: <b>${n}</b> loja${n === 1 ? '' : 's'}`;
+  const base = { coluna:'Faixa', unidade:'Lojas', totalTexto: lojas, semGrafico };
+
+  acompCartaoGrafico(gl, 'frete', 'Lojas por valor de frete',
+    'Cada loja conta uma vez, pelo menor valor por pedido entre os fretes ativos.', d.frete,
+    { ...base, coluna:'Valor do frete',
+      cor: l => l.grupo === 'gratis' ? '--ac-gratis' : l.grupo === 'cobrado' ? '--ac-cobrado' : '--ac-neutro',
+      legenda: [['--ac-gratis', 'Grátis'], ['--ac-cobrado', 'Cobrado'], ['--ac-neutro', 'Sem frete ativo, sem valor ou sem dados']] });
+  acompCartaoGrafico(gl, 'parcelas', 'Lojas por quantidade de parcelas',
+    'Cada loja conta uma vez, pelo maior parcelamento oferecido.', d.parcelas,
+    { ...base, coluna:'Parcelas' });
+  acompCartaoGrafico(gl, 'formas', 'Lojas por forma de pagamento',
+    'Uma loja aparece em cada forma que oferece, então a soma das barras passa do total de lojas.', d.formas,
+    { ...base, coluna:'Forma de pagamento', totalTexto: () => `<b>${acomp.lojas.length}</b> lojas no relatório` });
+
+  const col = n => `Total: <b>${n}</b> colégio${n === 1 ? '' : 's'}`;
+  acompCartaoGrafico(gc, 'campanha', 'Colégios por campanha', `Ciclo ${ANO_CICLO}.`, d.campanha,
+    { ...base, coluna:'Campanha', unidade:'Colégios', totalTexto: col });
+  acompCartaoGrafico(gc, 'curva', 'Colégios por curva ABC', `Ciclo ${ANO_CICLO}.`, d.curva,
+    { ...base, coluna:'Curva', unidade:'Colégios', totalTexto: col });
+}
+
+/* Ao trocar claro/escuro, redesenha com as cores do tema */
+new MutationObserver(() => {
+  if (acomp.estado === 'pronto' && document.getElementById('t-acompanhamento').classList.contains('ativo')) acompDesenhar();
+}).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+
+/* ── Consulta por loja ──────────────────────────────────────── */
+function _acTabela(colunas, linhas, vazio){
+  if (!linhas.length) return `<div class="ac-vazio">${vazio}</div>`;
+  return `<div class="scroll"><table class="ac-tab"><thead><tr>${colunas.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+    <tbody>${linhas.map(l => `<tr>${l.map(v => `<td>${portalEsc(v == null || v === '' ? '—' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+
+function acompFichaLoja(l, colegio){
+  const quando = l.atualizado_em ? _fmtDataHora(new Date(l.atualizado_em)) : '—';
+  const cab = `<h4>${portalEsc(l.alias)}${l.nome || l.nome_layers ? ' · ' + portalEsc(l.nome || l.nome_layers) : ''}</h4>
+    <div class="meta">${colegio ? 'Colégio: ' + portalEsc(colegio.nome) : 'Sem colégio correspondente no ciclo'}
+      · ${portalEsc(l.canal_venda || '—')} · ${portalEsc(l.status_publicacao || '—')} · dados de ${quando}</div>`;
+  if (!_acTemDados(l))
+    return `<div class="ac-loja">${cab}<div class="ac-vazio">Sem dados desta loja na última consulta${l.erro ? ': ' + portalEsc(l.erro) : '.'}</div></div>`;
+  const fretes = (l.fretes || []).map(f => [f.nome, f.ativo ? 'Ativo' : 'Inativo', f.valor_por_pedido, f.valor_por_item, f.valor_por_kilo]);
+  const cupons = (l.descontos || []).map(c => [c.codigo, c.tipo === 'percent' ? 'Percentual' : c.tipo === 'fixed' ? 'Fixo' : c.tipo, c.valor, c.ativo === false ? 'Inativo' : 'Ativo']);
+  const parc   = (l.pagamentos || []).map(p => [p.label || p.gateway, p.installments ? p.installments + 'x' : '', p.motivo]);
+  return `<div class="ac-loja">${cab}<div class="cols">
+    <div><h5>Fretes</h5>${_acTabela(['Frete','Situação','Por pedido','Por item','Por kg'], fretes, 'Nenhum frete cadastrado.')}</div>
+    <div><h5>Cupons</h5>${_acTabela(['Código','Tipo','Valor','Situação'], cupons, 'Nenhum cupom.')}</div>
+    <div><h5>Parcelamento</h5>${_acTabela(['Forma','Parcelas','Observação'], parc, 'Nenhuma forma de pagamento.')}</div>
+  </div></div>`;
+}
+
+function acompBuscar(){
+  const alvo = document.getElementById('acResultadoBusca');
+  const q = _acNorm(document.getElementById('acBusca').value);
+  if (!q){ alvo.innerHTML = ''; return; }
+  const porCod = new Map(acomp.colegios.map(c => [_acCod(c.codigo), c]));
+  const achadas = acomp.lojas.filter(l => _acNorm(l.alias).includes(q) || _acNorm(l.nome).includes(q) || _acNorm(l.nome_layers).includes(q))
+    .sort((a, b) => (_acNorm(b.alias) === q) - (_acNorm(a.alias) === q));
+  const MAX = 10;
+  alvo.innerHTML = !achadas.length ? '<div class="ac-vazio" style="margin-top:10px">Nenhuma loja com esse código ou nome no relatório guardado.</div>'
+    : achadas.slice(0, MAX).map(l => acompFichaLoja(l, porCod.get(_acCod(l.alias)))).join('') +
+      (achadas.length > MAX ? `<div class="ac-vazio" style="margin-top:8px">Mostrando ${MAX} de ${achadas.length}. Refine a busca.</div>` : '');
+}
+
+/* ══ BLOCOS EM ANDAMENTO ════════════════════════════════════════
+   Para ligar uma fonte, preencha `carregar` com uma função async que
+   devolva:
+     { cartoes: [{ rotulo, valor, detalhe? }],
+       tabela?: { colunas: [...], linhas: [[...], ...] },
+       atualizado_em?: Date | string }
+   Com `carregar` preenchido, o bloco sai de EM ANDAMENTO e mostra
+   esses dados; se a função der erro, o erro aparece no próprio bloco.
+═══════════════════════════════════════════════════════════════ */
+const ACOMP_EM_ANDAMENTO = [
+  { chave:'vendas', icone:'💳', titulo:'Vendas e cobranças da Layers',
+    explica:'Pedidos, faturamento e cobranças por loja e por dia, direto da Layers, para acompanhar a venda de cada colégio durante a campanha.',
+    previstos:['Pedidos','Faturamento','Ticket médio','Cobranças pendentes'],
+    carregar:null },
+  { chave:'falhas', icone:'⚠️', titulo:'Falhas de integração',
+    explica:'Pedidos e itens que não chegaram ao destino (ERP, logística, kits), com o motivo e há quanto tempo estão parados.',
+    previstos:['Falhas abertas','Mais antiga','Por tipo','Resolvidas hoje'],
+    carregar:null },
+  { chave:'acessos', icone:'👀', titulo:'Acessos nos sites',
+    explica:'Visitas e conversão por loja, para ver quais colégios têm tráfego e onde as famílias desistem da compra.',
+    previstos:['Visitas','Visitantes','Conversão','Lojas sem acesso'],
+    carregar:null },
+  { chave:'status-colegios', icone:'📋', titulo:'Status dos colégios pelo Microsoft List',
+    explica:'Etapa de cada colégio na implantação (lista, comunicado, loja publicada…), lida da lista do Microsoft Lists usada pela equipe.',
+    previstos:['Por etapa','Atrasados','Prontos para publicar','Publicados'],
+    carregar:null },
+];
+
+async function acompMontarEmAndamento(){
+  const box = document.getElementById('acAndamento');
+  box.innerHTML = ACOMP_EM_ANDAMENTO.map(b => `<div class="ac-bloco" id="acBloco-${b.chave}"></div>`).join('');
+  await Promise.all(ACOMP_EM_ANDAMENTO.map(async b => {
+    const el = document.getElementById('acBloco-' + b.chave);
+    const topo = `<div style="font-size:22px">${b.icone}</div><h3>${portalEsc(b.titulo)}</h3>`;
+    if (typeof b.carregar !== 'function'){
+      el.innerHTML = `<span class="ac-selo">EM ANDAMENTO</span>${topo}<p>${portalEsc(b.explica)}</p>
+        <div class="ac-reserva" aria-label="Espaço reservado">${b.previstos.map(p => `<div>${portalEsc(p)}<br>—</div>`).join('')}</div>`;
+      return;
+    }
+    el.classList.add('ligado');
+    el.innerHTML = `${topo}<div class="ac-vazio">Carregando…</div>`;
+    try{
+      const r = await b.carregar() || {};
+      const quando = r.atualizado_em ? `<div class="ac-vazio">Atualizado em ${_fmtDataHora(new Date(r.atualizado_em))}</div>` : '';
+      el.innerHTML = `${topo}<div class="ac-cartoes">${(r.cartoes || []).map(c =>
+        `<div class="ac-cartao"><div class="v">${portalEsc(c.valor)}</div><div class="r">${portalEsc(c.rotulo)}</div>${c.detalhe ? `<div class="d">${portalEsc(c.detalhe)}</div>` : ''}</div>`).join('')}</div>
+        ${r.tabela ? _acTabela(r.tabela.colunas, r.tabela.linhas, 'Sem linhas.') : ''}${quando}`;
+    }catch(e){
+      el.innerHTML = `${topo}<div class="ac-erro">Não consegui carregar: ${portalEsc(e.message || e)}</div>`;
+    }
+  }));
 }
 </script>
 </body>
