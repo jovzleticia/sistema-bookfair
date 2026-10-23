@@ -8482,19 +8482,45 @@ async function confirmSynchronization() {
   const colegio = document.getElementById("codigoColegio").value.trim();
   const acao = document.getElementById("realizarAcao").value;
 
-  // Agrupa as linhas pelo código do kit, na ordem da planilha
-  const grupos = new Map();          // codDoKit -> índices em uploadedData
   let linhasSemCodigo = 0;
-  uploadedData = uploadedData.map((x, i) => {
+  uploadedData = uploadedData.map(x => {
     const kit = String(x.codDoKit || "").trim();
     const item = String(x.codItem || "").trim();
     if (!kit || !item) {
       linhasSemCodigo++;
       return { ...x, status: "Falha", motivo: "Linha sem código do item ou do kit" };
     }
-    if (!grupos.has(kit)) grupos.set(kit, []);
-    grupos.get(kit).push(i);
     return { ...x, status: "Pendente", motivo: "" };
+  });
+
+  /* Descobre a qual kit da Layers cada código pertence: dois códigos do
+     mesmo kit precisam ir na mesma chamada, senão os itens do segundo
+     vão para o fim do kit, fora da ordem da planilha. Se a consulta
+     falhar, agrupa pelo código digitado, como antes. Backend sem essa
+     rota (versão anterior) também não aceita itens com código de kit
+     e posição: nesse caso manda só os códigos, no formato antigo.     */
+  const codigos = [...new Set(uploadedData.filter(x => x.status === "Pendente").map(x => String(x.codDoKit).trim()))];
+  let kitDoCodigo = {};
+  let formatoNovo = true;
+  try {
+    const r = await apiFetch(`${KITS_API}/resolver-kits`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ codigos }),
+    });
+    if (r.ok) kitDoCodigo = (await r.json()).kits || {};
+    else if (r.status === 404 || r.status === 405) formatoNovo = false;
+  } catch (e) { console.warn("Não consegui resolver os kits; agrupando pelo código digitado.", e); }
+
+  // Agrupa pelo kit, na ordem da planilha (kits pela 1ª aparição, linhas na ordem original)
+  const grupos = new Map();          // kit -> { codigos: [...], linhas: índices em uploadedData }
+  uploadedData.forEach((x, i) => {
+    if (x.status !== "Pendente") return;
+    const cod = String(x.codDoKit).trim();
+    const chave = kitDoCodigo[cod] || "codigo:" + cod;
+    if (!grupos.has(chave)) grupos.set(chave, { codigos: [], linhas: [] });
+    const g = grupos.get(chave);
+    if (!g.codigos.includes(cod)) g.codigos.push(cod);
+    g.linhas.push(i);
   });
 
   const kits = [...grupos.keys()];
@@ -8505,8 +8531,8 @@ async function confirmSynchronization() {
 
   try {
     for (let k = 0; k < kits.length; k++) {
-      const kit = kits[k];
-      const linhas = grupos.get(kit);
+      const { codigos: codigosDoKit, linhas } = grupos.get(kits[k]);
+      const kit = codigosDoKit.join(" / ");
       linhas.forEach(i => { uploadedData[i] = { ...uploadedData[i], status: "Sincronizando", motivo: "" }; });
       updateTable();
 
@@ -8517,8 +8543,15 @@ async function confirmSynchronization() {
           body: JSON.stringify({
             codigo_colegio: colegio,
             acao: acao,
-            cod_do_kit: kit,
-            itens: [...new Set(linhas.map(i => String(uploadedData[i].codItem).trim()))],
+            cod_do_kit: codigosDoKit[0],
+            // cada linha com seu código de kit e sua posição na planilha
+            itens: formatoNovo
+              ? linhas.map(i => ({
+                  cod_item: String(uploadedData[i].codItem).trim(),
+                  cod_do_kit: String(uploadedData[i].codDoKit).trim(),
+                  posicao: i,
+                }))
+              : [...new Set(linhas.map(i => String(uploadedData[i].codItem).trim()))],
           }),
         });
         if (!r.ok) {
@@ -8531,7 +8564,9 @@ async function confirmSynchronization() {
         let comFalha = 0;
         linhas.forEach(i => {
           const x = uploadedData[i];
-          const res = resultados.find(r => r.item === String(x.codItem).trim());
+          const item = String(x.codItem).trim(), codKit = String(x.codDoKit).trim();
+          const res = resultados.find(r => r.item === item && r.kit === codKit) ||
+                      resultados.find(r => r.item === item);
           const status = res ? (KITS_STATUS[res.status] || "Falha") : "Falha";
           if (status === "Falha") comFalha++;
           uploadedData[i] = { ...x, status, motivo: res ? (res.motivo || "") : "Não encontrado na resposta" };
