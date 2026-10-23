@@ -7544,6 +7544,7 @@ function mudarAbaInput(id){
   document.getElementById('aba-'+id).classList.add('active');
   abaInputAtual=id;
   if(id==='todos')lojasAoEntrar();
+  else abaMostrarRelatorio(id);
 }
 
 // ===== ABAS RESULTADO =====
@@ -7640,7 +7641,11 @@ function todosMostrarResultados(){
       ? '<div class="empty-state">Carregando as lojas… a tabela aparece com os primeiros resultados.</div>'
       : todos.estado === 'interrompido'
         ? '<div class="empty-state">Carga interrompida antes do primeiro resultado. Clique em Recarregar.</div>'
-        : '<div class="empty-state">Nenhuma loja encontrada.</div>';
+        : todos.estado === 'verificando'
+          ? '<div class="empty-state">Conectando ao backend…</div>'
+          : todos.estado === 'concluido'
+            ? '<div class="empty-state">Nenhuma loja encontrada.</div>'
+            : '<div class="empty-state">Selecione uma opção acima e clique em "Gerar Relatório".</div>';
 }
 
 function pararTodos(){
@@ -7711,13 +7716,14 @@ async function gerarTodos(){
 /* Chamado sempre que a tela t-lojas aparece. Só a primeira entrada da
    sessão dispara a carga; nas seguintes mostra o que já está em memória. */
 async function lojasAoEntrar(){
-  if (abaInputAtual !== 'todos' || todos.estado === 'verificando') return;
+  if (abaInputAtual !== 'todos') return;
   if (todos.estado !== 'vazio'){
     todosAtualizarControles();
     todosMostrarResultados();
     return;
   }
   todos.estado = 'verificando';
+  todosMostrarResultados();
   const aviso = document.getElementById('lojasApiAviso');
   aviso.style.display = 'block';
   try{
@@ -7741,24 +7747,42 @@ async function lojasAoEntrar(){
   gerarTodos();
 }
 
+/* Relatório de cada aba (Digitar códigos, Importar planilha), guardado
+   para não se perder ao trocar de aba. "Todas as lojas" fica em `todos`. */
+const relatoriosAba = { manual:{estado:'vazio'}, planilha:{estado:'vazio'} };
+const ABA_DO_BOTAO = { btnManual:'manual', btnPlanilha:'planilha' };
+
+function abaMostrarRelatorio(aba){
+  const rel=relatoriosAba[aba];
+  if(rel.estado==='pronto'){ultimoRelatorio=rel.lojas;renderTudo(rel.lojas);return;}
+  const vazio=document.getElementById('resultadosVazio');
+  document.getElementById('exportBar').style.display='none';
+  document.getElementById('resultadosWrap').style.display='none';
+  vazio.style.display='block';
+  vazio.innerHTML=rel.estado==='carregando'?`<div class="empty-state">Consultando ${rel.qtd} loja(s)...</div>`
+    :rel.estado==='erro'?`<div class="empty-state" style="color:#a51e38">Erro: ${rel.erro}</div>`
+    :rel.estado==='semResultado'?'<div class="empty-state">Nenhum resultado.</div>'
+    :'<div class="empty-state">Selecione uma opção acima e clique em "Gerar Relatório".</div>';
+}
+
 async function executarRelatorio(lojas,btnId){
+  const aba=ABA_DO_BOTAO[btnId];
   const btn=document.getElementById(btnId);
   const label=btn.innerHTML;
   btn.innerHTML='<span class="loading"></span> Gerando...';btn.disabled=true;
-  document.getElementById('exportBar').style.display='none';
-  document.getElementById('resultadosWrap').style.display='none';
-  document.getElementById('resultadosVazio').innerHTML=`<div class="empty-state">Consultando ${lojas.length} loja(s)...</div>`;
-  document.getElementById('resultadosVazio').style.display='block';
+  relatoriosAba[aba]={estado:'carregando',qtd:lojas.length};
+  abaMostrarRelatorio(aba);
   try{
     const r=await apiFetch(`${API_BASE}/report`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lojas}),signal:AbortSignal.timeout(600000)});
     if(!r.ok)throw new Error(`Erro ${r.status}: ${await r.text()}`);
     const data=await r.json();
-    if(!data.lojas?.length){document.getElementById('resultadosVazio').innerHTML='<div class="empty-state">Nenhum resultado.</div>';return;}
-    ultimoRelatorio=data.lojas;
-    renderTudo(data.lojas);
+    relatoriosAba[aba]=data.lojas?.length?{estado:'pronto',lojas:data.lojas}:{estado:'semResultado'};
   }catch(err){
-    document.getElementById('resultadosVazio').innerHTML=`<div class="empty-state" style="color:#a51e38">Erro: ${err.message}</div>`;
-  }finally{btn.innerHTML=label;btn.disabled=false;}
+    relatoriosAba[aba]={estado:'erro',erro:err.message};
+  }finally{
+    btn.innerHTML=label;btn.disabled=false;
+    if(abaInputAtual===aba)abaMostrarRelatorio(aba);   // se a pessoa trocou de aba, fica guardado
+  }
 }
 
 // ===== RENDER PRINCIPAL =====
@@ -7796,6 +7820,7 @@ function renderTudo(lojas){
   document.getElementById('resultadosVazio').style.display='none';
   document.getElementById('resultadosWrap').style.display='block';
   document.getElementById('exportBar').style.display='flex';
+  atualizarSelecao();
 }
 
 // ===== TABELA RELATÓRIO =====
@@ -7892,7 +7917,17 @@ function filtrarTabela(){
 }
 
 // ===== DETALHAMENTO — CARDS =====
+/* Lojas marcadas no Detalhamento, por relatório (índice em `lojas`).
+   Sobrevive ao redesenho a cada bloco da carga e à troca de aba. */
+const selecoesPorRelatorio = new WeakMap();
+function selecaoDe(lojas){
+  let s = selecoesPorRelatorio.get(lojas);
+  if(!s){ s = new Set(); selecoesPorRelatorio.set(lojas, s); }
+  return s;
+}
+
 function renderDetalhamento(lojas){
+  const sel=selecaoDe(lojas);
   const html=lojas.map((l,idx)=>{
     const searchText = `${l.alias} ${l.nome||''} ${l.nome_layers||''} ${l.status||''} ${l.canal_venda||''} ${l.status_publicacao||''}`.toLowerCase();
     if(!l.encontrada)return`
@@ -7904,7 +7939,7 @@ function renderDetalhamento(lojas){
       </div>`;
     const sb=l.status==='Ativa'?`<span class="badge-ativa">✓ Ativa</span>`:l.status==='Desativada'?`<span class="badge-desativ">✕ Desativ.</span>`:`<span class="badge-nd">${l.status||'—'}</span>`;
     return`
-      <div class="det-card" data-det-search="${searchText}" data-idx="${idx}">
+      <div class="det-card${sel.has(idx)?' selected':''}" data-det-search="${searchText}" data-idx="${idx}">
         <div class="det-card-header" onclick="abrirModal(${idx})">
           <div class="det-card-title">
             <span class="det-card-alias">alias: ${l.alias}</span>
@@ -7919,7 +7954,7 @@ function renderDetalhamento(lojas){
         </div>
         <div class="det-card-footer">
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11.5px;color:var(--text-muted)" onclick="event.stopPropagation()">
-            <input type="checkbox" class="det-check" data-idx="${idx}" onchange="atualizarSelecao()"/> Selecionar
+            <input type="checkbox" class="det-check" data-idx="${idx}"${sel.has(idx)?' checked':''} onchange="atualizarSelecao()"/> Selecionar
           </label>
           <button class="det-ver-btn" onclick="abrirModal(${idx})">Ver detalhes ▶</button>
         </div>
@@ -7970,11 +8005,13 @@ function desselecionarTodosCards(){
 
 function atualizarSelecao(){
   const checks = document.querySelectorAll('.det-check');
+  const sel = selecaoDe(ultimoRelatorio);
   let count = 0;
   checks.forEach(cb => {
     const card = cb.closest('.det-card');
-    if(cb.checked){ card.classList.add('selected'); count++; }
-    else { card.classList.remove('selected'); }
+    const idx = parseInt(cb.getAttribute('data-idx'));
+    if(cb.checked){ card.classList.add('selected'); sel.add(idx); count++; }
+    else { card.classList.remove('selected'); sel.delete(idx); }
   });
   document.getElementById('printCount').textContent = count;
   const btn = document.getElementById('btnPrintMass');
