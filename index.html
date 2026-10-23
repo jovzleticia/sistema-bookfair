@@ -633,6 +633,16 @@ a{color:inherit;text-decoration:none}
 .ac-reserva{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
 .ac-reserva div{border:1px dashed var(--border);border-radius:8px;padding:10px;font-size:11px;color:var(--muted);min-height:48px}
 .ac-erro{color:var(--vermelho);font-size:13px;padding:10px 0}
+.ac-cobertura{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;
+  margin:26px 0 0;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-card);
+  font-size:13px;color:var(--muted)}
+.ac-cobertura b{color:var(--text)}
+.ac-cobertura.baixa{background:#fff8e6;border-color:#ffb019;color:#7a4a00}
+.ac-cobertura.baixa b{color:#5c3700}
+[data-theme="dark"] .ac-cobertura.baixa{background:#1a0f00;border-color:#7a5000;color:#ffb86c}
+[data-theme="dark"] .ac-cobertura.baixa b{color:#ffd9a0}
+.ac-cobertura button{background:var(--laranja);color:#fff;border:none;border-radius:7px;padding:7px 12px;
+  font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1266,6 +1276,8 @@ a{color:inherit;text-decoration:none}
 
     <div class="ac-sec">Visão geral</div>
     <div class="ac-cartoes" id="acCartoes"></div>
+
+    <div id="acCobertura" class="ac-cobertura" role="status" style="display:none"></div>
 
     <div class="ac-sec">Lojas</div>
     <div class="ac-graficos" id="acGraficosLojas"></div>
@@ -7863,6 +7875,7 @@ async function gerarTodos(){
       }
       todos.resultados.push(...novas);
       todosMesclar(novas);
+      todos.ultimoBloco = new Date();        // o backend já guardou este bloco no lojas_snapshot
       todosProgresso(todos.resultados.length, todos.total);
       todosAtualizarControles();
       todosMostrarResultados();
@@ -8924,8 +8937,33 @@ function acompCarregarChartJs(){
 
 /* ── Entrada na tela ────────────────────────────────────────── */
 function acompAoEntrar(){
-  if (acomp.estado === 'vazio') acompCarregar(false);
+  /* relê se o Relatório atual das lojas guardou blocos novos depois da última leitura */
+  const lojasNovas = todos.ultimoBloco && (!acomp.lidoEm || todos.ultimoBloco > acomp.lidoEm);
+  if (acomp.estado === 'vazio' || (acomp.estado === 'pronto' && lojasNovas)) acompCarregar(false);
   else acompDesenhar();
+}
+
+/* Leva ao Relatório atual das lojas, na aba "Todas as lojas", e garante que a carga rode */
+function acompCompletarLojas(){
+  if (abaInputAtual !== 'todos') mudarAbaInput('todos');
+  ir('t-lojas');
+  if (['concluido', 'interrompido', 'erro'].includes(todos.estado)) gerarTodos();
+}
+
+/* Cobertura: lojas guardadas que correspondem a um colégio do ciclo / colégios do ciclo */
+const ACOMP_COBERTURA_MINIMA = 0.9;
+function acompCobertura(c){
+  const box = document.getElementById('acCobertura');
+  if (!c.colegios){ box.style.display = 'none'; return; }
+  const comColegio = c.lojas - c.semColegio.length;
+  const pct = comColegio / c.colegios;
+  const baixa = pct < ACOMP_COBERTURA_MINIMA;
+  box.className = 'ac-cobertura' + (baixa ? ' baixa' : '');
+  box.style.display = '';
+  box.innerHTML = `<span>${baixa ? '⚠️ ' : ''}Gráficos de lojas baseados em <b id="acCoberturaTexto">${comColegio} de ${c.colegios} lojas</b>
+      (${Math.floor(pct * 100)}% dos colégios do ciclo)${baixa ? '. O retrato guardado está incompleto: os números podem não representar todas as lojas.' : '.'}
+      ${c.semColegio.length ? `<br><span style="font-size:12px">${c.semColegio.length} loja${c.semColegio.length === 1 ? '' : 's'} sem colégio correspondente ficam fora desta conta.</span>` : ''}</span>
+    ${baixa ? '<button onclick="acompCompletarLojas()">Completar no Relatório atual das lojas →</button>' : ''}`;
 }
 
 async function acompCarregar(forcar){
@@ -8936,6 +8974,7 @@ async function acompCarregar(forcar){
   document.getElementById('acAviso').innerHTML = '';
   document.getElementById('acCartoes').innerHTML = '<div class="ac-vazio">Carregando…</div>';
 
+  acomp.lidoEm = new Date();
   const [rl, rc] = await Promise.allSettled([lerLojasGuardadas(), acompLerColegios()]);
   const avisos = [];
   if (rl.status === 'fulfilled'){ acomp.lojas = rl.value.lojas || []; acomp.horaLojas = rl.value.hora; }
@@ -8958,6 +8997,7 @@ function acompDesenhar(){
   document.getElementById('acHoraColegios').innerHTML = acomp.horaColegios
     ? `Colégios: lidos do banco às <b>${acomp.horaColegios.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' })}</b>` : 'Colégios: —';
   acompCartoes(d.cartoes);
+  acompCobertura(d.cartoes);
   acompGraficos(d);
   acompBuscar();
 }
