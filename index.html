@@ -57,6 +57,26 @@ a{color:inherit;text-decoration:none}
 .hdr-r{display:flex;align-items:center;gap:10px}
 .avatar{width:32px;height:32px;border-radius:50%;background:var(--laranja);
   color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* Menu da pessoa logada, aberto pelo avatar */
+.user-wrap{position:relative}
+.user-wrap .avatar{border:none;padding:0;font-family:inherit;cursor:pointer}
+.user-wrap .avatar:focus-visible{outline:2px solid var(--azul-claro);outline-offset:2px}
+.user-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:230px;z-index:300;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--shadow-lg);padding:6px;display:none}
+.user-menu.aberto{display:block}
+.user-menu-id{padding:10px 12px 12px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.user-menu-nome{font-size:14px;font-weight:700;color:var(--text);overflow-wrap:anywhere}
+.user-menu-email{font-size:12px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.user-menu-perfil{display:inline-block;margin-top:8px;font-size:10px;font-weight:700;
+  padding:3px 9px;border-radius:20px;color:#fff;background:var(--azul-claro)}
+.user-menu button.um-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  background:none;border:none;border-radius:8px;padding:10px 12px;font-size:13.5px;
+  font-weight:600;color:var(--text);cursor:pointer;font-family:inherit}
+.user-menu button.um-item:hover,.user-menu button.um-item:focus-visible{background:var(--bg-input);outline:none}
+.user-menu button.um-sair{color:var(--vermelho)}
+[data-theme="dark"] .user-menu button.um-sair{color:#ff6080}
 .tbtn{background:var(--bg-input);border:1.5px solid var(--border);border-radius:8px;
   padding:7px 10px;font-size:15px;color:var(--label);transition:.2s;line-height:1}
 .tbtn:hover{border-color:var(--laranja)}
@@ -572,7 +592,19 @@ a{color:inherit;text-decoration:none}
       📊 Relatório
     </button>
     <button class="tbtn" id="tBtn">🌙</button>
-    <div class="avatar">L</div>
+    <div class="user-wrap" id="userWrap">
+      <button type="button" class="avatar" id="userAvatar" aria-haspopup="menu"
+              aria-expanded="false" aria-controls="userMenu">L</button>
+      <div class="user-menu" id="userMenu" role="menu">
+        <div class="user-menu-id">
+          <div class="user-menu-nome" id="userMenuNome"></div>
+          <div class="user-menu-email" id="userMenuEmail"></div>
+          <span class="user-menu-perfil" id="userMenuPerfil"></span>
+        </div>
+        <button type="button" class="um-item" role="menuitem" onclick="fecharMenuUsuario();trocarMinhaSenha()">🔑 Trocar minha senha</button>
+        <button type="button" class="um-item um-sair" role="menuitem" onclick="fecharMenuUsuario();sair()">🚪 Sair do sistema</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -777,7 +809,24 @@ a{color:inherit;text-decoration:none}
       <div class="todos-box">
         <div class="todos-desc">Busca na Layers todas as lojas existentes e traz a configuração atual de cada uma.</div>
         <div class="aviso-amarelo">⚠️ Pode demorar alguns minutos. Não feche a página.</div>
-        <button class="btn-primary" id="btnTodos" onclick="gerarTodos()">🏫 Carregar todas as lojas</button>
+
+        <!-- Progresso da carga em blocos -->
+        <div id="todosProgresso" style="display:none;width:100%;max-width:560px">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--text-label);margin-bottom:6px">
+            <span id="todosProgressoTexto">0 de 0 lojas</span>
+            <span id="todosProgressoPct">0%</span>
+          </div>
+          <div id="todosProgressoBarra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+               style="height:10px;background:var(--border);border-radius:6px;overflow:hidden">
+            <div id="todosProgressoFill" style="height:100%;width:0;background:#1cbc7c;transition:width .3s"></div>
+          </div>
+          <div id="todosStatus" style="margin-top:8px;font-size:12.5px;color:var(--text-muted);text-align:center"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+          <button class="btn-primary" id="btnTodos" onclick="gerarTodos()">🔄 Recarregar</button>
+          <button class="btn-secondary" id="btnTodosParar" onclick="pararTodos()" style="display:none">⏹ Interromper</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2822,21 +2871,42 @@ async function trocarMinhaSenha(){
   }catch(e){ alert('Erro: ' + (e.message || e)); }
 }
 
+/* Menu suspenso do avatar: fecha ao clicar fora ou com Esc */
+function abrirMenuUsuario(){
+  document.getElementById('userMenu').classList.add('aberto');
+  document.getElementById('userAvatar').setAttribute('aria-expanded', 'true');
+  document.querySelector('#userMenu .um-item').focus();
+}
+function fecharMenuUsuario(devolverFoco){
+  const menu = document.getElementById('userMenu');
+  if (!menu.classList.contains('aberto')) return;
+  menu.classList.remove('aberto');
+  document.getElementById('userAvatar').setAttribute('aria-expanded', 'false');
+  if (devolverFoco) document.getElementById('userAvatar').focus();
+}
+document.addEventListener('click', e => {
+  if (!document.getElementById('userWrap').contains(e.target)) fecharMenuUsuario();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') fecharMenuUsuario(true);
+});
+
 /* Mostra ou esconde partes da interface conforme o perfil */
 function aplicarPermissoes(){
   if (!USUARIO) return;
 
-  const av = document.querySelector('.avatar');
+  const av = document.getElementById('userAvatar');
   if (av){
     av.textContent = (USUARIO.nome || '?').trim().charAt(0).toUpperCase();
     av.title = USUARIO.nome + ' · ' + USUARIO.perfil;
-    av.style.cursor = 'pointer';
-    av.onclick = function(){
-      const op = prompt('Digite 1 para trocar sua senha, 2 para sair do sistema:');
-      if (op === '1') trocarMinhaSenha();
-      else if (op === '2') sair();
+    av.setAttribute('aria-label', 'Menu de ' + USUARIO.nome);
+    av.onclick = function(e){
+      e.stopPropagation();
+      document.getElementById('userMenu').classList.contains('aberto') ? fecharMenuUsuario() : abrirMenuUsuario();
     };
   }
+  document.getElementById('userMenuNome').textContent = USUARIO.nome || '';
+  document.getElementById('userMenuEmail').textContent = USUARIO.email || '';
 
   let tag = document.getElementById('perfilTag');
   if (!tag){
@@ -2848,6 +2918,9 @@ function aplicarPermissoes(){
   }
   const cores = { DEV:'#a51e38', ADMIN:'#ff711a', GESTOR:'#459dd8', ANALISTA:'#1cbc7c' };
   tag.textContent = USUARIO.perfil;
+  const perfilMenu = document.getElementById('userMenuPerfil');
+  perfilMenu.textContent = USUARIO.perfil;
+  perfilMenu.style.background = cores[USUARIO.perfil] || '';
 
   portalMontarMenus();
 
@@ -3752,6 +3825,7 @@ function mostrarTela(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('ativo'));
   document.getElementById(id).classList.add('ativo');
   window.scrollTo({top:0,behavior:'smooth'});
+  if (id === 't-lojas' && typeof lojasAoEntrar === 'function') lojasAoEntrar();
 }
 /* ══ NAVEGAÇÃO INTEGRADA AO HISTÓRICO DO NAVEGADOR ═══════════════
    Cada tela vira uma entrada no histórico (History API) e vai para
@@ -7468,6 +7542,8 @@ function mudarAbaInput(id){
   document.querySelectorAll('.tab-input-btn').forEach((b,i)=>{b.classList.toggle('active',['todos','manual','planilha'][i]===id);});
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.getElementById('aba-'+id).classList.add('active');
+  abaInputAtual=id;
+  if(id==='todos')lojasAoEntrar();
 }
 
 // ===== ABAS RESULTADO =====
@@ -7511,26 +7587,158 @@ function limparPlanilha(){lojasDaPlanilha=[];document.getElementById('fileInput'
 function parseAliases(t){return t.split(/[\n,; ]+/).map(s=>s.trim()).filter(s=>s.length>0);}
 async function gerarManual(){const a=parseAliases(document.getElementById('aliasesInput').value);if(!a.length){alert('Informe pelo menos um código.');return;}await executarRelatorio(a.map(x=>({alias:x,nome:null})),'btnManual');}
 async function gerarPlanilha(){if(!lojasDaPlanilha.length){alert('Importe uma planilha.');return;}await executarRelatorio(lojasDaPlanilha,'btnPlanilha');}
+/* ===== TODAS AS LOJAS — carga em blocos =====
+   Busca a lista de lojas e consulta /report em blocos de TODOS_BLOCO,
+   preenchendo a tabela a cada resposta. O resultado fica em memória:
+   sair da tela e voltar reaproveita o que já veio, sem nova carga.    */
+const TODOS_BLOCO = 10;
+const TODOS_TIMEOUT_BLOCO = 180000;
+const todos = { estado:'vazio', resultados:[], total:0, hora:null, erro:'', ctrl:null };
+let abaInputAtual = 'todos';
+
+function todosProgresso(feitos, total){
+  const pct = total ? Math.round((feitos / total) * 100) : 0;
+  document.getElementById('todosProgresso').style.display = 'block';
+  document.getElementById('todosProgressoTexto').textContent = `${feitos} de ${total} lojas`;
+  document.getElementById('todosProgressoPct').textContent = `${pct}%`;
+  document.getElementById('todosProgressoFill').style.width = `${pct}%`;
+  document.getElementById('todosProgressoBarra').setAttribute('aria-valuenow', pct);
+}
+
+function todosAtualizarControles(){
+  const carregando = todos.estado === 'carregando';
+  const btn = document.getElementById('btnTodos');
+  btn.disabled = carregando;
+  btn.innerHTML = carregando ? '<span class="loading"></span> Carregando...' : '🔄 Recarregar';
+  document.getElementById('btnTodosParar').style.display = carregando ? '' : 'none';
+
+  const hora = todos.hora ? todos.hora.toLocaleTimeString('pt-BR') : '';
+  const st = document.getElementById('todosStatus');
+  st.style.color = '';
+  if (carregando) st.textContent = todos.total ? `Consultando a Layers, ${TODOS_BLOCO} lojas por vez…` : 'Buscando a lista de lojas…';
+  else if (todos.estado === 'concluido') st.textContent = `Última atualização: ${hora}`;
+  else if (todos.estado === 'interrompido') st.textContent = `Interrompido · ${todos.resultados.length} de ${todos.total} lojas carregadas · última atualização: ${hora}`;
+  else if (todos.estado === 'erro'){ st.textContent = todos.erro; st.style.color = '#a51e38'; }
+  else st.textContent = '';
+}
+
+/* Mostra na área de resultados o que já veio da carga de todas as lojas */
+function todosMostrarResultados(){
+  if (abaInputAtual !== 'todos') return;
+  if (todos.resultados.length){
+    ultimoRelatorio = todos.resultados;
+    renderTudo(todos.resultados);
+    return;
+  }
+  const vazio = document.getElementById('resultadosVazio');
+  document.getElementById('exportBar').style.display = 'none';
+  document.getElementById('resultadosWrap').style.display = 'none';
+  vazio.style.display = 'block';
+  vazio.innerHTML = todos.estado === 'erro'
+    ? `<div class="empty-state" style="color:#a51e38">Erro: ${todos.erro}</div>`
+    : todos.estado === 'carregando'
+      ? '<div class="empty-state">Carregando as lojas… a tabela aparece com os primeiros resultados.</div>'
+      : todos.estado === 'interrompido'
+        ? '<div class="empty-state">Carga interrompida antes do primeiro resultado. Clique em Recarregar.</div>'
+        : '<div class="empty-state">Nenhuma loja encontrada.</div>';
+}
+
+function pararTodos(){
+  if (todos.ctrl) todos.ctrl.abort();
+}
+
 async function gerarTodos(){
-  const btn=document.getElementById('btnTodos');
-  btn.innerHTML='<span class="loading"></span> Buscando...';btn.disabled=true;
-  document.getElementById('exportBar').style.display='none';
-  document.getElementById('resultadosWrap').style.display='none';
-  document.getElementById('resultadosVazio').innerHTML='<div class="empty-state">Buscando todos os canais...</div>';
-  document.getElementById('resultadosVazio').style.display='block';
+  if (todos.estado === 'carregando') return;
+  const ctrl = new AbortController();
+  Object.assign(todos, { estado:'carregando', resultados:[], total:0, hora:null, erro:'', ctrl });
+  document.getElementById('todosProgresso').style.display = 'none';
+  todosAtualizarControles();
+  todosMostrarResultados();
+
   try{
-    const r=await apiFetch(`${API_BASE}/channels/all`);
+    const r = await apiFetch(`${API_BASE}/channels/all`, { signal: ctrl.signal });
     if(!r.ok){
       let msg=`Erro ${r.status}`;
       try{const e=await r.json();if(e&&e.detail)msg=typeof e.detail==='string'?e.detail:JSON.stringify(e.detail);}catch(e){}
       throw new Error(msg);
     }
-    const data=await r.json();
-    console.log(`Lojas da Layers: origem=${data.origem||'—'} total=${data.total??(data.lojas||[]).length}`);
-    if(!data.lojas?.length){document.getElementById('resultadosVazio').innerHTML='<div class="empty-state">Nenhuma loja encontrada.</div>';return;}
-    await executarRelatorio(data.lojas,'btnTodos');
-  }catch(err){document.getElementById('resultadosVazio').innerHTML=`<div class="empty-state" style="color:#a51e38">Erro: ${err.message}</div>`;}
-  finally{btn.innerHTML='🏫 Carregar todas as lojas';btn.disabled=false;}
+    const data = await r.json();
+    const lojas = data.lojas || [];
+    console.log(`Lojas da Layers: origem=${data.origem||'—'} total=${data.total??lojas.length}`);
+    todos.total = lojas.length;
+    todosProgresso(0, lojas.length);
+    todosAtualizarControles();
+
+    for (let i = 0; i < lojas.length && !ctrl.signal.aborted; i += TODOS_BLOCO){
+      const bloco = lojas.slice(i, i + TODOS_BLOCO);
+      /* cada bloco tem seu próprio limite de tempo e cai junto com "Interromper" */
+      const bc = new AbortController();
+      const parar = () => bc.abort();
+      ctrl.signal.addEventListener('abort', parar);
+      const timer = setTimeout(parar, TODOS_TIMEOUT_BLOCO);
+      try{
+        const rr = await apiFetch(`${API_BASE}/report`, {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({ lojas: bloco }), signal: bc.signal,
+        });
+        if(!rr.ok) throw new Error(`Erro ${rr.status}`);
+        todos.resultados.push(...((await rr.json()).lojas || []));
+      }catch(err){
+        if (ctrl.signal.aborted) break;
+        /* bloco com falha: registra cada loja como erro e segue para o próximo */
+        const motivo = err.name === 'AbortError' ? 'Tempo esgotado na consulta' : (err.message || String(err));
+        todos.resultados.push(...bloco.map(l => ({ ...l, encontrada:false, erro:motivo })));
+      }finally{
+        clearTimeout(timer);
+        ctrl.signal.removeEventListener('abort', parar);
+      }
+      todos.hora = new Date();
+      todosProgresso(todos.resultados.length, todos.total);
+      todosMostrarResultados();
+    }
+    todos.estado = ctrl.signal.aborted ? 'interrompido' : 'concluido';
+  }catch(err){
+    if (ctrl.signal.aborted) todos.estado = 'interrompido';
+    else { todos.estado = 'erro'; todos.erro = err.message || String(err); }
+  }finally{
+    todos.ctrl = null;
+    todos.hora = todos.hora || new Date();
+    todosAtualizarControles();
+    todosMostrarResultados();
+  }
+}
+
+/* Chamado sempre que a tela t-lojas aparece. Só a primeira entrada da
+   sessão dispara a carga; nas seguintes mostra o que já está em memória. */
+async function lojasAoEntrar(){
+  if (abaInputAtual !== 'todos' || todos.estado === 'verificando') return;
+  if (todos.estado !== 'vazio'){
+    todosAtualizarControles();
+    todosMostrarResultados();
+    return;
+  }
+  todos.estado = 'verificando';
+  const aviso = document.getElementById('lojasApiAviso');
+  aviso.style.display = 'block';
+  try{
+    aviso.innerHTML = '<b>Conectando ao backend…</b><br>' +
+      'Se ele estiver hibernando, a primeira chamada do dia pode levar até 1 minuto.';
+    const r = await fetch(API_RAIZ + '/health', { signal: AbortSignal.timeout(75000) });
+    if (!r.ok) throw new Error('resposta ' + r.status);
+    aviso.style.display = 'none';
+  }catch(e){
+    todos.estado = 'vazio';
+    aviso.innerHTML =
+      '<b>A API de relatório das lojas não está respondendo.</b><br>' +
+      'Este módulo busca os dados ao vivo na Layers através da API que roda na sua máquina.<br><br>' +
+      'Abra o terminal na pasta <code>api-relatorio-lojas</code> e rode:<br>' +
+      '<code style="display:inline-block;margin-top:4px;background:rgba(0,0,0,.08);padding:4px 8px;border-radius:5px">' +
+      'poetry run uvicorn main:app --reload</code><br><br>' +
+      'Depois volte aqui e abra esta tela de novo.';
+    return;
+  }
+  todos.estado = 'vazio';
+  gerarTodos();
 }
 
 async function executarRelatorio(lojas,btnId){
@@ -7574,8 +7782,16 @@ function renderTudo(lojas){
     <span style="color:#6a7a88"><b>${naoPublicadas}</b> não publicada(s)</span>
     <span><b>${maxDesc}</b> col(s) desconto</span>`;
 
+  // a tabela é redesenhada a cada bloco da carga: preserva os filtros digitados
+  const filtros={};
+  document.querySelectorAll('#relTable .col-filter').forEach(f=>{if(f.value)filtros[f.dataset.col]=f.value;});
   renderTabela(lojas,maxDesc);
   renderDetalhamento(lojas);
+  if(Object.keys(filtros).length){
+    document.querySelectorAll('#relTable .col-filter').forEach(f=>{if(filtros[f.dataset.col])f.value=filtros[f.dataset.col];});
+    filtrarTabela();
+  }
+  if(document.getElementById('detSearch').value)filtrarCards();
 
   document.getElementById('resultadosVazio').style.display='none';
   document.getElementById('resultadosWrap').style.display='block';
@@ -7956,28 +8172,10 @@ function exportarExcel(){
 }
 
 
-/* Abre a tela e avisa, em vez de falhar em silêncio, quando a API
-   não está rodando. Sem isso o usuário só veria botões sem reação. */
-async function abrirLojas(){
+/* Abre a tela. A verificação da API e a carga automática ficam em
+   lojasAoEntrar, chamada por mostrarTela em qualquer caminho de entrada. */
+function abrirLojas(){
   ir('t-lojas');
-  const aviso = document.getElementById('lojasApiAviso');
-  aviso.style.display = 'block';
-  aviso.innerHTML = '<b>Verificando a API…</b>';
-  try{
-    aviso.innerHTML = '<b>Conectando ao backend…</b><br>' +
-      'Se ele estiver hibernando, a primeira chamada do dia pode levar até 1 minuto.';
-    const r = await fetch(API_RAIZ + '/health', { signal: AbortSignal.timeout(75000) });
-    if (!r.ok) throw new Error('resposta ' + r.status);
-    aviso.style.display = 'none';
-  }catch(e){
-    aviso.innerHTML =
-      '<b>A API de relatório das lojas não está respondendo.</b><br>' +
-      'Este módulo busca os dados ao vivo na Layers através da API que roda na sua máquina.<br><br>' +
-      'Abra o terminal na pasta <code>api-relatorio-lojas</code> e rode:<br>' +
-      '<code style="display:inline-block;margin-top:4px;background:rgba(0,0,0,.08);padding:4px 8px;border-radius:5px">' +
-      'poetry run uvicorn main:app --reload</code><br><br>' +
-      'Depois volte aqui e abra esta tela de novo.';
-  }
 }
 </script>
 <script>
