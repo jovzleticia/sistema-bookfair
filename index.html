@@ -579,10 +579,10 @@ a{color:inherit;text-decoration:none}
 .oc-tag-restrito{background:#8b94a0;color:#fff}
 
 /* ══ PORTAL DE ACOMPANHAMENTO ════════════════════════════ */
-#t-acompanhamento{
+#t-dashboard{
   --ac-gratis:#459dd8; --ac-cobrado:#ff711a; --ac-serie:#459dd8; --ac-neutro:#a3b1bd;
 }
-[data-theme="dark"] #t-acompanhamento{
+[data-theme="dark"] #t-dashboard{
   --ac-gratis:#459dd8; --ac-cobrado:#e45e0c; --ac-serie:#459dd8; --ac-neutro:#4f6f87;
 }
 .ac-page{max-width:1240px;margin:0 auto;padding:28px 16px 56px}
@@ -643,6 +643,32 @@ a{color:inherit;text-decoration:none}
 [data-theme="dark"] .ac-cobertura.baixa b{color:#ffd9a0}
 .ac-cobertura button{background:var(--laranja);color:#fff;border:none;border-radius:7px;padding:7px 12px;
   font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.ac-cobertura .botoes{display:flex;gap:8px;flex-wrap:wrap}
+.ac-cobertura button.sec{background:transparent;color:inherit;border:1px solid currentColor}
+.ac-atualizacao{margin-top:10px;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-card)}
+.ac-atu-linha{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+.ac-atu-barra{height:8px;background:var(--border);border-radius:6px;overflow:hidden}
+.ac-atu-barra div{height:100%;width:0;background:#1cbc7c;transition:width .3s}
+.ac-atu-rodape{display:flex;justify-content:space-between;align-items:center;gap:8px 12px;flex-wrap:wrap;margin-top:8px;font-size:12.5px;color:var(--muted)}
+.ac-atu-rodape button{background:transparent;color:var(--text);border:1px solid var(--border);border-radius:7px;padding:5px 11px;font-size:12px;cursor:pointer}
+
+/* ══ ACESSOS (Painel do Desenvolvedor) ═══════════════════ */
+.acs-cartoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;margin-bottom:14px}
+.acs-cartao{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.acs-cartao .v{font-size:24px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;line-height:1.1}
+.acs-cartao .r{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
+.acs-cartao .d{font-size:11.5px;color:var(--muted);margin-top:4px}
+.acs-tab{width:100%;border-collapse:collapse;font-size:12.5px}
+.acs-tab th,.acs-tab td{padding:8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;color:var(--text)}
+.acs-tab th{font-size:10.5px;color:var(--muted);text-transform:uppercase;font-weight:700;position:sticky;top:0;background:var(--bg-card)}
+.acs-tab td.data{white-space:nowrap;font-variant-numeric:tabular-nums}
+.acs-tab .sub{font-size:11px;color:var(--muted)}
+.acs-perfil{display:inline-block;color:#fff;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700}
+.acs-tab tr.nunca td{background:#fff8e6}
+.acs-tab tr.nunca td:first-child{box-shadow:inset 3px 0 0 #ffb019}
+[data-theme="dark"] .acs-tab tr.nunca td{background:#1a0f00}
+.acs-nunca{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px;background:#ffb019;color:#3d2600}
+.acs-inativo{opacity:.55}
 </style>
 </head>
 <body>
@@ -1256,13 +1282,23 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
-<!-- ══════════════ TELA: PORTAL DE ACOMPANHAMENTO ══════════════ -->
+<!-- ══════════════ TELA: PORTAL DE ACOMPANHAMENTO (menu) ══════════════ -->
 <div id="t-acompanhamento" class="screen">
+  <div class="page-sm">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="page-title">Portal de Acompanhamento Book Fair</div>
+    <div class="page-sub">Escolha o que deseja acompanhar.</div>
+    <div class="option-grid" id="menu-t-acompanhamento"></div>
+  </div>
+</div>
+
+<!-- ══════════════ TELA: DASHBOARD (Portal de Acompanhamento) ══════════════ -->
+<div id="t-dashboard" class="screen">
   <div class="ac-page">
     <button class="back-btn" onclick="voltar()">← Voltar</button>
     <div class="ac-topo">
       <div>
-        <div class="page-title">📈 Portal de Acompanhamento Book Fair</div>
+        <div class="page-title">📈 Dashboard Book Fair</div>
         <div class="page-sub" style="margin-bottom:0">Lojas na Layers (relatório guardado) e colégios do ciclo, num lugar só.</div>
       </div>
       <div class="ac-hora">
@@ -1278,6 +1314,19 @@ a{color:inherit;text-decoration:none}
     <div class="ac-cartoes" id="acCartoes"></div>
 
     <div id="acCobertura" class="ac-cobertura" role="status" style="display:none"></div>
+    <div id="acAtualizacao" class="ac-atualizacao" style="display:none">
+      <div class="ac-atu-linha">
+        <span id="acAtuTexto"></span>
+        <span id="acAtuPct"></span>
+      </div>
+      <div class="ac-atu-barra" id="acAtuBarra" role="progressbar" aria-label="Atualização das lojas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="acAtuFill"></div>
+      </div>
+      <div class="ac-atu-rodape">
+        <span id="acAtuStatus"></span>
+        <button type="button" id="acAtuParar" onclick="pararTodos()">⏹ Interromper</button>
+      </div>
+    </div>
 
     <div class="ac-sec">Lojas</div>
     <div class="ac-graficos" id="acGraficosLojas"></div>
@@ -1432,10 +1481,40 @@ a{color:inherit;text-decoration:none}
       🕐 Histórico
     </button>
 
+    <button onclick="abrirAcessos()"
+      style="margin-top:18px;margin-left:8px;background:#1cbc7c;color:#fff;border:none;padding:10px 18px;border-radius:7px;font-weight:700;cursor:pointer;font-size:13px">
+      👣 Acessos
+    </button>
+
     <button onclick="ir('t-gerar-menu')"
       style="margin-top:18px;margin-left:8px;background:transparent;border:1px solid var(--bd);color:var(--fg);padding:9px 16px;border-radius:7px;cursor:pointer;font-size:13px">
       ← Voltar
     </button>
+  </div>
+</div>
+
+<!-- ══════════════ TELA: ACESSOS (só DEV) ══════════════ -->
+<div id="t-acessos" class="screen">
+  <div class="page-sm" style="max-width:1100px">
+    <div style="background:#003d60;color:#fff;padding:14px 16px;border-radius:10px;margin-bottom:18px">
+      <div style="font-size:17px;font-weight:800">👣 Acessos</div>
+      <div style="font-size:12px;opacity:.85;margin-top:3px">Quem já criou o acesso ao sistema e quando entrou pela última vez</div>
+    </div>
+
+    <div class="acs-cartoes" id="acsCartoes"></div>
+
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <input id="acsBusca" type="search" placeholder="Buscar por nome, e-mail, cargo, área ou perfil" oninput="acsRender()"
+               aria-label="Buscar pessoa"
+               style="flex:1;min-width:200px;padding:9px;border:1px solid var(--border);border-radius:7px;background:var(--bg-input);color:var(--text);font-size:13px">
+        <button id="acsBtnAtualizar" onclick="acsCarregar()" style="background:#459dd8;color:#fff;border:none;padding:9px 16px;border-radius:7px;font-weight:700;cursor:pointer;font-size:13px">🔄 Atualizar</button>
+      </div>
+      <div id="acsResumo" style="font-size:12px;color:var(--muted);margin-bottom:8px"></div>
+      <div id="acsLista" style="max-height:560px;overflow:auto">Carregando…</div>
+    </div>
+
+    <button onclick="ir('t-dev')" style="margin-top:18px;background:transparent;border:1px solid var(--border);color:var(--text);padding:9px 16px;border-radius:7px;cursor:pointer;font-size:13px">← Voltar</button>
   </div>
 </div>
 
@@ -2613,7 +2692,8 @@ const MENU_TELAS = {
   't-relatorios':  'Relatórios',
   't-comunicados': 'Comunicados',
   't-ga':          'Portal GA (Gestão de Atendimento)',
-  't-marketing':   'Portal Marketing'
+  't-marketing':   'Portal Marketing',
+  't-acompanhamento': 'Portal de Acompanhamento Book Fair'
 };
 
 /* Etiqueta e posição de cada status. Só ATIVO abre ao clique. */
@@ -3747,6 +3827,83 @@ async function impDesfazer(id){
   }
 }
 
+/* ═══════════ ACESSOS (Painel do Desenvolvedor, só DEV) ═══════════
+   fn_acessos devolve uma linha por pessoa cadastrada, com as datas
+   da conta de login. A própria função recusa quem não é DEV.        */
+let _acsCache = [], _acsLidoEm = null;
+const ACS_DIAS_RECENTES = 7;
+
+async function abrirAcessos(){
+  if (!ehDev()){ alert('Só o perfil DEV acessa os acessos.'); return; }
+  ir('t-acessos');
+  await acsCarregar();
+}
+
+async function acsCarregar(){
+  const btn = document.getElementById('acsBtnAtualizar');
+  btn.disabled = true;
+  document.getElementById('acsLista').textContent = 'Carregando…';
+  try{
+    const { data, error } = await _sb.rpc('fn_acessos');
+    if (error) throw error;
+    /* mais recente primeiro; quem nunca entrou vai para o fim, por nome */
+    _acsCache = (data || []).slice().sort((a, b) =>
+      (b.ultimo_acesso ? new Date(b.ultimo_acesso).getTime() : -Infinity) -
+      (a.ultimo_acesso ? new Date(a.ultimo_acesso).getTime() : -Infinity) ||
+      (a.nome || '').localeCompare(b.nome || ''));
+    _acsLidoEm = new Date();
+    acsRender();
+  }catch(e){
+    _acsCache = [];
+    document.getElementById('acsCartoes').innerHTML = '';
+    document.getElementById('acsResumo').textContent = '';
+    document.getElementById('acsLista').innerHTML = '<span style="color:#a51e38">Erro ao carregar: ' + portalEsc(e.message || e) + '</span>';
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+function _acsData(v){ return v ? _fmtDataHora(new Date(v)) : '—'; }
+
+function acsRender(){
+  const todosAcs = _acsCache;
+  const limite = Date.now() - ACS_DIAS_RECENTES * 864e5;
+  const comAcesso = todosAcs.filter(p => p.tem_acesso).length;
+  const nunca = todosAcs.filter(p => !p.ultimo_acesso).length;
+  const recentes = todosAcs.filter(p => p.ultimo_acesso && new Date(p.ultimo_acesso).getTime() >= limite).length;
+  const cartao = (v, r, d) => '<div class="acs-cartao"><div class="v">' + v + '</div><div class="r">' + r + '</div>' +
+    (d ? '<div class="d">' + d + '</div>' : '') + '</div>';
+  document.getElementById('acsCartoes').innerHTML =
+    cartao(todosAcs.length, 'Cadastrados', 'em usuários') +
+    cartao(comAcesso, 'Já criaram acesso', todosAcs.length - comAcesso ? (todosAcs.length - comAcesso) + ' ainda sem conta' : 'todos') +
+    cartao(nunca, 'Nunca entraram', 'sem nenhum login') +
+    cartao(recentes, 'Últimos ' + ACS_DIAS_RECENTES + ' dias', 'entraram nesse período');
+
+  const q = _acNorm(document.getElementById('acsBusca').value);
+  const lista = !q ? todosAcs : todosAcs.filter(p =>
+    [p.nome, p.email, p.cargo, p.area, p.perfil].some(v => _acNorm(v).includes(q)));
+  document.getElementById('acsResumo').textContent = lista.length + ' de ' + todosAcs.length + ' pessoas' +
+    (_acsLidoEm ? ' · lido às ' + _acsLidoEm.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' }) : '');
+
+  const el = document.getElementById('acsLista');
+  if (!lista.length){ el.textContent = q ? 'Nenhum resultado.' : 'Nenhuma pessoa cadastrada.'; return; }
+  el.innerHTML = '<table class="acs-tab"><thead><tr><th>Pessoa</th><th>Cargo · Área</th><th>Perfil</th>' +
+    '<th>Último acesso</th><th>Acesso criado em</th><th>Senha alterada em</th></tr></thead><tbody>' +
+    lista.map(p => {
+      const nuncaEntrou = !p.ultimo_acesso;
+      const situacao = !p.tem_acesso ? 'ainda não criou o acesso' : 'criou o acesso e não entrou';
+      return '<tr class="' + (nuncaEntrou ? 'nunca' : '') + (p.ativo ? '' : ' acs-inativo') + '">' +
+        '<td><div style="font-weight:600">' + portalEsc(p.nome || '—') + (p.ativo ? '' : ' <span class="sub">(inativo)</span>') + '</div>' +
+          '<div class="sub">' + portalEsc(p.email || '') + '</div></td>' +
+        '<td>' + portalEsc(p.cargo || '—') + '<div class="sub">' + portalEsc(p.area || '') + '</div></td>' +
+        '<td><span class="acs-perfil" style="background:' + (PERFIL_COR[p.perfil] || '#888') + '">' + portalEsc(p.perfil || '—') + '</span></td>' +
+        '<td class="data">' + (nuncaEntrou ? '<span class="acs-nunca">NUNCA ENTROU</span><div class="sub">' + situacao + '</div>' : _acsData(p.ultimo_acesso)) + '</td>' +
+        '<td class="data">' + _acsData(p.criado_em) + '</td>' +
+        '<td class="data">' + _acsData(p.senha_alterada_em) + '</td>' +
+      '</tr>';
+    }).join('') + '</tbody></table>';
+}
+
 /* ═══════════ GESTÃO DE USUÁRIOS ═══════════ */
 let _usrCache = [];
 
@@ -3960,7 +4117,7 @@ function mostrarTela(id){
   document.getElementById(id).classList.add('ativo');
   window.scrollTo({top:0,behavior:'smooth'});
   if (id === 't-lojas' && typeof lojasAoEntrar === 'function') lojasAoEntrar();
-  if (id === 't-acompanhamento' && typeof acompAoEntrar === 'function') acompAoEntrar();
+  if (id === 't-dashboard' && typeof acompAoEntrar === 'function') acompAoEntrar();
 }
 /* ══ NAVEGAÇÃO INTEGRADA AO HISTÓRICO DO NAVEGADOR ═══════════════
    Cada tela vira uma entrada no histórico (History API) e vai para
@@ -7716,6 +7873,18 @@ const TODOS_BLOCO = 10;
 const TODOS_TIMEOUT_BLOCO = 180000;
 const todos = { estado:'vazio', exibidos:[], resultados:[], total:0, hora:null, horaGuardado:null, erro:'', ctrl:null };
 let abaInputAtual = 'todos';
+/* Quem mais acompanha a carga (o Dashboard): cada função recebe
+   (novas) a cada bloco e (null) quando a carga muda de estado.      */
+const todosOuvintes = [];
+function todosAvisar(novas){
+  todosOuvintes.forEach(f => { try{ f(novas); }catch(e){ console.error(e); } });
+}
+
+/* Começa a carga a partir do relatório guardado que outra tela já leu */
+function todosUsarGuardado(g){
+  if (!todos.exibidos.length) todosSubstituir(todos.exibidos, g.lojas.map(l => ({ ...l })));
+  if (!todos.horaGuardado) todos.horaGuardado = g.hora;
+}
 
 function _fmtDataHora(d){            /* 21/10/2026 às 10:30 */
   return d ? d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' }) : '';
@@ -7801,6 +7970,8 @@ function todosAtualizarControles(){
 /* Mostra na área de resultados o que está em `todos.exibidos` */
 function todosMostrarResultados(){
   if (abaInputAtual !== 'todos') return;
+  /* fora da tela não redesenha; lojasAoEntrar mostra o que houver ao voltar */
+  if (!document.getElementById('t-lojas').classList.contains('ativo')) return;
   if (todos.exibidos.length){
     ultimoRelatorio = todos.exibidos;
     renderTudo(todos.exibidos);
@@ -7834,6 +8005,7 @@ async function gerarTodos(){
   document.getElementById('todosProgresso').style.display = 'none';
   todosAtualizarControles();
   todosMostrarResultados();
+  todosAvisar(null);
 
   try{
     const r = await apiFetch(`${API_BASE}/channels/all`, { signal: ctrl.signal });
@@ -7848,6 +8020,7 @@ async function gerarTodos(){
     todos.total = lojas.length;
     todosProgresso(0, lojas.length);
     todosAtualizarControles();
+    todosAvisar(null);
 
     for (let i = 0; i < lojas.length && !ctrl.signal.aborted; i += TODOS_BLOCO){
       const bloco = lojas.slice(i, i + TODOS_BLOCO);
@@ -7879,6 +8052,7 @@ async function gerarTodos(){
       todosProgresso(todos.resultados.length, todos.total);
       todosAtualizarControles();
       todosMostrarResultados();
+      todosAvisar(novas);
     }
     if (ctrl.signal.aborted) todos.estado = 'interrompido';
     else {
@@ -7895,6 +8069,7 @@ async function gerarTodos(){
     todos.ctrl = null;
     todosAtualizarControles();
     todosMostrarResultados();
+    todosAvisar(null);
   }
 }
 
@@ -8813,9 +8988,13 @@ function acessoRestrito(modulo){
 </script>
 <script>
 /* ══════════════════════════════════════════════════════════════
-   PORTAL DE ACOMPANHAMENTO BOOK FAIR — tela t-acompanhamento
+   PORTAL DE ACOMPANHAMENTO BOOK FAIR — t-acompanhamento é o menu
+   (Dashboard e Relatórios); os gráficos ficam na tela t-dashboard.
    Fontes: lojas_snapshot (último relatório guardado de cada loja)
    e vw_relatorio_comunicados (uma linha por colégio do ciclo).
+   Se o retrato guardado estiver incompleto ou velho, o Dashboard
+   dispara a mesma carga do Relatório atual das lojas (gerarTodos)
+   e vai redesenhando conforme os blocos chegam.
    Os blocos "Em andamento" ficam em ACOMP_EM_ANDAMENTO: para ligar
    uma fonte, basta preencher a função `carregar` do bloco.
 ══════════════════════════════════════════════════════════════ */
@@ -8937,33 +9116,115 @@ function acompCarregarChartJs(){
 
 /* ── Entrada na tela ────────────────────────────────────────── */
 function acompAoEntrar(){
-  /* relê se o Relatório atual das lojas guardou blocos novos depois da última leitura */
-  const lojasNovas = todos.ultimoBloco && (!acomp.lidoEm || todos.ultimoBloco > acomp.lidoEm);
-  if (acomp.estado === 'vazio' || (acomp.estado === 'pronto' && lojasNovas)) acompCarregar(false);
-  else acompDesenhar();
+  if (acomp.estado === 'vazio') acompCarregar(false);
+  else { acompDesenhar(); acompMostrarAtualizacao(); }
 }
 
-/* Leva ao Relatório atual das lojas, na aba "Todas as lojas", e garante que a carga rode */
-function acompCompletarLojas(){
+/* Leva ao Relatório atual das lojas, na aba "Todas as lojas" */
+function acompAbrirLojas(){
   if (abaInputAtual !== 'todos') mudarAbaInput('todos');
   ir('t-lojas');
-  if (['concluido', 'interrompido', 'erro'].includes(todos.estado)) gerarTodos();
+}
+
+/* ── Atualização automática ─────────────────────────────────── */
+const ACOMP_COBERTURA_MINIMA = 0.9;
+const ACOMP_IDADE_MAXIMA_H = 12;
+
+/* Por que atualizar (ou null): cobertura abaixo de 90%, ou alguma loja de
+   colégio do ciclo com dado de mais de 12 horas (vale a mais antiga)    */
+function acompMotivoAtualizar(){
+  if (!acomp.colegios.length) return null;
+  const codigos = new Set(acomp.colegios.map(c => _acCod(c.codigo)));
+  const doCiclo = acomp.lojas.filter(l => codigos.has(_acCod(l.alias)));
+  if (doCiclo.length / acomp.colegios.length < ACOMP_COBERTURA_MINIMA) return 'cobertura';
+  const limite = Date.now() - ACOMP_IDADE_MAXIMA_H * 3600e3;
+  if (doCiclo.some(l => !l.atualizado_em || new Date(l.atualizado_em).getTime() < limite)) return 'idade';
+  return null;
+}
+
+/* Dispara a carga sozinho no máximo uma vez por sessão: se ela já está
+   rodando, terminou, foi interrompida ou deu erro, quem recomeça é a pessoa. */
+function acompAtualizarSeNecessario(){
+  acomp.motivo = acompMotivoAtualizar();
+  if (acomp.motivo && todos.estado === 'vazio') acompAtualizarAgora();
+  acompMostrarAtualizacao();
+}
+
+/* A mesma carga do Relatório atual das lojas, começando do que o Dashboard já leu */
+function acompAtualizarAgora(){
+  if (todos.estado === 'carregando') return;
+  todosUsarGuardado({ lojas: acomp.lojas, hora: acomp.horaLojas });
+  gerarTodos();
+}
+
+/* Cada loja consultada entra no lugar da sua versão guardada */
+function acompMesclar(novas){
+  const agora = new Date().toISOString();
+  const pos = new Map(acomp.lojas.map((l, i) => [l.alias, i]));
+  novas.forEach(n => {
+    const l = { ...n, atualizado_em: n.atualizado_em || agora };
+    if (pos.has(l.alias)) acomp.lojas[pos.get(l.alias)] = l;
+    else { pos.set(l.alias, acomp.lojas.length); acomp.lojas.push(l); }
+  });
+}
+
+/* Ouvinte da carga: novas = lojas de um bloco; null = a carga mudou de estado */
+let _acRedesenho = null, _acUltimoDesenho = 0;
+function acompAoMudarCarga(novas){
+  if (acomp.estado !== 'pronto') return;         // acompCarregar mescla todos.resultados ao terminar
+  if (novas && novas.length){
+    acompMesclar(novas);
+    acomp.horaLojas = new Date();
+  }
+  if (!document.getElementById('t-dashboard').classList.contains('ativo')) return;   // redesenha ao voltar
+  acompMostrarAtualizacao();
+  clearTimeout(_acRedesenho);
+  if (!novas){ acompDesenhar(); return; }
+  /* no máximo um redesenho por segundo, mesmo com blocos rápidos */
+  _acRedesenho = setTimeout(acompDesenhar, Math.max(0, 1000 - (Date.now() - _acUltimoDesenho)));
+}
+todosOuvintes.push(acompAoMudarCarga);
+
+/* Barra de progresso do Dashboard */
+function acompMostrarAtualizacao(){
+  const box = document.getElementById('acAtualizacao');
+  const est = todos.estado;
+  const mostrar = est === 'carregando' || (['interrompido', 'erro'].includes(est) && acomp.motivo);
+  box.style.display = mostrar ? '' : 'none';
+  if (!mostrar) return;
+  const feitos = todos.resultados.length, total = todos.total;
+  const pct = total ? Math.round(feitos / total * 100) : 0;
+  document.getElementById('acAtuTexto').textContent = est === 'carregando' && !total
+    ? 'Atualizando as lojas: buscando a lista na Layers…'
+    : `Atualizando as lojas: ${feitos} de ${total} consultadas`;
+  document.getElementById('acAtuPct').textContent = total ? pct + '%' : '';
+  document.getElementById('acAtuFill').style.width = pct + '%';
+  document.getElementById('acAtuBarra').setAttribute('aria-valuenow', pct);
+  const motivo = acomp.motivo === 'idade' ? `há lojas com dados de mais de ${ACOMP_IDADE_MAXIMA_H} horas`
+               : acomp.motivo === 'cobertura' ? 'o retrato guardado tinha menos de 90% das lojas' : '';
+  document.getElementById('acAtuStatus').textContent =
+      est === 'carregando' ? `Em segundo plano${motivo ? ', porque ' + motivo : ''}. Os gráficos se atualizam conforme os blocos chegam. Se o backend estiver hibernando, o início pode levar até 1 minuto.`
+    : est === 'interrompido' ? 'Atualização interrompida. Os gráficos mostram o que chegou até aqui.'
+    : 'A atualização falhou: ' + todos.erro;
+  document.getElementById('acAtuParar').style.display = est === 'carregando' ? '' : 'none';
 }
 
 /* Cobertura: lojas guardadas que correspondem a um colégio do ciclo / colégios do ciclo */
-const ACOMP_COBERTURA_MINIMA = 0.9;
 function acompCobertura(c){
   const box = document.getElementById('acCobertura');
   if (!c.colegios){ box.style.display = 'none'; return; }
   const comColegio = c.lojas - c.semColegio.length;
   const pct = comColegio / c.colegios;
   const baixa = pct < ACOMP_COBERTURA_MINIMA;
+  const carregando = todos.estado === 'carregando';
   box.className = 'ac-cobertura' + (baixa ? ' baixa' : '');
   box.style.display = '';
   box.innerHTML = `<span>${baixa ? '⚠️ ' : ''}Gráficos de lojas baseados em <b id="acCoberturaTexto">${comColegio} de ${c.colegios} lojas</b>
-      (${Math.floor(pct * 100)}% dos colégios do ciclo)${baixa ? '. O retrato guardado está incompleto: os números podem não representar todas as lojas.' : '.'}
+      (${Math.floor(pct * 100)}% dos colégios do ciclo)${!baixa ? '.' : carregando ? '. A atualização em andamento vai completando os números.'
+        : '. O retrato guardado está incompleto: os números podem não representar todas as lojas.'}
       ${c.semColegio.length ? `<br><span style="font-size:12px">${c.semColegio.length} loja${c.semColegio.length === 1 ? '' : 's'} sem colégio correspondente ficam fora desta conta.</span>` : ''}</span>
-    ${baixa ? '<button onclick="acompCompletarLojas()">Completar no Relatório atual das lojas →</button>' : ''}`;
+    ${baixa && !carregando ? `<span class="botoes"><button onclick="acompAtualizarAgora()">🔄 Atualizar agora</button>
+      <button class="sec" onclick="acompAbrirLojas()">Ver no Relatório atual das lojas →</button></span>` : ''}`;
 }
 
 async function acompCarregar(forcar){
@@ -8974,10 +9235,17 @@ async function acompCarregar(forcar){
   document.getElementById('acAviso').innerHTML = '';
   document.getElementById('acCartoes').innerHTML = '<div class="ac-vazio">Carregando…</div>';
 
-  acomp.lidoEm = new Date();
   const [rl, rc] = await Promise.allSettled([lerLojasGuardadas(), acompLerColegios()]);
   const avisos = [];
-  if (rl.status === 'fulfilled'){ acomp.lojas = rl.value.lojas || []; acomp.horaLojas = rl.value.hora; }
+  if (rl.status === 'fulfilled'){
+    acomp.lojas = rl.value.lojas || [];
+    acomp.horaLojas = rl.value.hora;
+    /* o que esta sessão já consultou vale mais que o lido do banco */
+    if (todos.resultados.length){
+      acompMesclar(todos.resultados);
+      if (todos.ultimoBloco && (!acomp.horaLojas || todos.ultimoBloco > acomp.horaLojas)) acomp.horaLojas = todos.ultimoBloco;
+    }
+  }
   else avisos.push('Não consegui ler as lojas guardadas: ' + portalEsc(rl.reason && rl.reason.message || rl.reason));
   if (rc.status === 'fulfilled'){ acomp.colegios = rc.value; acomp.horaColegios = new Date(); }
   else avisos.push('Não consegui ler os colégios: ' + portalEsc(rc.reason && rc.reason.message || rc.reason));
@@ -8987,22 +9255,26 @@ async function acompCarregar(forcar){
   btn.disabled = false;
   acompDesenhar();
   acompMontarEmAndamento();
+  if (rl.status === 'fulfilled' && rc.status === 'fulfilled') acompAtualizarSeNecessario();
 }
 
 function acompDesenhar(){
+  _acUltimoDesenho = Date.now();
   const d = acompCalcular(acomp.lojas, acomp.colegios);
   document.getElementById('acHoraLojas').innerHTML = acomp.horaLojas
     ? `Lojas: última atualização <b>${_fmtDataHora(acomp.horaLojas)}</b>`
-    : 'Lojas: <b>nenhum relatório guardado ainda</b> (abra “Relatório atual das lojas” para gerar)';
+    : 'Lojas: <b>nenhum relatório guardado ainda</b>';
   document.getElementById('acHoraColegios').innerHTML = acomp.horaColegios
     ? `Colégios: lidos do banco às <b>${acomp.horaColegios.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' })}</b>` : 'Colégios: —';
-  acompCartoes(d.cartoes);
+  /* redesenhar não fecha as tabelas que a pessoa abriu */
+  const abertos = new Set([...document.querySelectorAll('#t-dashboard details[open][data-chave]')].map(e => e.dataset.chave));
+  acompCartoes(d.cartoes, abertos);
   acompCobertura(d.cartoes);
-  acompGraficos(d);
+  acompGraficos(d, abertos);
   acompBuscar();
 }
 
-function acompCartoes(c){
+function acompCartoes(c, abertos = new Set()){
   const pct = (n, t) => t ? ` (${Math.round(n / t * 100)}%)` : '';
   const sem = c.semColegio;
   document.getElementById('acCartoes').innerHTML = `
@@ -9014,11 +9286,11 @@ function acompCartoes(c){
       <div class="d">${c.comCondicoes} de ${c.colegios}${pct(c.comCondicoes, c.colegios)}</div></div>
     <div class="ac-cartao"><div class="v" id="acNumSemColegio">${sem.length}</div><div class="r">Lojas sem colégio correspondente</div>
       <div class="d">código da loja que não é código de colégio do ciclo</div>
-      ${sem.length ? `<details><summary>Ver lojas</summary><div>${sem.map(l => portalEsc(l.alias) + (l.nome ? ' · ' + portalEsc(l.nome) : '')).join('<br>')}</div></details>` : ''}</div>`;
+      ${sem.length ? `<details data-chave="semColegio"${abertos.has('semColegio') ? ' open' : ''}><summary>Ver lojas</summary><div>${sem.map(l => portalEsc(l.alias) + (l.nome ? ' · ' + portalEsc(l.nome) : '')).join('<br>')}</div></details>` : ''}</div>`;
 }
 
 /* ── Gráficos ───────────────────────────────────────────────── */
-function _acCor(nome){ return getComputedStyle(document.getElementById('t-acompanhamento')).getPropertyValue(nome).trim(); }
+function _acCor(nome){ return getComputedStyle(document.getElementById('t-dashboard')).getPropertyValue(nome).trim(); }
 
 /* Desenha o valor na ponta de cada barra (os rótulos não dependem só da cor) */
 const _acRotulosPlugin = {
@@ -9049,7 +9321,7 @@ function acompCartaoGrafico(alvo, id, titulo, sub, linhas, opc){
     ${linhas.length ? `<div class="ac-canvas" style="height:${Math.max(90, linhas.length * 30 + 30)}px"><canvas id="acG-${id}" role="img" aria-label="${portalEsc(titulo)}"></canvas></div>`
                     : '<div class="ac-vazio">Sem dados para este gráfico.</div>'}
     <div class="tot">${opc.totalTexto(total)}</div>
-    <details${linhas.length && opc.semGrafico ? ' open' : ''}><summary>Ver em tabela</summary>
+    <details data-chave="tab-${id}"${(linhas.length && opc.semGrafico) || opc.abertos.has('tab-' + id) ? ' open' : ''}><summary>Ver em tabela</summary>
       <table class="ac-tab"><thead><tr><th>${opc.coluna}</th><th style="text-align:right">${opc.unidade}</th></tr></thead>
       <tbody>${linhas.map(l => `<tr><td>${portalEsc(l.rotulo)}</td><td class="n">${l.n}</td></tr>`).join('')}</tbody></table></details>`;
   alvo.appendChild(div);
@@ -9076,23 +9348,27 @@ function acompCartaoGrafico(alvo, id, titulo, sub, linhas, opc){
   }));
 }
 
-async function acompGraficos(d){
-  acomp.graficos.forEach(g => g.destroy());
-  acomp.graficos = [];
+let _acGeracao = 0;
+async function acompGraficos(d, abertos = new Set()){
+  const geracao = ++_acGeracao;
   const gl = document.getElementById('acGraficosLojas');
   const gc = document.getElementById('acGraficosColegios');
-  gl.innerHTML = gc.innerHTML = '<div class="ac-vazio">Montando os gráficos…</div>';
+  if (!acomp.graficos.length) gl.innerHTML = gc.innerHTML = '<div class="ac-vazio">Montando os gráficos…</div>';
 
   let semGrafico = false;
   try { await acompCarregarChartJs(); }
   catch(e){
     semGrafico = true;
-    document.getElementById('acAviso').insertAdjacentHTML('beforeend',
-      `<div class="ac-erro">⚠️ ${portalEsc(e.message)}. Os números aparecem em tabela.</div>`);
+    if (!document.getElementById('acAvisoChart'))
+      document.getElementById('acAviso').insertAdjacentHTML('beforeend',
+        `<div class="ac-erro" id="acAvisoChart">⚠️ ${portalEsc(e.message)}. Os números aparecem em tabela.</div>`);
   }
+  if (geracao !== _acGeracao) return;            // um redesenho mais novo já assumiu
+  acomp.graficos.forEach(g => g.destroy());
+  acomp.graficos = [];
   gl.innerHTML = gc.innerHTML = '';
   const lojas = n => `Total: <b>${n}</b> loja${n === 1 ? '' : 's'}`;
-  const base = { coluna:'Faixa', unidade:'Lojas', totalTexto: lojas, semGrafico };
+  const base = { coluna:'Faixa', unidade:'Lojas', totalTexto: lojas, semGrafico, abertos };
 
   acompCartaoGrafico(gl, 'frete', 'Lojas por valor de frete',
     'Cada loja conta uma vez, pelo menor valor por pedido entre os fretes ativos.', d.frete,
@@ -9115,7 +9391,7 @@ async function acompGraficos(d){
 
 /* Ao trocar claro/escuro, redesenha com as cores do tema */
 new MutationObserver(() => {
-  if (acomp.estado === 'pronto' && document.getElementById('t-acompanhamento').classList.contains('ativo')) acompDesenhar();
+  if (acomp.estado === 'pronto' && document.getElementById('t-dashboard').classList.contains('ativo')) acompDesenhar();
 }).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
 
 /* ── Consulta por loja ──────────────────────────────────────── */
