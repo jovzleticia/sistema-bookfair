@@ -669,6 +669,130 @@ a{color:inherit;text-decoration:none}
 [data-theme="dark"] .acs-tab tr.nunca td{background:#1a0f00}
 .acs-nunca{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px;background:#ffb019;color:#3d2600}
 .acs-inativo{opacity:.55}
+
+/* ══ INSERIR DESCRIÇÃO NOS KITS (estilo próprio, restrito a #t-descricao) ══ */
+#t-descricao{--bg-page:#f0f4f8; --bg-card:#fff; --bg-input:#f7fafc; --bg-row-hover:#f7fafc; --border:#c9d6e0; --text-primary:#1a2a38; --text-muted:#6a7a88; --text-label:#003d60; --th-bg:#003d60; --th-text:#fff; --banner-bg:#fff; --modal-bg:#fff; --modal-overlay:rgba(0,30,48,.55); --cancel-bg:#e8edf2; --cancel-text:#3a4a5a; --empty-color:#8a9aaa; --table-border:#e0eaf0; --row-border:#f0f4f8; --badge-dis-bg:#c9d6e0; --badge-dis-txt:#8a9aaa; --header-sub:#003d60; --opt-sel-bg:#fff5ee; --pre-bg:#f7fafc; --track:#e0eaf0; color:var(--text-primary)}
+[data-theme="dark"] #t-descricao{--bg-page:#001624; --bg-card:#002540; --bg-input:#001e30; --bg-row-hover:#00304d; --border:#1a4060; --text-primary:#d0e8f8; --text-muted:#6a9ab8; --text-label:#7bc8f0; --th-bg:#001020; --th-text:#7bc8f0; --banner-bg:#002540; --modal-bg:#002540; --modal-overlay:rgba(0,10,20,.75); --cancel-bg:#1a3a54; --cancel-text:#90bcd8; --empty-color:#4a7a98; --table-border:#1a3a54; --row-border:#001e30; --badge-dis-bg:#1a3a54; --badge-dis-txt:#4a7a98; --header-sub:#7bc8f0; --opt-sel-bg:#2a1a10; --pre-bg:#001e30; --track:#1a3a54;}
+#t-descricao .alert{display:none;background:#fde8ec;color:#a51e38;border-left:4px solid #a51e38;border-radius:6px;padding:12px 18px;margin-bottom:18px;font-size:13.5px;line-height:1.5}
+[data-theme="dark"] #t-descricao .alert{background:#2a0010;color:#ff8aa4}
+#t-descricao .info-banner{background:var(--banner-bg);border-left:4px solid #ff711a;border-radius:6px;padding:14px 20px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.08);gap:16px;transition:background .3s}
+#t-descricao .info-text{color:var(--text-label);font-size:13.5px;line-height:1.6}
+#t-descricao .info-text b{color:#ff711a}
+#t-descricao .download-btn{background:#003d60;color:#fff;border:none;padding:9px 18px;border-radius:5px;cursor:pointer;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:background .2s}
+#t-descricao .download-btn:hover{background:#ff711a}
+#t-descricao .card{background:var(--bg-card);border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.1);padding:26px 26px 18px;margin-bottom:22px;transition:background .3s}
+#t-descricao .card-title{color:var(--text-label);font-size:15px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+#t-descricao .card-title::before{content:'';display:inline-block;width:4px;height:18px;background:#ff711a;border-radius:2px}
+#t-descricao .card-sub{color:var(--text-muted);font-size:13px;margin-bottom:16px;line-height:1.5}
+#t-descricao .opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+#t-descricao .opt{border:1.5px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;background:var(--bg-input);display:flex;flex-direction:column;gap:8px;transition:border-color .2s,background .2s;text-align:left;color:var(--text-primary);font-family:inherit}
+#t-descricao .opt:hover{border-color:#ff711a}
+#t-descricao .opt:focus-visible{outline:2px solid #459dd8;outline-offset:2px}
+#t-descricao .opt.selected{border-color:#ff711a;background:var(--opt-sel-bg);box-shadow:0 0 0 1px #ff711a inset}
+#t-descricao .opt-head{display:flex;gap:10px;align-items:flex-start}
+#t-descricao .opt-num{background:#003d60;color:#fff;font-size:12px;font-weight:700;border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#t-descricao .opt.selected .opt-num{background:#ff711a}
+[data-theme="dark"] #t-descricao .opt-num{background:#1a4d6e}
+#t-descricao .opt-title{font-size:13px;font-weight:700;color:var(--text-label);line-height:1.4}
+#t-descricao .opt-text{white-space:pre-wrap;font-size:12.5px;line-height:1.55;color:var(--text-primary);background:var(--pre-bg);border:1px solid var(--row-border);border-radius:5px;padding:10px 12px;max-height:210px;overflow-y:auto}
+#t-descricao .opt textarea{width:100%;min-height:150px;resize:vertical;font-family:inherit;font-size:12.5px;line-height:1.55}
+#t-descricao .form-row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end}
+#t-descricao .form-group{display:flex;flex-direction:column;gap:7px;min-width:200px}
+#t-descricao label{color:var(--text-label);font-weight:600;font-size:13px;letter-spacing:.01em}
+#t-descricao input[type=text],#t-descricao textarea,#t-descricao select{padding:9px 12px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:var(--text-primary);background:var(--bg-card);transition:border-color .2s,background .3s,color .3s}
+#t-descricao textarea:focus,#t-descricao input:focus,#t-descricao select:focus{outline:none;border-color:#ff711a}
+#t-descricao .file-input{display:none}
+#t-descricao .file-input-label{display:inline-block;padding:9px 16px;background:var(--bg-input);border:1.5px solid var(--border);border-radius:5px;cursor:pointer;color:var(--text-label);font-size:13.5px;font-weight:500;transition:all .2s}
+#t-descricao .file-input-label:hover{border-color:#ff711a;background:var(--bg-card)}
+#t-descricao .file-info{margin-top:7px;padding:7px 12px;background:#eaf7f0;border:1px solid #1cbc7c;border-radius:4px;font-size:13px;color:#0a6b45;display:none;align-items:center;justify-content:space-between;gap:8px}
+[data-theme="dark"] #t-descricao .file-info{background:#002d20;color:#4ad4a0;border-color:#1cbc7c}
+#t-descricao .remove-file{background:#a51e38;color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#t-descricao .remove-file:hover{background:#7a1228}
+#t-descricao .add-row{display:flex;gap:8px;align-items:flex-start}
+#t-descricao .add-row textarea{flex:1;min-width:0;resize:vertical;font-family:inherit}
+#t-descricao .btn-add{background:#003d60;color:#fff;border:none;padding:9px 18px;border-radius:5px;cursor:pointer;font-size:13.5px;font-weight:600;transition:background .2s;white-space:nowrap}
+#t-descricao .btn-add:hover{background:#ff711a}
+[data-theme="dark"] #t-descricao .btn-add{background:#1a4d6e}
+[data-theme="dark"] #t-descricao .btn-add:hover{background:#ff711a}
+#t-descricao .ou{color:var(--text-muted);font-size:13px;font-weight:600;align-self:center;padding-top:6px}
+#t-descricao .check-line{display:flex;gap:8px;align-items:flex-start;font-weight:500;font-size:13px;color:var(--text-primary);max-width:420px;line-height:1.45;cursor:pointer}
+#t-descricao .check-line input{margin-top:3px;accent-color:#ff711a}
+#t-descricao .table-wrap{overflow-x:auto}
+#t-descricao .table-container{border:1.5px solid var(--table-border);border-radius:7px;overflow:hidden;width:100%;transition:border-color .3s}
+#t-descricao table{width:100%;border-collapse:collapse}
+#t-descricao th{background:var(--th-bg);color:var(--th-text);padding:11px 10px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+#t-descricao td{padding:10px;border-bottom:1px solid var(--row-border);color:var(--text-primary);font-size:13px;vertical-align:top}
+#t-descricao tr:last-child td{border-bottom:none}
+#t-descricao tr.loja-row:hover td{background:var(--bg-row-hover)}
+#t-descricao .empty-state{text-align:center;padding:48px;color:var(--empty-color);font-size:14px}
+#t-descricao .muted{color:var(--text-muted);font-size:12px}
+#t-descricao .origem-tag{display:inline-block;font-size:11px;color:var(--text-muted);margin-top:2px}
+#t-descricao .semdesc{color:#a51e38;font-weight:600;font-size:12px}
+[data-theme="dark"] #t-descricao .semdesc{color:#ff8aa4}
+#t-descricao .link-btn{background:none;border:none;color:#459dd8;cursor:pointer;font-size:12px;font-weight:600;padding:0;font-family:inherit}
+#t-descricao .link-btn:hover{text-decoration:underline}
+#t-descricao .status-badge{padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block;letter-spacing:.01em;white-space:nowrap}
+#t-descricao .status-pendente{background:#fff3e0;color:#b85c00}
+#t-descricao .status-processando{background:#e3f0fb;color:#0055a0}
+#t-descricao .status-sucesso{background:#e4f7ee;color:#0a6b45}
+#t-descricao .status-simulado{background:#e3f0fb;color:#0055a0}
+#t-descricao .status-parcial{background:#fff3e0;color:#b85c00}
+#t-descricao .status-falha{background:#fde8ec;color:#a51e38}
+#t-descricao .status-ignorado{background:#f0f0f0;color:#6a7a88}
+[data-theme="dark"] #t-descricao .status-pendente{background:#3a2000;color:#ffaa55}
+[data-theme="dark"] #t-descricao .status-processando{background:#00204a;color:#55aaff}
+[data-theme="dark"] #t-descricao .status-sucesso{background:#002a18;color:#44cc88}
+[data-theme="dark"] #t-descricao .status-simulado{background:#00204a;color:#55aaff}
+[data-theme="dark"] #t-descricao .status-parcial{background:#3a2000;color:#ffaa55}
+[data-theme="dark"] #t-descricao .status-falha{background:#2a0010;color:#ff6688}
+[data-theme="dark"] #t-descricao .status-ignorado{background:#1a2a38;color:#6a8a9a}
+#t-descricao tr.detail-row td{background:var(--bg-input);padding:14px 18px}
+#t-descricao .kit{border:1px solid var(--table-border);border-radius:6px;padding:10px 12px;margin-bottom:8px;background:var(--bg-card)}
+#t-descricao .kit:last-child{margin-bottom:0}
+#t-descricao .kit-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#t-descricao .kit-name{font-weight:700;color:var(--text-label)}
+#t-descricao .kit-motivo{font-size:12.5px;color:var(--text-muted);margin-top:4px}
+#t-descricao .kit details{margin-top:8px}
+#t-descricao .kit summary{cursor:pointer;color:#459dd8;font-size:12px;font-weight:600}
+#t-descricao .diff{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+#t-descricao .diff h4{font-size:11px;color:var(--text-muted);margin-bottom:4px;font-weight:600}
+#t-descricao .diff pre{white-space:pre-wrap;font-family:inherit;font-size:12px;line-height:1.5;background:var(--pre-bg);border:1px solid var(--row-border);border-radius:5px;padding:8px 10px;max-height:200px;overflow-y:auto}
+@media (max-width:800px){#t-descricao .diff{grid-template-columns:1fr}}
+#t-descricao .table-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+#t-descricao .counter{font-size:13px;color:var(--text-muted)}
+#t-descricao .progress{display:none;margin-top:18px}
+#t-descricao .progress-top{display:flex;justify-content:space-between;font-size:13px;color:var(--text-label);margin-bottom:6px;font-weight:600;gap:12px}
+#t-descricao .progress-track{background:var(--track);border-radius:20px;height:12px;overflow:hidden}
+#t-descricao .progress-bar{height:100%;width:0;background:#ff711a;border-radius:20px;transition:width .25s,background .3s}
+#t-descricao .progress-bar.ok{background:#1cbc7c}
+#t-descricao .progress-bar.erro{background:#a51e38}
+#t-descricao .sync-button-container{display:flex;justify-content:flex-end;gap:12px;margin-top:20px;flex-wrap:wrap}
+#t-descricao .report-button{background:#1cbc7c;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .2s,transform .1s}
+#t-descricao .report-button:hover{background:#159e69}
+#t-descricao .sim-button{background:transparent;color:#003d60;border:2px solid #003d60;padding:10px 26px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+[data-theme="dark"] #t-descricao .sim-button{color:#7bc8f0;border-color:#7bc8f0}
+#t-descricao .sim-button:not(:disabled):hover{background:#003d60;color:#fff}
+#t-descricao .sim-button:disabled{border-color:var(--badge-dis-bg);color:var(--badge-dis-txt);cursor:not-allowed}
+#t-descricao .sync-button{background:#ff711a;color:#fff;border:none;padding:12px 32px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .2s,transform .1s}
+#t-descricao .sync-button:disabled{background:var(--badge-dis-bg);color:var(--badge-dis-txt);cursor:not-allowed}
+#t-descricao .sync-button:not(:disabled):hover{background:#e05c0a}
+#t-descricao .sync-button:not(:disabled):active{transform:scale(.98)}
+#t-descricao .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:var(--modal-overlay)}
+#t-descricao .modal-content{background:var(--modal-bg);margin:12% auto;padding:32px;border-radius:10px;width:90%;max-width:500px;box-shadow:0 8px 32px rgba(0,30,48,.3)}
+#t-descricao .modal-title{color:var(--text-label);font-size:17px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+#t-descricao .modal-title::before{content:'';display:inline-block;width:4px;height:20px;background:#ff711a;border-radius:2px}
+#t-descricao .modal-body{color:var(--text-muted);line-height:1.7;margin-bottom:24px;font-size:14px;white-space:pre-line}
+#t-descricao .modal-buttons{display:flex;gap:12px;justify-content:flex-end}
+#t-descricao .modal-btn{padding:10px 22px;border:none;border-radius:5px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+#t-descricao .modal-btn-cancel{background:var(--cancel-bg);color:var(--cancel-text)}
+#t-descricao .modal-btn-cancel:hover{background:var(--border)}
+#t-descricao .modal-btn-confirm{background:#ff711a;color:#fff}
+#t-descricao .modal-btn-confirm:hover{background:#e05c0a}
+#t-descricao .loading{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top:2px solid #fff;border-radius:50%;animation:spin 1s linear infinite}
+@media (prefers-reduced-motion:reduce){#t-descricao .loading{animation:none}#t-descricao .progress-bar{transition:none}}
+#t-descricao .container{max-width:1500px;margin:0 auto;padding:0 10px 40px}
+#t-descricao .status-buscando-kits{background:#e3f0fb;color:#0055a0}
+[data-theme="dark"] #t-descricao .status-buscando-kits{background:#00204a;color:#55aaff}
 </style>
 </head>
 <body>
@@ -709,7 +833,6 @@ a{color:inherit;text-decoration:none}
       <div style="text-align:center;margin-bottom:22px">
         <img id="logoLogin" alt="Book Fair" style="max-width:190px;width:100%;height:auto">
         <div style="font-size:12px;color:var(--muted);margin-top:4px">SISTEMA BOOK FAIR</div>
-        <div id="lgVersao" style="font-size:10px;color:var(--muted);margin-top:6px;opacity:.8"></div>
       </div>
 
       <div id="lgFormLogin">
@@ -1120,6 +1243,112 @@ a{color:inherit;text-decoration:none}
   <!-- JS externo -->
   
 
+  </div>
+</div>
+
+<!-- ══════════════ TELA: INSERIR DESCRIÇÃO NOS KITS ══════════════ -->
+<div id="t-descricao" class="screen">
+  <div style="padding:0 10px">
+    <button class="back-btn" onclick="voltar()">← Voltar</button>
+    <div class="page-title" style="margin-bottom:2px">📝 Inserir Descrição nos Kits</div>
+    <div class="page-sub">A descrição vai para todos os kits de cada loja, direto na Layers.</div>
+  </div>
+
+  <div class="container">
+
+    <div class="alert" id="dscAlerta" role="alert"></div>
+
+    <div class="info-banner">
+      <div class="info-text">
+        <b>Colunas da planilha:</b> CÓDIGO (obrigatória) · COLÉGIO · OPÇÃO (número de 1 a 7) · DESCRIÇÃO (texto livre).<br>
+        A descrição vale para <b>todos os kits</b> da loja e substitui a que já existir. Prioridade: DESCRIÇÃO da planilha, depois OPÇÃO da planilha, depois o cartão escolhido abaixo.
+      </div>
+      <button class="download-btn" onclick="dscBaixarModelo()">📥 Baixar modelo</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">1. Lojas</div>
+      <div class="card-sub">Digite o código de uma ou mais lojas, ou suba uma planilha. As duas formas podem ser usadas juntas.</div>
+      <div class="form-row">
+        <div class="form-group" style="flex:1;min-width:280px;max-width:520px">
+          <label for="dscCodigoLoja">⌨️ Digitar o código da loja</label>
+          <div class="add-row">
+            <textarea id="dscCodigoLoja" rows="2" placeholder="Ex.: 995  (várias: 995, 994 993)" autocomplete="off" spellcheck="false"
+                   onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();dscAdicionarCodigos()}"></textarea>
+            <button type="button" class="btn-add" onclick="dscAdicionarCodigos()">Adicionar</button>
+          </div>
+          <span class="muted">Separe vários códigos com vírgula, espaço ou quebra de linha (Shift+Enter). Enter adiciona.</span>
+        </div>
+        <span class="ou">ou</span>
+        <div class="form-group">
+          <label>📎 Arquivo Excel / CSV</label>
+          <div>
+            <input type="file" id="dscArquivo" class="file-input" accept=".csv,.xlsx,.xls" onchange="dscLerArquivo(event)" />
+            <label for="dscArquivo" class="file-input-label">Escolher arquivo</label>
+            <div class="file-info" id="dscFileInfo">
+              <span id="dscFileName"></span>
+              <button type="button" class="remove-file" onclick="dscRemoverArquivo()" aria-label="Remover arquivo">×</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <label class="check-line" style="margin-top:16px">
+        <input type="checkbox" id="dscPermitirComp" />
+        <span>Editar também kits que aparecem em mais de uma loja (por padrão eles são ignorados)</span>
+      </label>
+    </div>
+
+    <div class="card">
+      <div class="card-title">2. Descrição padrão</div>
+      <div class="card-sub">Escolha o cartão que vale para as lojas que não trazem OPÇÃO nem DESCRIÇÃO na planilha (as lojas digitadas usam sempre este cartão). O texto de baixo é exatamente o que vai para o kit.</div>
+      <div class="opt-grid" id="dscOpcoes"><div class="muted">Carregando as opções…</div></div>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Colégio</th>
+                <th>Descrição que será aplicada</th>
+                <th>Kits</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="dscTabela">
+              <tr><td colspan="6" class="empty-state">Nenhuma loja na lista. Digite um código ou suba uma planilha.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="table-footer"><span class="counter" id="dscContador"></span><button class="link-btn" id="dscLimpar" style="display:none" onclick="dscLimparLista()">Limpar lista</button></div>
+
+      <div class="progress" id="dscProgresso">
+        <div class="progress-top"><span id="dscProgressoTexto"></span><span id="dscProgressoPct"></span></div>
+        <div class="progress-track" id="dscProgressoBarra" role="progressbar" aria-label="Andamento" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar" id="dscProgressoFill"></div></div>
+      </div>
+
+      <div class="sync-button-container">
+        <button class="report-button" id="dscBtnRelatorio" style="display:none" onclick="dscBaixarRelatorio()">📊 Baixar Relatório</button>
+        <button class="sim-button" id="dscBtnSimular" disabled onclick="dscConfirmar(true)">Simular</button>
+        <button class="sync-button" id="dscBtnGravar" disabled onclick="dscConfirmar(false)">Gravar descrições</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="dscModal" class="modal">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="dscModalTitulo">
+      <div class="modal-title" id="dscModalTitulo">Confirmar</div>
+      <div class="modal-body" id="dscModalTexto"></div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-cancel" onclick="dscFecharModal()">Cancelar</button>
+        <button class="modal-btn modal-btn-confirm" onclick="dscExecutarConfirmado()">Confirmar</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2404,7 +2633,7 @@ if (!window.supabase || typeof window.supabase.createClient !== 'function'){
 }
 const _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const VERSAO_APP = '20/10/2026 · abas';
+const VERSAO_APP = '26/10/2026 · descrição nos kits';
 
 const ANO_CICLO = 2027;
 const CICLO_ID  = ANO_CICLO % 100;
@@ -3140,14 +3369,17 @@ function aplicarPermissoes(){
 
   const saud = document.getElementById('homeSaudacao');
   if (saud) saud.textContent = 'Olá, ' + (USUARIO.nome || '').split(' ')[0] + ' 👋';
+  /* versão do app: só para DEV, no cabeçalho */
   let ver = document.getElementById('versaoTag');
-  if (!ver){
-    ver = document.createElement('span');
-    ver.id = 'versaoTag';
-    ver.style.cssText = 'font-size:10px;color:var(--muted);white-space:nowrap';
-    tag.parentNode.insertBefore(ver, tag.nextSibling);
-  }
-  ver.textContent = 'v ' + VERSAO_APP;
+  if (ehDev()){
+    if (!ver){
+      ver = document.createElement('span');
+      ver.id = 'versaoTag';
+      ver.style.cssText = 'font-size:10px;color:var(--muted);white-space:nowrap';
+      tag.parentNode.insertBefore(ver, tag.nextSibling);
+    }
+    ver.textContent = 'v ' + VERSAO_APP;
+  } else if (ver) ver.remove();
   tag.style.background = cores[USUARIO.perfil] || '#888';
 
   // Quem não edita não vê botões de gravar
@@ -3158,7 +3390,6 @@ function aplicarPermissoes(){
 
 /* Ao abrir a página: se já houver sessão válida, entra direto */
 window.addEventListener('DOMContentLoaded', async function(){
-  try{ const v=document.getElementById('lgVersao'); if(v) v.textContent='versão '+VERSAO_APP; }catch(e){}
   try{
     const ok = await carregarUsuario();
     if (ok) entrarNoSistema();
@@ -9482,6 +9713,475 @@ async function acompMontarEmAndamento(){
       el.innerHTML = `${topo}<div class="ac-erro">Não consegui carregar: ${portalEsc(e.message || e)}</div>`;
     }
   }));
+}
+</script>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   INSERIR DESCRIÇÃO NOS KITS — tela t-descricao
+   Interface da api-descricao-kits, agora falando com o backend do
+   portal (BACKEND_URL + '/descricao') pelo apiFetch, com o login.
+   1) lista os kits de cada loja (/kits-da-loja, só leitura);
+   2) grava um kit por vez (/kit), com a barra de progresso e o status
+      de cada kit aparecendo conforme chega.
+   Se a sessão da Layers expirar (503), para tudo e avisa.
+   IDs e funções começam com "dsc" para não colidir com a tela de kits.
+══════════════════════════════════════════════════════════════ */
+const DSC_API = (typeof BACKEND_URL !== 'undefined' && BACKEND_URL ? BACKEND_URL : 'http://127.0.0.1:8000') + '/descricao';
+const DSC_LISTAGENS_SIMULTANEAS = 3;     // lojas listadas ao mesmo tempo (só leitura)
+
+const dsc = {
+  opcoes: [],            // de /descricao/opcoes (descricoes.json do backend)
+  opcaoPadrao: null,     // id do cartão escolhido
+  textoLivre: '',
+  usandoLivre: false,
+  lojas: [],             // { alias, colegio, opcao, descricao, fonte, status, motivo, kits:[], aberto, origem, channel_id }
+  modoPendente: true,    // true = simular
+  rodando: false,
+};
+
+/* ---------- utilidades ---------- */
+function _dscEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function _dscSemAcento(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().trim(); }
+function _dscBadge(status){
+  if(!status) return '<span class="muted">—</span>';
+  return `<span class="status-badge status-${_dscSemAcento(status).toLowerCase().replace(/\s+/g,'-')}">${_dscEsc(status)}</span>`;
+}
+function _dscTituloCurto(op){ return op.titulo.length>70 ? op.titulo.slice(0,67)+'…' : op.titulo; }
+
+async function _dscErroDe(resp){
+  let det='';
+  try{ const j=await resp.json(); det=typeof j.detail==='string'?j.detail:JSON.stringify(j.detail||j); }catch(e){ try{ det=await resp.text(); }catch(_){} }
+  return det || `Erro ${resp.status}`;
+}
+
+function dscAlerta(html){
+  const a=document.getElementById('dscAlerta');
+  if(!html){ a.style.display='none'; a.innerHTML=''; return; }
+  a.innerHTML=html; a.style.display='block';
+}
+function _dscAlertaSessao(detalhe){
+  dscAlerta('<b>A sessão da Layers expirou ou não está configurada no backend.</b><br>' +
+    'Renove a variável <b>LAYERS_SESSION</b> no Render (Environment do serviço portal-ecommerce-backend) com o X-Session atual da Layers e tente de novo.' +
+    (detalhe ? `<div style="font-size:12px;opacity:.8;margin-top:6px">${_dscEsc(detalhe)}</div>` : ''));
+}
+
+/* ---------- abrir a tela ---------- */
+async function abrirDescricao(){
+  ir('t-descricao');
+  dscAtualizarTabela(); dscAtualizarBotoes();
+  if (dsc.opcoes.length) return;
+  dscAlerta('<b>Verificando o backend…</b><br>Se ele estiver hibernando, isso pode levar até 1 minuto.');
+  try{
+    const h = await fetch(API_RAIZ + '/health', { signal: AbortSignal.timeout(75000) });
+    if (!h.ok) throw new Error('resposta ' + h.status);
+    const [ro, rs] = await Promise.all([apiFetch(DSC_API + '/opcoes'), apiFetch(DSC_API + '/status')]);
+    if (!ro.ok) throw new Error(await _dscErroDe(ro));
+    dsc.opcoes = await ro.json();
+    const st = rs.ok ? await rs.json() : {};
+    if (st.sessao_configurada === false) _dscAlertaSessao('');
+    else dscAlerta('');
+  }catch(e){
+    dscAlerta('<b>Não consegui falar com o backend.</b><br>Verifique sua conexão e tente de novo em instantes.' +
+      `<div style="font-size:12px;opacity:.8;margin-top:6px">${_dscEsc(e.message || e)}</div>`);
+  }
+  dscMostrarOpcoes(); dscAtualizarTabela();
+}
+
+/* ---------- cartões de opções ---------- */
+function dscMostrarOpcoes(){
+  const grid=document.getElementById('dscOpcoes');
+  const aviso=dsc.opcoes.length ? '' : '<div class="muted">As opções não carregaram. Use o texto livre ou volte e abra a tela de novo.</div>';
+  const sel=id=>dsc.opcaoPadrao===id&&!dsc.usandoLivre;
+  const cards=dsc.opcoes.map(op=>`
+    <div class="opt ${sel(op.id)?'selected':''}" role="radio" aria-checked="${sel(op.id)}" tabindex="0"
+         onclick="dscEscolherOpcao(${op.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();dscEscolherOpcao(${op.id})}">
+      <div class="opt-head"><span class="opt-num">${op.id}</span><span class="opt-title">${_dscEsc(op.titulo)}</span></div>
+      <div class="opt-text">${_dscEsc(op.texto)}</div>
+    </div>`).join('');
+  const livre=`
+    <div class="opt ${dsc.usandoLivre?'selected':''}" role="radio" aria-checked="${dsc.usandoLivre}" onclick="dscEscolherLivre()">
+      <div class="opt-head"><span class="opt-num">✎</span><span class="opt-title">Outra descrição (texto livre)</span></div>
+      <textarea id="dscTextoLivre" placeholder="Escreva aqui a descrição que vai para os kits…" onclick="event.stopPropagation();dscEscolherLivre()" oninput="dsc.textoLivre=this.value;dscAtualizarTabela();dscAtualizarBotoes()">${_dscEsc(dsc.textoLivre)}</textarea>
+    </div>`;
+  grid.innerHTML=aviso+cards+livre;
+}
+function dscEscolherOpcao(id){
+  if(dsc.rodando) return;
+  if(dsc.opcaoPadrao===id&&!dsc.usandoLivre){ dsc.opcaoPadrao=null; }
+  else { dsc.opcaoPadrao=id; dsc.usandoLivre=false; }
+  dscMostrarOpcoes(); dscAtualizarTabela(); dscAtualizarBotoes();
+}
+function dscEscolherLivre(){
+  if(dsc.usandoLivre || dsc.rodando) return;
+  dsc.usandoLivre=true; dsc.opcaoPadrao=null;
+  dscMostrarOpcoes(); dscAtualizarTabela(); dscAtualizarBotoes();
+  const t=document.getElementById('dscTextoLivre'); if(t) t.focus();
+}
+
+/* ---------- descrição que vale para cada loja (prévia) ---------- */
+function dscPrevia(row){
+  if(row.descricao && row.descricao.trim()) return {ok:true, origem:'Texto da planilha (DESCRIÇÃO)', resumo:row.descricao.trim().split('\n')[0]};
+  if(row.opcao!==null){
+    const op=dsc.opcoes.find(o=>o.id===row.opcao);
+    return op ? {ok:true, origem:`OPÇÃO ${op.id} da planilha`, resumo:_dscTituloCurto(op)}
+              : {ok:false, origem:`OPÇÃO ${row.opcao} não existe`, resumo:''};
+  }
+  if(!dsc.usandoLivre && dsc.opcaoPadrao!==null){
+    const op=dsc.opcoes.find(o=>o.id===dsc.opcaoPadrao);
+    if(op) return {ok:true, origem:`Cartão da tela (opção ${op.id})`, resumo:_dscTituloCurto(op)};
+  }
+  if(dsc.usandoLivre && dsc.textoLivre.trim()) return {ok:true, origem:'Texto livre da tela', resumo:dsc.textoLivre.trim().split('\n')[0]};
+  return {ok:false, origem:'', resumo:''};
+}
+
+/* ---------- modelo e leitura da planilha ---------- */
+function dscBaixarModelo(){
+  const headers=['CÓDIGO','COLÉGIO','OPÇÃO','DESCRIÇÃO'];
+  const exemplo=[
+    ['995','TESTE LETÍCIA 995','',''],
+    ['994','TESTE LETÍCIA 994',3,''],
+    ['993','TESTE LETÍCIA 993','','📅 Até 31/12/2026 Boleto ou Pix: 2% de desconto | Cartão de Crédito: até 12x sem juros | Frete grátis\n\nParcelamento regressivo conforme meses.'],
+  ];
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet([headers,...exemplo]);
+  ws['!cols']=[{wch:10},{wch:30},{wch:8},{wch:60}];
+  XLSX.utils.book_append_sheet(wb,ws,'Descricoes');
+  XLSX.writeFile(wb,'template_descricao_kits.xlsx');
+}
+
+function _dscColuna(cab, nomes){ return cab.findIndex(c=>nomes.includes(_dscSemAcento(c))); }
+function _dscNumOpcao(v){
+  if(v===null||v===undefined||String(v).trim()==='') return null;
+  const m=String(v).match(/\d+/);
+  return m?parseInt(m[0],10):null;
+}
+function _dscNovaLoja(dados){
+  return { colegio:'', opcao:null, descricao:'', status:'', motivo:'', kits:[], aberto:false, origem:'', channel_id:null, ...dados };
+}
+
+/* Lê a planilha e devolve as lojas (função pura sobre as linhas, para testar) */
+function dscLojasDaPlanilha(rows){
+  if(!rows.length) throw new Error('A planilha está vazia.');
+  const cab=rows[0];
+  const iCod=_dscColuna(cab,['CODIGO','COD','ALIAS']);
+  const iCol=_dscColuna(cab,['COLEGIO','ESCOLA']);
+  const iOpc=_dscColuna(cab,['OPCAO']);
+  const iDes=_dscColuna(cab,['DESCRICAO']);
+  if(iCod<0) throw new Error('Não encontrei a coluna CÓDIGO na primeira linha da planilha.');
+  const novas=rows.slice(1)
+    .filter(r=>r&&String(r[iCod]||'').trim())
+    .map(r=>_dscNovaLoja({
+      alias:String(r[iCod]).trim(),
+      colegio: iCol>=0 ? String(r[iCol]||'').trim() : '',
+      opcao: iOpc>=0 ? _dscNumOpcao(r[iOpc]) : null,
+      descricao: iDes>=0 ? String(r[iDes]||'') : '',
+      fonte:'planilha',
+    }));
+  if(!novas.length) throw new Error('Nenhuma loja encontrada abaixo do cabeçalho.');
+  return novas;
+}
+
+function dscLerArquivo(event){
+  const file=event.target.files[0]; if(!file || dsc.rodando) return;
+  document.getElementById('dscFileName').innerText=file.name;
+  document.getElementById('dscFileInfo').style.display='flex';
+  const ehCsv=file.name.toLowerCase().endsWith('.csv');
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const wb=ehCsv ? XLSX.read(e.target.result,{type:'string'}) : XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+      const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:'',raw:false});
+      dsc.lojas=dsc.lojas.filter(r=>r.fonte==='digitado').concat(dscLojasDaPlanilha(rows));
+      document.getElementById('dscBtnRelatorio').style.display='none';
+      dscAtualizarTabela(); dscAtualizarBotoes();
+    }catch(err){ alert('Erro ao processar arquivo: '+err.message); dscRemoverArquivo(); }
+  };
+  ehCsv ? reader.readAsText(file,'UTF-8') : reader.readAsArrayBuffer(file);
+}
+
+function dscRemoverArquivo(){
+  if(dsc.rodando) return;
+  document.getElementById('dscArquivo').value='';
+  document.getElementById('dscFileInfo').style.display='none';
+  dsc.lojas=dsc.lojas.filter(r=>r.fonte==='digitado');
+  dscAtualizarTabela(); dscAtualizarBotoes();
+  document.getElementById('dscBtnRelatorio').style.display='none';
+  document.getElementById('dscProgresso').style.display='none';
+}
+
+/* ---------- lojas digitadas na tela ---------- */
+function dscAdicionarCodigos(){
+  if(dsc.rodando) return;
+  const campo=document.getElementById('dscCodigoLoja');
+  const codigos=campo.value.split(/[\s,;]+/).map(c=>c.trim()).filter(Boolean);
+  if(!codigos.length){ campo.focus(); return; }
+  const jaTem=new Set(dsc.lojas.map(r=>r.alias));
+  let repetidos=0;
+  codigos.forEach(c=>{
+    if(jaTem.has(c)){ repetidos++; return; }
+    jaTem.add(c);
+    dsc.lojas.push(_dscNovaLoja({alias:c, fonte:'digitado'}));
+  });
+  campo.value=''; campo.focus();
+  if(repetidos) alert(`${repetidos} código(s) já estavam na lista e foram ignorados.`);
+  document.getElementById('dscBtnRelatorio').style.display='none';
+  dscAtualizarTabela(); dscAtualizarBotoes();
+}
+
+function dscLimparLista(){
+  if(dsc.rodando) return;
+  dsc.lojas=[];
+  document.getElementById('dscArquivo').value='';
+  document.getElementById('dscFileInfo').style.display='none';
+  document.getElementById('dscBtnRelatorio').style.display='none';
+  document.getElementById('dscProgresso').style.display='none';
+  dscAtualizarTabela(); dscAtualizarBotoes();
+}
+
+/* ---------- tabela ---------- */
+let _dscTabelaTimer=null;
+function dscAtualizarTabelaLogo(){ if(_dscTabelaTimer) return; _dscTabelaTimer=setTimeout(()=>{_dscTabelaTimer=null;dscAtualizarTabela();},120); }
+
+function dscAlternarDetalhe(i){ dsc.lojas[i].aberto=!dsc.lojas[i].aberto; dscAtualizarTabela(); }
+
+function _dscDetalheKits(row){
+  if(!row.kits.length) return `<div class="muted">${_dscEsc(row.motivo||'Sem detalhes.')}</div>`;
+  return `<div class="muted" style="margin-bottom:8px">${_dscEsc(row.motivo)}</div>` + row.kits.map(k=>`
+    <div class="kit">
+      <div class="kit-head">
+        <span class="kit-name">${_dscEsc(k.kit_nome||'(sem nome)')}</span>
+        <span class="muted">${_dscEsc(k.kit_alias)}</span>
+        ${_dscBadge(k.status)}
+      </div>
+      ${k.motivo?`<div class="kit-motivo">${_dscEsc(k.motivo)}</div>`:''}
+      <details>
+        <summary>Ver descrição atual e nova</summary>
+        <div class="diff">
+          <div><h4>Atual</h4><pre>${_dscEsc(k.descricao_atual)||'&lt;vazia&gt;'}</pre></div>
+          <div><h4>Nova</h4><pre>${_dscEsc(k.descricao_nova)}</pre></div>
+        </div>
+      </details>
+    </div>`).join('');
+}
+
+function dscAtualizarTabela(){
+  const tbody=document.getElementById('dscTabela');
+  const contador=document.getElementById('dscContador');
+  if(!dsc.lojas.length){
+    tbody.innerHTML=`<tr><td colspan="6" class="empty-state">Nenhuma loja na lista. Digite um código ou suba uma planilha.</td></tr>`;
+    contador.innerText=''; document.getElementById('dscLimpar').style.display='none'; return;
+  }
+  document.getElementById('dscLimpar').style.display=dsc.rodando?'none':'inline';
+  const cont=s=>dsc.lojas.filter(x=>x.status===s).length;
+  const partes=[`${dsc.lojas.length} loja(s)`];
+  const ok=cont('Sucesso')+cont('Simulado'), parc=cont('Parcial'), fal=cont('Falha'), ign=cont('Ignorado');
+  if(ok) partes.push(`✓ ${ok} ok`);
+  if(parc) partes.push(`◐ ${parc} parcial(is)`);
+  if(ign) partes.push(`${ign} ignorada(s)`);
+  if(fal) partes.push(`✗ ${fal} falha(s)`);
+  contador.innerText=partes.join(' · ');
+
+  tbody.innerHTML=dsc.lojas.map((row,i)=>{
+    const p=dscPrevia(row);
+    const desc = p.ok
+      ? `<div>${_dscEsc(p.resumo)}</div><div class="origem-tag">${_dscEsc(p.origem)}</div>`
+      : `<span class="semdesc">${p.origem?_dscEsc(p.origem):'Sem descrição definida'}</span><div class="origem-tag">Escolha uma descrição acima ou preencha a planilha</div>`;
+    const feitos=row.kits.filter(k=>!['Pendente','Processando'].includes(k.status)).length;
+    const kitsTxt = !row.kits.length ? '—' : (feitos<row.kits.length ? `${feitos} de ${row.kits.length}` : `${row.kits.length}`);
+    const temDetalhe = row.kits.length || (row.status && !['Pendente','Processando','Buscando kits'].includes(row.status));
+    const linha=`<tr class="loja-row">
+      <td><b>${_dscEsc(row.alias)}</b></td>
+      <td>${_dscEsc(row.colegio)||'—'}</td>
+      <td>${desc}</td>
+      <td>${kitsTxt}</td>
+      <td>${_dscBadge(row.status||'Pendente')}</td>
+      <td>${temDetalhe?`<button class="link-btn" onclick="dscAlternarDetalhe(${i})">${row.aberto?'Fechar':'Ver kits'}</button>`:''}</td>
+    </tr>`;
+    const det = row.aberto ? `<tr class="detail-row"><td colspan="6">${_dscDetalheKits(row)}</td></tr>` : '';
+    return linha+det;
+  }).join('');
+}
+
+function dscAtualizarBotoes(){
+  const pode = dsc.lojas.length>0 && !dsc.rodando;
+  document.getElementById('dscBtnSimular').disabled=!pode;
+  document.getElementById('dscBtnGravar').disabled=!pode;
+}
+
+/* ---------- confirmação ---------- */
+function dscConfirmar(simular){
+  if(!dsc.lojas.length || dsc.rodando) return;
+  dsc.modoPendente=simular;
+  const sem=dsc.lojas.filter(r=>!dscPrevia(r).ok).length;
+  const comp=document.getElementById('dscPermitirComp').checked;
+  let msg=`${dsc.lojas.length} loja(s) na lista.\n\n`;
+  if(simular){
+    msg+='🔎 Simulação: o sistema consulta a Layers e mostra o que mudaria em cada kit. Nada é gravado.';
+    document.getElementById('dscModalTitulo').innerText='Confirmar simulação';
+  } else {
+    msg+='✍️ Gravar: a descrição de TODOS os kits de cada loja será substituída pela descrição escolhida, um kit por vez.\nA descrição anterior fica guardada no relatório e no histórico.';
+    if(comp) msg+='\n\n⚠️ Kits compartilhados entre lojas também serão alterados.';
+    document.getElementById('dscModalTitulo').innerText='Confirmar gravação';
+  }
+  if(sem) msg+=`\n\n⚠️ ${sem} loja(s) estão sem descrição definida e vão aparecer como Falha.`;
+  document.getElementById('dscModalTexto').innerText=msg;
+  document.getElementById('dscModal').style.display='block';
+}
+function dscFecharModal(){ document.getElementById('dscModal').style.display='none'; }
+function dscExecutarConfirmado(){ dscFecharModal(); dscExecutar(dsc.modoPendente); }
+
+/* ---------- status da loja a partir dos kits (igual ao resumir_loja original) ---------- */
+function dscResumirLoja(kits, simular){
+  const c={}; kits.forEach(k=>{ c[k.status]=(c[k.status]||0)+1; });
+  const falhas=c['Falha']||0, ok=c[simular?'Simulado':'Sucesso']||0, ign=c['Ignorado']||0;
+  const partes=[`${ok} ${simular?'para atualizar':'atualizado(s)'}`];
+  if(ign) partes.push(`${ign} ignorado(s)`);
+  if(falhas) partes.push(`${falhas} com falha`);
+  const motivo=`${kits.length} kit(s): `+partes.join(', ');
+  if(falhas===kits.length) return ['Falha',motivo];
+  if(falhas) return ['Parcial',motivo];
+  if(ign===kits.length) return ['Ignorado',motivo];
+  return [simular?'Simulado':'Sucesso',motivo];
+}
+
+function _dscCorpoDescricao(row){
+  return {
+    alias: row.alias, colegio: row.colegio || null,
+    descricao: row.descricao || null, opcao: row.opcao,
+    opcao_padrao: dsc.usandoLivre ? null : dsc.opcaoPadrao,
+    descricao_padrao: dsc.usandoLivre ? dsc.textoLivre : null,
+  };
+}
+
+/* ---------- execução ---------- */
+function _dscProgresso(texto, feitos, total, classe){
+  const pct = total ? Math.round(feitos/total*100) : 0;
+  document.getElementById('dscProgresso').style.display='block';
+  document.getElementById('dscProgressoTexto').innerText=texto;
+  document.getElementById('dscProgressoPct').innerText=total?`${pct}%`:'';
+  const fill=document.getElementById('dscProgressoFill');
+  fill.className='progress-bar'+(classe?' '+classe:'');
+  fill.style.width=pct+'%';
+  document.getElementById('dscProgressoBarra').setAttribute('aria-valuenow', pct);
+}
+
+async function dscExecutar(simular){
+  if(dsc.rodando) return;
+  dsc.rodando=true; dscAtualizarBotoes();
+  const btn=document.getElementById(simular?'dscBtnSimular':'dscBtnGravar');
+  const textoBtn=btn.innerHTML;
+  btn.innerHTML='<span class="loading"></span> Processando...';
+  document.getElementById('dscBtnRelatorio').style.display='none';
+  dscAlerta('');
+  let sessaoCaiu=null;
+
+  try{
+    dsc.lojas.forEach(r=>Object.assign(r,{status:'Pendente', motivo:'', kits:[], aberto:false, origem:'', channel_id:null}));
+    dscAtualizarTabela();
+    const permitir=document.getElementById('dscPermitirComp').checked;
+
+    /* 1) kits de cada loja (só leitura, algumas lojas ao mesmo tempo) */
+    let listadas=0;
+    const total=dsc.lojas.length;
+    _dscProgresso(`Buscando os kits das lojas: 0 de ${total}`, 0, total);
+    const fila=dsc.lojas.slice();
+    async function listar(){
+      while(fila.length && !sessaoCaiu){
+        const row=fila.shift();
+        row.status='Buscando kits'; dscAtualizarTabelaLogo();
+        try{
+          const r=await apiFetch(`${DSC_API}/kits-da-loja`,{
+            method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(_dscCorpoDescricao(row)),
+          });
+          if(r.status===503){ sessaoCaiu=await _dscErroDe(r); row.status='Falha'; row.motivo=sessaoCaiu; break; }
+          if(!r.ok){ row.status='Falha'; row.motivo=`Erro ${r.status}: ${await _dscErroDe(r)}`; }
+          else {
+            const d=await r.json();
+            row.origem=d.origem||''; row.channel_id=d.channel_id||null;
+            if(d.status!=='ok'){ row.status=d.status; row.motivo=d.motivo||''; }
+            else {
+              row.status='Pendente'; row.motivo=d.motivo||'';
+              row.kits=(d.kits||[]).map(k=>({...k, status:'Pendente', motivo:'', descricao_nova:d.descricao_nova||''}));
+            }
+          }
+        }catch(err){
+          row.status='Falha'; row.motivo='Não foi possível falar com o backend: '+err.message;
+        }
+        listadas++;
+        _dscProgresso(`Buscando os kits das lojas: ${listadas} de ${total}`, listadas, total);
+        dscAtualizarTabelaLogo();
+      }
+    }
+    await Promise.all(Array.from({length:Math.min(DSC_LISTAGENS_SIMULTANEAS,total)},listar));
+
+    /* 2) um kit por vez */
+    const fazer=[];
+    dsc.lojas.forEach(row=>row.kits.forEach(k=>fazer.push([row,k])));
+    let feitos=0, kitsComFalha=0;
+    const passo=()=>`${feitos} de ${fazer.length} kits`+(kitsComFalha?` · ${kitsComFalha} com falha`:'');
+    if(!sessaoCaiu) _dscProgresso(passo(), 0, fazer.length);
+    for(const [row,k] of fazer){
+      if(sessaoCaiu) break;
+      k.status='Processando'; row.status='Processando';
+      dscAtualizarTabelaLogo();
+      _dscProgresso(passo()+` · agora: ${k.kit_alias||k.kit_nome} (loja ${row.alias})`, feitos, fazer.length);
+      try{
+        const r=await apiFetch(`${DSC_API}/kit`,{
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({ ..._dscCorpoDescricao(row), channel_id:row.channel_id, kit_id:k.kit_id,
+                                simular, permitir_compartilhados:permitir }),
+        });
+        if(r.status===503){ sessaoCaiu=await _dscErroDe(r); Object.assign(k,{status:'Falha', motivo:sessaoCaiu}); }
+        else if(!r.ok) Object.assign(k,{status:'Falha', motivo:`Erro ${r.status}: ${await _dscErroDe(r)}`});
+        else Object.assign(k, await r.json());
+      }catch(err){
+        Object.assign(k,{status:'Falha', motivo:'Não foi possível falar com o backend: '+err.message});
+      }
+      feitos++;
+      if(k.status==='Falha') kitsComFalha++;
+      if(!row.kits.some(x=>['Pendente','Processando'].includes(x.status))) [row.status,row.motivo]=dscResumirLoja(row.kits,simular);
+      _dscProgresso(passo(), feitos, fazer.length);
+      dscAtualizarTabelaLogo();
+    }
+
+    /* sessão caiu: o que não foi feito fica como Falha, com o motivo */
+    if(sessaoCaiu){
+      dsc.lojas.forEach(row=>{
+        row.kits.forEach(k=>{ if(['Pendente','Processando'].includes(k.status)) Object.assign(k,{status:'Falha', motivo:'Não enviado: a sessão da Layers expirou'}); });
+        if(row.kits.length) [row.status,row.motivo]=dscResumirLoja(row.kits,simular);
+        else if(['Pendente','Buscando kits'].includes(row.status)) Object.assign(row,{status:'Falha', motivo:'Não enviado: a sessão da Layers expirou'});
+      });
+      _dscAlertaSessao(sessaoCaiu);
+      _dscProgresso(`Interrompido: a sessão da Layers expirou · ${feitos} de ${fazer.length} kits processados`, feitos, fazer.length||1, 'erro');
+    } else {
+      const lojasFalha=dsc.lojas.filter(r=>r.status==='Falha').length;
+      const comErro=kitsComFalha||lojasFalha;
+      _dscProgresso((simular?'Simulação concluída':'Gravação concluída')+` · ${fazer.length} kit(s) em ${total} loja(s)`+
+        (comErro?` · ${kitsComFalha} kit(s) e ${lojasFalha} loja(s) com falha`:' · sem falhas'), 1, 1, comErro?'erro':'ok');
+    }
+  } finally {
+    btn.innerHTML=textoBtn;
+    dsc.rodando=false; dscAtualizarBotoes(); dscAtualizarTabela();
+    document.getElementById('dscBtnRelatorio').style.display='flex';
+  }
+}
+
+/* ---------- relatório (uma linha por kit; guarda a descrição anterior) ---------- */
+function dscBaixarRelatorio(){
+  if(!dsc.lojas.length) return;
+  const headers=['CÓDIGO','COLÉGIO','STATUS DA LOJA','KIT (CÓDIGO)','KIT (NOME)','STATUS DO KIT','MOTIVO','ORIGEM DA DESCRIÇÃO','DESCRIÇÃO ANTERIOR','DESCRIÇÃO NOVA'];
+  const linhas=[];
+  dsc.lojas.forEach(r=>{
+    if(!r.kits.length) linhas.push([r.alias,r.colegio||'',r.status||'Pendente','','','',r.motivo||'',r.origem||'','','']);
+    else r.kits.forEach(k=>linhas.push([r.alias,r.colegio||'',r.status,k.kit_alias,k.kit_nome,k.status,k.motivo,r.origem||'',k.descricao_atual,k.descricao_nova]));
+  });
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet([headers,...linhas]);
+  ws['!cols']=[{wch:8},{wch:28},{wch:13},{wch:12},{wch:22},{wch:13},{wch:46},{wch:24},{wch:50},{wch:50}];
+  XLSX.utils.book_append_sheet(wb,ws,'Relatório');
+  const a=new Date();
+  const d=`${String(a.getDate()).padStart(2,'0')}-${String(a.getMonth()+1).padStart(2,'0')}-${a.getFullYear()}`;
+  XLSX.writeFile(wb,`relatorio_descricao_kits_${d}.xlsx`);
 }
 </script>
 </body>
